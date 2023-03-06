@@ -16,7 +16,7 @@ class Ville
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $nom = null;
 
     #[ORM\Column(length: 5)]
     private ?string $codePostal = null;
@@ -34,14 +34,14 @@ class Ville
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getNom(): ?string
     {
-        return $this->name;
+        return $this->nom;
     }
 
-    public function setName(string $name): self
+    public function setNom(string $nom): self
     {
-        $this->name = $name;
+        $this->nom = $nom;
 
         return $this;
     }

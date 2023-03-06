@@ -21,9 +21,13 @@ class Campus
     #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Sortie::class)]
     private Collection $sortie;
 
+    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: User::class)]
+    private Collection $user;
+
     public function __construct()
     {
         $this->sortie = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +71,36 @@ class Campus
             // set the owning side to null (unless already changed)
             if ($sortie->getCampus() === $this) {
                 $sortie->setCampus(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
+            $user->setCampus($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->user->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getCampus() === $this) {
+                $user->setCampus(null);
             }
         }
 

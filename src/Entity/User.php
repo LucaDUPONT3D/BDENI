@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -46,6 +48,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    #[ORM\ManyToOne(inversedBy: 'user')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Campus $campus = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Sortie::class)]
+    private Collection $sortie;
+
+    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'users')]
+    private Collection $organisateur;
+
+    public function __construct()
+    {
+        $this->sortie = new ArrayCollection();
+        $this->organisateur = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -204,6 +222,72 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getSortie(): Collection
+    {
+        return $this->sortie;
+    }
+
+    public function addSortie(Sortie $sortie): self
+    {
+        if (!$this->sortie->contains($sortie)) {
+            $this->sortie->add($sortie);
+            $sortie->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSortie(Sortie $sortie): self
+    {
+        if ($this->sortie->removeElement($sortie)) {
+            // set the owning side to null (unless already changed)
+            if ($sortie->getUser() === $this) {
+                $sortie->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sortie>
+     */
+    public function getOrganisateur(): Collection
+    {
+        return $this->organisateur;
+    }
+
+    public function addOrganisateur(Sortie $organisateur): self
+    {
+        if (!$this->organisateur->contains($organisateur)) {
+            $this->organisateur->add($organisateur);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganisateur(Sortie $organisateur): self
+    {
+        $this->organisateur->removeElement($organisateur);
 
         return $this;
     }
