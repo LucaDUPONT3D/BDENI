@@ -58,9 +58,6 @@ class RegistrationFormType extends AbstractType
                 ]
 
             ])
-            ->add('actif',CheckboxType::class,[
-                'data'=>true
-            ])
             ->add('telephone',TextType::class,[
                 "trim" => true,
                 "label" => "Téléphone",
