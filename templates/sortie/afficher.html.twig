@@ -4,6 +4,26 @@
     <p> Date du jour {{ date('now')|date('d/m/y') }}</p>
     <p>Participant : </p>
     <h3>Filtrer les sortie</h3>
+    {{form_start(form) }}
+    {{ form_errors(form.Campus) }}
+    {{form_label(form.Campus) }}
+    {{form_widget(form.Campus) }}
+
+    {{ form_errors(form.recherche) }}
+    {{form_label(form.recherche) }}
+    {{form_widget(form.recherche) }}
+
+    {{ form_errors(form.recherche) }}
+    {{form_label(form.recherche) }}
+    {{form_widget(form.recherche) }}
+
+    {{ form_errors(form.entre) }}
+    {{form_label(form.entre) }}
+    {{form_widget(form.entre) }}
+
+
+    <button>valider</button>
+    {{form_end(form) }}
 
     <table>
         <tr>
