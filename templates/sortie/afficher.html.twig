@@ -1,29 +1,43 @@
+{% block css %}<link rel="stylesheet" href="{{ asset('assets/css/filtreformulaire.css') }}"> {% endblock %}
+
 {% extends 'base.html.twig' %}
 
 {% block body %}
     <p> Date du jour {{ date('now')|date('d/m/y') }}</p>
     <p>Participant : </p>
     <h3>Filtrer les sortie</h3>
-    {{form_start(form) }}
-    {{ form_errors(form.Campus) }}
-    {{form_label(form.Campus) }}
-    {{form_widget(form.Campus) }}
 
-    {{ form_errors(form.recherche) }}
-    {{form_label(form.recherche) }}
-    {{form_widget(form.recherche) }}
+    {{ form_start(form) }}
+    <div class="flex_ligne">
+        <div class="flex_colone">
+            {{ form_errors(form.Campus) }}
+            {{ form_label(form.Campus) }}
+            {{ form_widget(form.Campus) }}
 
-    {{ form_errors(form.recherche) }}
-    {{form_label(form.recherche) }}
-    {{form_widget(form.recherche) }}
+            {{ form_errors(form.recherche) }}
+            {{ form_label(form.recherche) }}
+            {{ form_widget(form.recherche) }}
 
-    {{ form_errors(form.entre) }}
-    {{form_label(form.entre) }}
-    {{form_widget(form.entre) }}
+            <div>
+            {{ form_errors(form.entre) }}
+            {{ form_label(form.entre) }}
+            {{ form_widget(form.entre) }}
 
-
-    <button>valider</button>
-    {{form_end(form) }}
+            {{ form_errors(form.et) }}
+            {{ form_label(form.et) }}
+            {{ form_widget(form.et) }}
+            </div>
+        </div>
+        <div class="flex_colone">
+            {{ form_errors(form.critere) }}
+            {{ form_label(form.critere) }}
+            {{ form_widget(form.critere) }}
+        </div>
+        <div>
+            <button>valider</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
 
     <table>
         <tr>
@@ -43,14 +57,15 @@
                 <td>{{ sort.dateHeureDebut| date('d/m/y H:i') }}</td>
                 <td> {{ sort.dateLimiteInscription | date ('d/m/y') }}</td>
                 <td> /{{ sort.nbInsriptionsMax }}</td>
-                <td> {{ sort.libelle}}</td>
-{#                <td> {{ sort.user.pseudo}}</td>#}
+                <td> {{ sort.libelle }}</td>
+                {#                <td> {{ sort.user.pseudo}}</td> #}
 
 
             </tr>
         {% endfor %}
 
     </table>
+    <button><a href="" </button>
 
 {% endblock %}
 

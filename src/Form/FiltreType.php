@@ -29,7 +29,6 @@ class FiltreType extends AbstractType
 
         ->add('recherche', SearchType::class,[
         'label'=>'le nom de la sortie contient : '])
-
             ->add('entre', DateType::class,[
                 'label'=> 'Entre : ',
                 'html5' => true,
@@ -41,6 +40,7 @@ class FiltreType extends AbstractType
                 'widget' => 'single_text'
             ])
             ->add('critere', ChoiceType::class, [
+                'label'=>'',
                 'choices' => [
                     'Sortie dont je suis organisateur' => 'Sortie dont je suis organisateur',
                     'Sortie au quel je suis inscrit' => 'Sortie au quel je suis inscrit',
