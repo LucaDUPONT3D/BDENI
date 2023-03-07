@@ -59,7 +59,7 @@
                 <td> /{{ sort.nbInsriptionsMax }}</td>
                 <td> {{ sort.etat.libelle }}</td>
                 <td> a remplir</td>
-                <td> {{ sort.organisateur.pseudo}}</td>
+                <td> <a href="{{ path('user_show', {'id': sort.organisateur.id}) }}">{{ sort.organisateur.pseudo}}</a></td>
 
 
             </tr>
