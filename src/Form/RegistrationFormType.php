@@ -65,7 +65,8 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('email', EmailType::class,[
                 'label' => 'Email',
-                'trim' => 'true'
+                'trim' => 'true',
+                'required'=>false
             ])
             ->add('roles',CollectionType::class, [
                 'entry_type' => ChoiceType::class,

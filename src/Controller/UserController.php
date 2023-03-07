@@ -3,12 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\RegistrationFormType;
+use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Security\UserAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class UserController extends AbstractController
 {
@@ -42,16 +50,28 @@ class UserController extends AbstractController
         ]);
     }
     #[Route(path: '/user/update/{id}', name: 'user_update', requirements:['id' => '\d+']) ]
-    public function update(int $id, UserRepository $userRepository): Response
+    public function update(int $id,Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
-        $user = $userRepository->find($id);
+        $user = $this->getUser();
+        $form = $this->createForm(UserType::class,$user);
+        $form ->handleRequest($request);
 
-        if(!$user){
-            //lance une erreur 404 si le user n'existe pas
-            throw $this->createNotFoundException("Cet utilisateur n'existe pas");
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+
+
         }
         return $this->render('user/update.html.twig', [
-            'user' => $user
+            'registrationForm' => $form->createView(),'user'=>$user
         ]);
     }
 

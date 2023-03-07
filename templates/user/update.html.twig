@@ -1,10 +1,35 @@
 {% extends 'base.html.twig' %}
 
+{% block title %} {{ parent() }} | Modifier mon profil {% endblock %}
+
+
+
 {% block body %}
 
+    <h1>Modifier mon profil </h1>
+
+    {{ form_start(registrationForm) }}
+
+
+    {{ form_row(registrationForm.pseudo) }}
+    {{ form_row(registrationForm.prenom) }}
+    {{ form_row(registrationForm.nom) }}
+    {{ form_row(registrationForm.telephone) }}
+    {{ form_row(registrationForm.email) }}
+    {{ form_row(registrationForm.password.first) }}
+    {{ form_row(registrationForm.password.second) }}
+    {{ form_row(registrationForm.campus) }}
+    {{ form_row(registrationForm.image) }}
+
+
+
+    <button type="submit" class="btn">Enregistrer</button>
+    <button type="submit" class="btn">Annuler</button>
+    {{ form_end(registrationForm) }}
+
+
+
 {% endblock %}
 
-{% block title %}
 
-{% endblock %}
 
