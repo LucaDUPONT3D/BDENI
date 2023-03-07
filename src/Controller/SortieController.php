@@ -25,7 +25,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/add', name: 'update')]
+    #[Route('/add', name: 'add')]
     public function update(SortieRepository $userRepository, Request $request): Response
     {
         $sortie = new Sortie();
