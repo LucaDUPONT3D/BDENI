@@ -54,20 +54,59 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Sortie::class)]
-    private Collection $sortie;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'users')]
-    private Collection $organisateur;
+
 
     #[ORM\Column(length: 255)]
     private ?string $pseudo = null;
 
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
+    private Collection $sorties;
+
+    /**
+     * @return Collection
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    /**
+     * @param Collection $sorties
+     */
+    public function setSorties(Collection $sorties): void
+    {
+        $this->sorties = $sorties;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    /**
+     * @param Collection $inscriptions
+     */
+    public function setInscriptions(Collection $inscriptions): void
+    {
+        $this->inscriptions = $inscriptions;
+    }
+
+
+
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants')]
+    private Collection $inscriptions;
+
     public function __construct()
     {
-        $this->sortie = new ArrayCollection();
-        $this->organisateur = new ArrayCollection();
+        $this->sorties = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -254,63 +293,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Sortie>
-     */
-    public function getSortie(): Collection
-    {
-        return $this->sortie;
-    }
 
-    public function addSortie(Sortie $sortie): self
-    {
-        if (!$this->sortie->contains($sortie)) {
-            $this->sortie->add($sortie);
-            $sortie->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSortie(Sortie $sortie): self
-    {
-        if ($this->sortie->removeElement($sortie)) {
-            // set the owning side to null (unless already changed)
-            if ($sortie->getUser() === $this) {
-                $sortie->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Sortie>
-     */
-    public function getOrganisateur(): Collection
-    {
-        return $this->organisateur;
-    }
-
-    public function addOrganisateur(Sortie $organisateur): self
-    {
-        if (!$this->organisateur->contains($organisateur)) {
-            $this->organisateur->add($organisateur);
-        }
-
-        return $this;
-    }
-
-    public function removeOrganisateur(Sortie $organisateur): self
-    {
-        $this->organisateur->removeElement($organisateur);
-
-        return $this;
-    }
 
     #[ORM\PrePersist]
     public function setCreatedValue(): void
     {
         $this->setActif(true);
     }
+
+
+
+
 }

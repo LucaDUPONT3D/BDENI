@@ -66,16 +66,28 @@ class SortieRepository extends ServiceEntityRepository
     public function findALLjoin(){
 
         $qb =$this->createQueryBuilder('s');
-        $qb->addSelect('s.id','s.nom','s.dateHeureDebut','s.duree','s.dateLimiteInscription','s.nbInsriptionsMax','s.infosSortie')
-        ->leftJoin('s.etat','et')
-        ->addSelect('et.libelle')
-        ->leftJoin('s.users','us')
-        ->addSelect('us.pseudo');
+        $qb->addSelect('s')
+        ->leftJoin('s.etat', 'et')
+        ->addSelect('et')
+        ->leftJoin('s.organisateur', 'us')
+        ->addSelect('us');
 
         $query = $qb->getQuery();
         return $query->getResult();
 
     }
 
+    public function findALLFilter($formFiltre){
 
+        $qb =$this->createQueryBuilder('s');
+        $qb->addSelect('s')
+            ->leftJoin('s.etat','et')
+            ->addSelect('et')
+            ->leftJoin('s.organisateur','us')
+            ->addSelect('us');
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+
+    }
 }

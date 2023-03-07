@@ -57,41 +57,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
-//    /**
-//     * @return user[] Returns an array of user objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?user
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-    public function loadUserByUsername(string $identifier)
+    public function loadUserByIdentifier(string $username)
     {
-        $entityManager = $this->getEntityManager();
-
-        return $entityManager->createQuery(
-            'SELECT u
-                FROM App\Entity\User u
-                WHERE u.pseudo = :query
-                OR u.email = :query'
-        )
-            ->setParameter('query', $identifier)
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.pseudo = :username')
+            ->orWhere('u.email = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
             ->getOneOrNullResult();
+
+    }
+
+    public function loadUserByUsername(string $username)
+    {
+        return $this->loadUserByIdentifier($username);
     }
 }

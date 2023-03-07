@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Sortie
 {
     #[ORM\Id]
@@ -46,16 +47,16 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sortie')]
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?User $organisateur = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'organisateur')]
-    private Collection $users;
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'inscriptions')]
+    private Collection $participants;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -171,14 +172,14 @@ class Sortie
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getOrganisateur(): ?User
     {
-        return $this->user;
+        return $this->organisateur;
     }
 
-    public function setUser(?User $user): self
+    public function setOrganisateur(?User $organisateur): self
     {
-        $this->user = $user;
+        $this->organisateur = $organisateur;
 
         return $this;
     }
@@ -186,27 +187,26 @@ class Sortie
     /**
      * @return Collection<int, User>
      */
-    public function getUsers(): Collection
+    public function getParticipants(): Collection
     {
-        return $this->users;
+        return $this->participants;
     }
 
-    public function addUser(User $user): self
+    public function addParticipant(User $participant): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addOrganisateur($this);
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeParticipant(User $participant): self
     {
-        if ($this->users->removeElement($user)) {
-            $user->removeOrganisateur($this);
-        }
+        $this->participants->removeElement($participant);
 
         return $this;
     }
+
+
 }
