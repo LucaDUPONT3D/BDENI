@@ -33,7 +33,7 @@ class UserController extends AbstractController
     {
         $user = $userRepository->find($id);
 
-        if(!$user){
+        if (!$user) {
             //lance une erreur 404 si le user n'existe pas
             throw $this->createNotFoundException("Cet utilisateur n'existe pas");
         }
@@ -41,12 +41,12 @@ class UserController extends AbstractController
             'user' => $user
         ]);
     }
-    #[Route(path: '/user/update/{id}', name: 'user_update', requirements:['id' => '\d+']) ]
-    public function update(int $id, UserRepository $userRepository): Response
+    #[Route(path: '/user/update', name: 'user_update', requirements:['id' => '\d+']) ]
+    public function update(UserRepository $userRepository): Response
     {
-        $user = $userRepository->find($id);
+        $user = $userRepository->find($this->getUser());
 
-        if(!$user){
+        if (!$user) {
             //lance une erreur 404 si le user n'existe pas
             throw $this->createNotFoundException("Cet utilisateur n'existe pas");
         }
