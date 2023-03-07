@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{%  form_theme sortieForm 'view/formTheme/formTheme.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | Créer Sortie
+{% endblock %}
+
+{% block body %}
+    {% embed 'bodyStructures/forms/sortieForm.html.twig' %}
+        {% block formTitle %}Créer une Sortie{% endblock %}
+    {% endembed %}
+{% endblock %}

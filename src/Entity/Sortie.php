@@ -46,9 +46,17 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
 
-    #[ORM\ManyToOne(inversedBy: 'organise')]
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $organisateur = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'inscriptions')]
+    private Collection $participants;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
 
 
@@ -173,6 +181,30 @@ public function getOrganisateur(): ?User
 public function setOrganisateur(?User $organisateur): self
 {
     $this->organisateur = $organisateur;
+
+    return $this;
+}
+
+/**
+ * @return Collection<int, User>
+ */
+public function getParticipants(): Collection
+{
+    return $this->participants;
+}
+
+public function addParticipant(User $participant): self
+{
+    if (!$this->participants->contains($participant)) {
+        $this->participants->add($participant);
+    }
+
+    return $this;
+}
+
+public function removeParticipant(User $participant): self
+{
+    $this->participants->removeElement($participant);
 
     return $this;
 }

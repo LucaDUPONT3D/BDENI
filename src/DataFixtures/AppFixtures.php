@@ -44,7 +44,7 @@ class AppFixtures extends Fixture
         //$this->addEtat();
         //$this->addCampus();
         //$this->addUsers(20);
-        $this->addSortie(60);
+        //$this->addSortie(60);
     }
 
     private function addVilles(int $number = 10)
