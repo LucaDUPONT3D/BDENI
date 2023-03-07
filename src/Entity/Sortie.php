@@ -46,17 +46,11 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sortie')]
+    #[ORM\ManyToOne(inversedBy: 'organise')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?User $organisateur = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'organisateur')]
-    private Collection $users;
 
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -171,42 +165,15 @@ class Sortie
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
+public function getOrganisateur(): ?User
+{
+    return $this->organisateur;
+}
 
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
+public function setOrganisateur(?User $organisateur): self
+{
+    $this->organisateur = $organisateur;
 
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addOrganisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            $user->removeOrganisateur($this);
-        }
-
-        return $this;
-    }
+    return $this;
+}
 }

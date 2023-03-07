@@ -12,10 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'all')]
-    public function afficher(SortieRepository $sortieRepository): Response
+    public function afficher(SortieRepository $sortieRepository, ): Response
     {
         $formFiltre = $this->createForm(FiltreType::class);
         $sortie = $sortieRepository->findALLjoin();
+
         return $this->render('sortie/afficher.html.twig', [
             'sorties' => $sortie,
             'form' => $formFiltre->createView()

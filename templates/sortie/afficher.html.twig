@@ -38,7 +38,7 @@
         </div>
     </div>
     {{ form_end(form) }}
-
+<div class="centre_tableau">
     <table>
         <tr>
             <th>Nom de la sortie</th>
@@ -57,14 +57,16 @@
                 <td>{{ sort.dateHeureDebut| date('d/m/y H:i') }}</td>
                 <td> {{ sort.dateLimiteInscription | date ('d/m/y') }}</td>
                 <td> /{{ sort.nbInsriptionsMax }}</td>
-                <td> {{ sort.libelle }}</td>
-                {#                <td> {{ sort.user.pseudo}}</td> #}
+                <td> {{ sort.etat.libelle }}</td>
+                <td> a remplir</td>
+                <td> {{ sort.organisateur.pseudo}}</td>
 
 
             </tr>
         {% endfor %}
 
     </table>
+</div>
     <button><a href="" >Crée une sortie</a></button>
 
 {% endblock %}

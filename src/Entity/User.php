@@ -57,17 +57,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Sortie::class)]
     private Collection $sortie;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, inversedBy: 'users')]
-    private Collection $organisateur;
 
     #[ORM\Column(length: 255)]
     private ?string $pseudo = null;
 
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
+    private Collection $organise;
+
+    #[ORM\ManyToMany(targetEntity: Sortie::class)]
+    private Collection $inscrit;
+
     public function __construct()
     {
-        $this->sortie = new ArrayCollection();
-        $this->organisateur = new ArrayCollection();
+        $this->organise = new ArrayCollection();
+        $this->inscrit = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -254,30 +260,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+
+    #[ORM\PrePersist]
+    public function setCreatedValue(): void
+    {
+        $this->setActif(true);
+    }
+
     /**
      * @return Collection<int, Sortie>
      */
-    public function getSortie(): Collection
+    public function getOrganise(): Collection
     {
-        return $this->sortie;
+        return $this->organise;
     }
 
-    public function addSortie(Sortie $sortie): self
+    public function addOrganise(Sortie $organise): self
     {
-        if (!$this->sortie->contains($sortie)) {
-            $this->sortie->add($sortie);
-            $sortie->setUser($this);
+        if (!$this->organise->contains($organise)) {
+            $this->organise->add($organise);
+            $organise->setOrganisateur($this);
         }
 
         return $this;
     }
 
-    public function removeSortie(Sortie $sortie): self
+    public function removeOrganise(Sortie $organise): self
     {
-        if ($this->sortie->removeElement($sortie)) {
+        if ($this->organise->removeElement($organise)) {
             // set the owning side to null (unless already changed)
-            if ($sortie->getUser() === $this) {
-                $sortie->setUser(null);
+            if ($organise->getOrganisateur() === $this) {
+                $organise->setOrganisateur(null);
             }
         }
 
@@ -287,30 +301,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Sortie>
      */
-    public function getOrganisateur(): Collection
+    public function getInscrit(): Collection
     {
-        return $this->organisateur;
+        return $this->inscrit;
     }
 
-    public function addOrganisateur(Sortie $organisateur): self
+    public function addInscrit(Sortie $inscrit): self
     {
-        if (!$this->organisateur->contains($organisateur)) {
-            $this->organisateur->add($organisateur);
+        if (!$this->inscrit->contains($inscrit)) {
+            $this->inscrit->add($inscrit);
         }
 
         return $this;
     }
 
-    public function removeOrganisateur(Sortie $organisateur): self
+    public function removeInscrit(Sortie $inscrit): self
     {
-        $this->organisateur->removeElement($organisateur);
+        $this->inscrit->removeElement($inscrit);
 
         return $this;
-    }
-
-    #[ORM\PrePersist]
-    public function setCreatedValue(): void
-    {
-        $this->setActif(true);
     }
 }

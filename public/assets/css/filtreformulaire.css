@@ -10,3 +10,14 @@
 input, select{
     margin-bottom: 1rem;
 }
+table, tr, td ,th{
+    border: 2px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    padding: 1rem;
+}
+.centre_tableau{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
