@@ -54,23 +54,56 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Sortie::class)]
-    private Collection $sortie;
+
 
 
     #[ORM\Column(length: 255)]
     private ?string $pseudo = null;
 
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
-    private Collection $organise;
+    private Collection $sorties;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class)]
-    private Collection $inscrit;
+    /**
+     * @return Collection
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    /**
+     * @param Collection $sorties
+     */
+    public function setSorties(Collection $sorties): void
+    {
+        $this->sorties = $sorties;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    /**
+     * @param Collection $inscriptions
+     */
+    public function setInscriptions(Collection $inscriptions): void
+    {
+        $this->inscriptions = $inscriptions;
+    }
+
+
+
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants')]
+    private Collection $inscriptions;
 
     public function __construct()
     {
-        $this->organise = new ArrayCollection();
-        $this->inscrit = new ArrayCollection();
+        $this->sorties = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
 
@@ -268,57 +301,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->setActif(true);
     }
 
-    /**
-     * @return Collection<int, Sortie>
-     */
-    public function getOrganise(): Collection
-    {
-        return $this->organise;
-    }
 
-    public function addOrganise(Sortie $organise): self
-    {
-        if (!$this->organise->contains($organise)) {
-            $this->organise->add($organise);
-            $organise->setOrganisateur($this);
-        }
 
-        return $this;
-    }
 
-    public function removeOrganise(Sortie $organise): self
-    {
-        if ($this->organise->removeElement($organise)) {
-            // set the owning side to null (unless already changed)
-            if ($organise->getOrganisateur() === $this) {
-                $organise->setOrganisateur(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Sortie>
-     */
-    public function getInscrit(): Collection
-    {
-        return $this->inscrit;
-    }
-
-    public function addInscrit(Sortie $inscrit): self
-    {
-        if (!$this->inscrit->contains($inscrit)) {
-            $this->inscrit->add($inscrit);
-        }
-
-        return $this;
-    }
-
-    public function removeInscrit(Sortie $inscrit): self
-    {
-        $this->inscrit->removeElement($inscrit);
-
-        return $this;
-    }
 }
