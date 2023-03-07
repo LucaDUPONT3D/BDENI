@@ -31,6 +31,8 @@ class Sortie
     #[ORM\Column(nullable: true)]
     private ?int $nbInsriptionsMax = null;
 
+    private ?int $nbParticipants = 0;
+
     #[ORM\Column(type: Types::TEXT)]
     private ?string $infosSortie = null;
 
@@ -195,6 +197,7 @@ public function addParticipant(User $participant): self
 {
     if (!$this->participants->contains($participant)) {
         $this->participants->add($participant);
+        $this->nbParticipants += 1;
     }
 
     return $this;
@@ -203,7 +206,26 @@ public function addParticipant(User $participant): self
 public function removeParticipant(User $participant): self
 {
     $this->participants->removeElement($participant);
+    $this->nbParticipants -= 1;
 
     return $this;
 }
+
+    /**
+     * @return int|null
+     */
+    public function getNbParticipants(): ?int
+    {
+        return $this->nbParticipants;
+    }
+
+    /**
+     * @param int|null $nbParticipants
+     */
+    public function setNbParticipants(?int $nbParticipants): self
+    {
+        $this->nbParticipants = $nbParticipants;
+        return $this;
+    }
+
 }
