@@ -1,0 +1,12 @@
+.flex_ligne{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1rem;
+}
+.flex_colone{
+    display: flex;
+    flex-direction: column;
+}
+input, select{
+    margin-bottom: 1rem;
+}
