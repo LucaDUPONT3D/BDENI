@@ -78,7 +78,7 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
-    public function findALLFilter($campus){
+    public function findALLFilter($campus, $recherche, $entre, $et){
 
         $qb =$this->createQueryBuilder('s');
         $qb =$this->createQueryBuilder('s');
@@ -89,7 +89,27 @@ class SortieRepository extends ServiceEntityRepository
             ->addSelect('us')
             ->leftJoin('s.campus','ca')
             ->addSelect('ca')
-            ->andWhere($campus = 'ca.nom');
+            ->andWhere( 'ca.nom = :campus')
+        ->setParameter('campus',$campus);
+            if (isset($recherche) ){
+                $qb->andWhere('s.nom= :recherche')
+                    ->setParameter('recherche',  $recherche);
+            }
+        if (isset($entre) ){
+
+            $qb->andWhere('s.dateHeureDebut > :datedebut')
+                ->setParameter('datedebut' , $entre);
+        }
+        if (isset($et) ){
+
+            $qb->andWhere('s.dateHeureDebut < :dateapres')
+                ->setParameter('dateapres' , $et);
+        }
+
+
+
+
+
         $query = $qb->getQuery();
         return $query->getResult();
 

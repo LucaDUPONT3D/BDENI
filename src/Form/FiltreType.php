@@ -28,13 +28,17 @@ class FiltreType extends AbstractType
             ])
 
         ->add('recherche', SearchType::class,[
+            'required'=>false,
         'label'=>'le nom de la sortie contient : '])
+
             ->add('entre', DateType::class,[
+                'required'=>false,
                 'label'=> 'Entre : ',
                 'html5' => true,
                 'widget' => 'single_text'
             ])
             ->add('et', DateType::class,[
+                'required'=>false,
                 'label'=> 'et : ',
                 'html5' => true,
                 'widget' => 'single_text'

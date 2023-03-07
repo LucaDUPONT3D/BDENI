@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\FiltreType;
 use App\Entity\Sortie;
 use App\Form\SortieType;
@@ -18,25 +19,28 @@ class SortieController extends AbstractController
     public function afficher(SortieRepository $sortieRepository, Request $request): Response
     {
         $formFiltre = $this->createForm(FiltreType::class);
-        $sortie = $sortieRepository->findALLjoin();
+
         $formFiltre->handleRequest($request);
+
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()){
 
             $campus =$formFiltre->get('campus')->getData();
 
-         $sortieRepository->findALLFilter($campus);
-            return $this->render('sortie/afficher.html.twig', [
-                'sorties' => $sortie,
-                'form' => $formFiltre->createView()
-            ]);
-        }else{
-            return $this->render('sortie/afficher.html.twig', [
-                'sorties' => $sortie,
-                'form' => $formFiltre->createView()
-            ]);
+
+            $recherche = $formFiltre->get('recherche')->getData();
+            $entre = $formFiltre->get('entre')->getData();
+            $et = $formFiltre->get('et')->getData();
+
+            $sorties = $sortieRepository->findALLFilter($campus, $recherche, $entre, $et);
+
+        }else {
+
+            $sorties = $sortieRepository->findALLjoin();
         }
-
-
+        return $this->render('sortie/afficher.html.twig', [
+            'sorties' => $sorties,
+            'form' => $formFiltre->createView()
+        ]);
 
     }
 
