@@ -77,5 +77,17 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
+    public function findALLFilter($formFiltre){
 
+        $qb =$this->createQueryBuilder('s');
+        $qb->addSelect('s')
+            ->leftJoin('s.etat','et')
+            ->addSelect('et')
+            ->leftJoin('s.organisateur','us')
+            ->addSelect('us');
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+
+    }
 }
