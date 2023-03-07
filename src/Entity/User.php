@@ -54,14 +54,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
 
-
-
-
     #[ORM\Column(length: 255)]
     private ?string $pseudo = null;
 
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
     private Collection $sorties;
+
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants')]
+    private Collection $inscriptions;
 
     /**
      * @return Collection
@@ -95,18 +95,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->inscriptions = $inscriptions;
     }
 
-
-
-    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants')]
-    private Collection $inscriptions;
-
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
         $this->inscriptions = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {

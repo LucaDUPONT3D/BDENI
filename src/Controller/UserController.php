@@ -71,7 +71,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('sortie_all');
         }
         return $this->render('user/update.html.twig', [
-            'registrationForm' => $form->createView(),'user'=>$user
+            'userForm' => $form->createView(),'user'=>$user
         ]);
     }
 

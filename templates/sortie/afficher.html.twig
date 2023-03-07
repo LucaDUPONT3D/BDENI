@@ -4,16 +4,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <p> Date du jour {{ date('now')|date('d/m/y') }}</p>
-    <p>Participant : </p>
+    <p><b>Date du jour : </b>{{ date('now')|date('d/m/y') }}</p>
+    <p><b>Participant : </b>{{ app.user.pseudo }}</p>
     <h3>Filtrer les sortie</h3>
 
     {{ form_start(form) }}
     <div class="flex_ligne">
         <div class="flex_colone">
-            {{ form_errors(form.Campus) }}
-            {{ form_label(form.Campus) }}
-            {{ form_widget(form.Campus) }}
+            {{ form_errors(form.campus) }}
+            {{ form_label(form.campus) }}
+            {{ form_widget(form.campus) }}
 
             {{ form_errors(form.recherche) }}
             {{ form_label(form.recherche) }}
@@ -116,7 +116,7 @@
             {% endfor %}
         </table>
     </div>
-    <button><a href="{{ path('sortie_add') }}">Crée une sortie</a></button>
+    <button><a href="{{ path('sortie_add') }}">Créer une sortie</a></button>
 
 {% endblock %}
 

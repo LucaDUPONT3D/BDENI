@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\FiltreType;
 use App\Entity\Sortie;
+use App\Form\LieuType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
@@ -15,14 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'all')]
-    public function afficher(SortieRepository $sortieRepository, Request $request): Response
+    #[Route('/', name: 'show_all')]
+    public function showAll(SortieRepository $sortieRepository, Request $request): Response
     {
         $formFiltre = $this->createForm(FiltreType::class);
         $formFiltre->handleRequest($request);
         $sorties = $sortieRepository->findALLjoin();
-
-
 
         return $this->render('sortie/afficher.html.twig', [
             'sorties' => $sorties,
@@ -37,10 +36,9 @@ class SortieController extends AbstractController
         return $this->render('sortie/afficher.html.twig');
     }
 
-    #[Route('/{id}', name: 'show_one')]
+    #[Route('/{id}', name: 'show_one', requirements:['id' => '\d+'])]
     public function show(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
     {
-
         return $this->render('sortie/show.html.twig', ['sortie'=> $id]);
     }
 
@@ -48,18 +46,40 @@ class SortieController extends AbstractController
     public function add(SortieRepository $sortieRepository, Request $request): Response
     {
         $sortie = new Sortie();
+        $lieu = $sortie->getLieu();
         $sortieForm = $this->createForm(SortieType::class, $sortie);
+        $lieuForm = $this->createForm(LieuType::class, $lieu);
 
         $sortieForm->handleRequest($request);
 
-        return $this->render('sortie/add.html.twig', ['sortieForm'=> $sortieForm->createView()]);
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            $sortieRepository->save($sortie, true);
+
+            return $this->redirectToRoute('sortie_show_one', ['id' => $sortie->getId()]);
+        }
+
+        return $this->render(
+            'sortie/add.html.twig',
+            ['sortieForm'=> $sortieForm->createView(), 'lieuForm'=>$lieuForm->createView()]
+        );
     }
 
     #[Route('/update/{id}', name: 'update', requirements:['id' => '\d+'])]
     public function update(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
     {
+        $sortieForm = $this->createForm(SortieType::class, $id);
 
-        return $this->render('sortie/update.html.twig', ['sortie'=>$id]);
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            $sortieRepository->save($id, true);
+
+            return $this->redirectToRoute('sortie_show_one', ['id' => $id->getId()]);
+        }
+
+        return $this->render('sortie/update.html.twig', ['sortieForm'=> $sortieForm->createView(),'sortie'=>$id]);
     }
 
     #[Route('/delete/{id}', name: 'delete', requirements:['id' => '\d+'])]
@@ -88,7 +108,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/subscribe/{id}', name: 'subscribe', requirements:['id' => '\d+'])]
-    public function subscribe(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
+    public function subscribe(SortieRepository $sortieRepository, Sortie $id): Response
     {
         $id->addParticipant($this->getUser());
 
@@ -98,7 +118,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/unsubscride/{id}', name: 'unsubscride', requirements:['id' => '\d+'])]
-    public function unsubscride(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
+    public function unsubscride(SortieRepository $sortieRepository, Sortie $id): Response
     {
         $id->removeParticipant($this->getUser());
 

@@ -12,7 +12,7 @@ class MainController extends AbstractController
     public function index(): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('sortie_all');
+            return $this->redirectToRoute('sortie_show_all');
         } else {
             return $this->redirectToRoute('app_login');
         }

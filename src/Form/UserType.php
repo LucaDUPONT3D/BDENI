@@ -25,13 +25,11 @@ class UserType extends AbstractType
                 'trim' => true,
                 'required' => false
             ])
-            ->add('plainPassword',RepeatedType::class,[
-                'type' => PasswordType::class,
-                'mapped'=> false,
-                'invalid_message'=>'Les mots de passe ne correspondent pas',
-                'required' => true,
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmation mot de passe']
+            ->add('pseudo',TextType::class,[
+                'label' => 'Pseudo',
+                'trim'=> true,
+                "required" => false,
+
             ])
             ->add('nom',TextType::class,[
                 'label' => 'Nom',
@@ -48,6 +46,12 @@ class UserType extends AbstractType
                 'trim' => true,
                 "required" => false
             ])
+            ->add('campus',EntityType::class,[
+                'class' => Campus::class,
+                'choice_label'=>'nom',
+                'label'=>'Campus',
+                'trim' =>true,
+            ])
             ->add('image',FileType::class,[
                 'label' => 'Photo',
                 'mapped' => false ,
@@ -59,19 +63,14 @@ class UserType extends AbstractType
                     ])
                 ],
             ])
-            ->add('pseudo',TextType::class,[
-                'label' => 'Pseudo',
-                'trim'=> true,
-                "required" => false,
-
-                ])
-            ->add('campus',EntityType::class,[
-                'class' => Campus::class,
-                'choice_label'=>'nom',
-                'label'=>'Campus',
-                'trim' =>true,
+            ->add('plainPassword',RepeatedType::class,[
+                'type' => PasswordType::class,
+                'mapped'=> false,
+                'invalid_message'=>'Les mots de passe ne correspondent pas',
+                'required' => true,
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmation mot de passe']
             ])
-
         ;
     }
 

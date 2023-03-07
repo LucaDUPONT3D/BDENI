@@ -1,7 +1,14 @@
 <h2>{% block formTitle %}{% endblock %}</h2>
 {{ form_start(sortieForm) }}
 {{ form_widget(sortieForm) }}
+
+{{ form_start(lieuForm) }}
+{{ form_widget(lieuForm) }}
+{{ form_end(lieuForm) }}
+
 <button type="submit">Enregistrer</button>
 <button type="submit">Publier</button>
-<button type="button">Annuler</button>
+<a href="{{ path("main_home") }}">
+    <button class="btn btn-info " type="button" name="Retour">Annuler</button>
+</a>
 {{ form_end(sortieForm) }}

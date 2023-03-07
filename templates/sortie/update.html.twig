@@ -1,10 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>UPDATE</h1>
+    <h1>Modifier la sortie : {{ sortie.nom }} </h1>
+
+    {{ form_start(sortieForm) }}
+    {{ form_widget(sortieForm) }}
+    <button type="submit">Enregistrer</button>
+    <button type="submit">Publier la sortie</button>
+    <button type="button">Supprimer la sortie</button>
+    <a href="{{ path("main_home") }}"><button class="btn btn-info " type="button" name="Retour">Annuler</button></a>
+    {{ form_end(sortieForm) }}
 {% endblock %}
 
 {% block title %}
-
+    {{ parent() }} Modifier Sortie
 {% endblock %}
 
