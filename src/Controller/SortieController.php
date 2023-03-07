@@ -19,14 +19,22 @@ class SortieController extends AbstractController
         $sortie = $sortieRepository->findALLjoin();
         $formFiltre->handleRequest($request);
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()){
-       // $sortieRepository->findBy($sortieRepository->findALLjoin(),[$formFiltre->get('Campus')]);
 
+            $campus =$formFiltre->get('campus')->getData();
+
+         $sortieRepository->findALLFilter($campus);
+            return $this->render('sortie/afficher.html.twig', [
+                'sorties' => $sortie,
+                'form' => $formFiltre->createView()
+            ]);
+        }else{
+            return $this->render('sortie/afficher.html.twig', [
+                'sorties' => $sortie,
+                'form' => $formFiltre->createView()
+            ]);
         }
 
 
-        return $this->render('sortie/afficher.html.twig', [
-            'sorties' => $sortie,
-            'form' => $formFiltre->createView()
-        ]);
+
     }
 }

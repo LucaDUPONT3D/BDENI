@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Form\FiltreType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -77,15 +78,18 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
-    public function findALLFilter($formFiltre){
+    public function findALLFilter($campus){
 
+        $qb =$this->createQueryBuilder('s');
         $qb =$this->createQueryBuilder('s');
         $qb->addSelect('s')
             ->leftJoin('s.etat','et')
             ->addSelect('et')
             ->leftJoin('s.organisateur','us')
-            ->addSelect('us');
-
+            ->addSelect('us')
+            ->leftJoin('s.campus','ca')
+            ->addSelect('ca')
+            ->andWhere($campus = 'ca.nom');
         $query = $qb->getQuery();
         return $query->getResult();
 

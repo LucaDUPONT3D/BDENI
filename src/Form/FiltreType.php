@@ -14,7 +14,7 @@ class FiltreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Campus', ChoiceType::class, [
+            ->add('campus', ChoiceType::class, [
                 'choices' => [
                     'Rennes' => 'Rennes',
                     'Quimper' => 'Quimper',
