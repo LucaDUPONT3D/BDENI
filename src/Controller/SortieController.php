@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Form\FiltreType;
+use App\Entity\Sortie;
+use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,5 +30,16 @@ class SortieController extends AbstractController
             'sorties' => $sortie,
             'form' => $formFiltre->createView()
         ]);
+    }
+
+    #[Route('/add', name: 'add')]
+    public function update(SortieRepository $userRepository, Request $request): Response
+    {
+        $sortie = new Sortie();
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
+
+        $sortieForm->handleRequest($request);
+
+        return $this->render('sortie/add.html.twig', ['sortieForm'=> $sortieForm->createView()]);
     }
 }

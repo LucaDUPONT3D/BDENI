@@ -8,10 +8,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
-    #[Route('/home', name: 'main_home')]
-    #[Route('')]
+    #[Route('/', name: 'main_home')]
     public function index(): Response
     {
-        return $this->render('main/home.html.twig');
+        if ($this->getUser()) {
+            return $this->redirectToRoute('sortie_all');
+        } else {
+            return $this->redirectToRoute('app_login');
+        }
     }
 }
