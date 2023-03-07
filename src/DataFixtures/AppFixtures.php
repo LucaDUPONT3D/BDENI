@@ -39,11 +39,11 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $this->addVilles(20);
-        $this->addLieux(50);
-        $this->addEtat();
-        $this->addCampus();
-        $this->addUsers(20);
+        //$this->addVilles(20);
+        //$this->addLieux(50);
+        //$this->addEtat();
+        //$this->addCampus();
+        //$this->addUsers(20);
         $this->addSortie(60);
     }
 
@@ -136,18 +136,19 @@ class AppFixtures extends Fixture
     public function addEtat()
     {
         $libelles = ['Créée','Ouverte','Clôturée','Activité en cours','Passée','Annulée'];
-        $etat = new Etat();
       foreach ($libelles as $libelle) {
-            $etat->setLibelle($libelle);
+          $etat = new Etat();
+          $etat->setLibelle($libelle);
           $this->entityManager->persist($etat);
-        }
-        $this->entityManager->flush();
+      }
+
+      $this->entityManager->flush();
     }
     public function addCampus()
     {
         $campus = ['Rennes','Quimper','Nantes','Niort','Angers'];
-        $camp = new Campus();
         foreach ($campus as $nom) {
+            $camp = new Campus();
             $camp->setNom($nom);
             $this->entityManager->persist($camp);
         }
