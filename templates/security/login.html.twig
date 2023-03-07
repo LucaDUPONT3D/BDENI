@@ -9,10 +9,10 @@
         {% endif %}
 
 
-        <h1 class="h3 mb-3 font-weight-normal">Page de connexion</h1>
-        <label for="inputEmail">Identifiant</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
-               autocomplete="email" required autofocus><br>
+        <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+        <label for="inputEmailOrUsername">Identifiant</label>
+        <input type="text" value="{{ last_username }}" name="usernameOrEmail" id="inputEmailOrUsername" class="form-control"
+               autocomplete="usernameOrEmail" required autofocus><br>
         <label for="inputPassword">Mot de Passe</label>
         <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password"
                required>

@@ -28,11 +28,37 @@ class UserController extends AbstractController
 
     }
 
+    #[Route(path: '/user/{id}', name: 'user_show', requirements:['id' => '\d+']) ]
+    public function show(int $id, UserRepository $userRepository): Response
+    {
+        $user = $userRepository->find($id);
+
+        if(!$user){
+            //lance une erreur 404 si le user n'existe pas
+            throw $this->createNotFoundException("Cet utilisateur n'existe pas");
+        }
+        return $this->render('user/show.html.twig', [
+            'user' => $user
+        ]);
+    }
+    #[Route(path: '/user/update/{id}', name: 'user_update', requirements:['id' => '\d+']) ]
+    public function update(int $id, UserRepository $userRepository): Response
+    {
+        $user = $userRepository->find($id);
+
+        if(!$user){
+            //lance une erreur 404 si le user n'existe pas
+            throw $this->createNotFoundException("Cet utilisateur n'existe pas");
+        }
+        return $this->render('user/update.html.twig', [
+            'user' => $user
+        ]);
+    }
+
+
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
 
     }
-
-
 }
