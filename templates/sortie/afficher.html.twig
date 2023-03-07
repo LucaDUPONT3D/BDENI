@@ -57,7 +57,7 @@
                     <td> {{ sort.nom }}</td>
                     <td>{{ sort.dateHeureDebut| date('d/m/y H:i') }}</td>
                     <td> {{ sort.dateLimiteInscription | date ('d/m/y') }}</td>
-                    <td> {{ sort.nbParticipants }}/{{ sort.nbInsriptionsMax }}</td>
+                    <td> {{ sort.participants.count() }}/{{ sort.nbInsriptionsMax }}</td>
                     <td> {{ sort.etat.libelle }}</td>
                     <td>
                         {% if(sort.participants.contains(app.user)) %}
