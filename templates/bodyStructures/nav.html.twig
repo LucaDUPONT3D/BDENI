@@ -4,12 +4,14 @@
         <li><a href="{{ path("main_home") }}">Accueil</a> </li>
         {% if app.user %}
             {% if is_granted("ROLE_ADMIN") %}
-                <li><a href="{{ path('app_register') }}">Register</a> </li>
+                <li><a href="{{ path('app_register') }}">Enregistrer Utilisateur</a> </li>
+                <li><a href="">Campus</a> </li>
+                <li><a href="">Villes</a> </li>
             {% endif%}
             <li><a href="{{ path('user_update') }}">Mon Profile</a> </li>
-            <li><a href="{{ path('app_logout') }}">Logout - {{ app.user.pseudo }}</a> </li>
+            <li><a href="{{ path('app_logout') }}">Déconnection - {{ app.user.pseudo }}</a> </li>
         {% else %}
-            <li><a href="{{ path('app_login') }}">Login</a> </li>
+            <li><a href="{{ path('app_login') }}">Connexion</a> </li>
         {% endif %}
     </ul>
 </nav>

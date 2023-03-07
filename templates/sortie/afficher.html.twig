@@ -1,4 +1,5 @@
-{% block css %}<link rel="stylesheet" href="{{ asset('assets/css/filtreformulaire.css') }}"> {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('assets/css/filtreformulaire.css') }}"> {% endblock %}
 
 {% extends 'base.html.twig' %}
 
@@ -19,13 +20,13 @@
             {{ form_widget(form.recherche) }}
 
             <div>
-            {{ form_errors(form.entre) }}
-            {{ form_label(form.entre) }}
-            {{ form_widget(form.entre) }}
+                {{ form_errors(form.entre) }}
+                {{ form_label(form.entre) }}
+                {{ form_widget(form.entre) }}
 
-            {{ form_errors(form.et) }}
-            {{ form_label(form.et) }}
-            {{ form_widget(form.et) }}
+                {{ form_errors(form.et) }}
+                {{ form_label(form.et) }}
+                {{ form_widget(form.et) }}
             </div>
         </div>
         <div class="flex_colone">
@@ -38,40 +39,88 @@
         </div>
     </div>
     {{ form_end(form) }}
-<div class="centre_tableau">
-    <table>
-        <tr>
-            <th>Nom de la sortie</th>
-            <th>Date de la sortie</th>
-            <th>Clotûre</th>
-            <th>Inscrit/place</th>
-            <th>Etat</th>
-            <th>Inscrit</th>
-            <th>Organisateur</th>
-            <th>Action</th>
-        </tr>
-
-        {% for sort in sorties %}
+    <div class="centre_tableau">
+        <table>
             <tr>
-                <td> {{ sort.nom }}</td>
-                <td>{{ sort.dateHeureDebut| date('d/m/y H:i') }}</td>
-                <td> {{ sort.dateLimiteInscription | date ('d/m/y') }}</td>
-                <td> /{{ sort.nbInsriptionsMax }}</td>
-                <td> {{ sort.etat.libelle }}</td>
-                <td> a remplir</td>
-                <td> {{ sort.organisateur.pseudo}}</td>
-
-
+                <th>Nom de la sortie</th>
+                <th>Date de la sortie</th>
+                <th>Clotûre</th>
+                <th>Inscrit/place</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Action</th>
             </tr>
-        {% endfor %}
 
-    </table>
-</div>
-    <button><a href="{{ path('sortie_add') }}" >Crée une sortie</a></button>
+            {% for sort in sorties %}
+                <tr>
+                    <td> {{ sort.nom }}</td>
+                    <td>{{ sort.dateHeureDebut| date('d/m/y H:i') }}</td>
+                    <td> {{ sort.dateLimiteInscription | date ('d/m/y') }}</td>
+                    <td> {{ sort.participants.count() }}/{{ sort.nbInsriptionsMax }}</td>
+                    <td> {{ sort.etat.libelle }}</td>
+                    <td>
+                        {% if(sort.participants.contains(app.user)) %}
+                            X
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('user_show', {'id': sort.organisateur.id}) }}">{{ sort.organisateur.pseudo }}</a>
+                    </td>
+                    <td>
+                        {% if(sort.organisateur == app.user) %}
+                            {% if(sort.etat.libelle ==  'Créée') %}
+                                <a href="{{ path('sortie_update', {'id': sort.id}) }}">Modifier</a>
+                                -
+                                <a href="{{ path('sortie_publish', {'id': sort.id}) }}">Publier</a>
+                            {% elseif(sort.etat.libelle ==  'Ouverte') %}
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                                -
+                                <a href="{{ path('sortie_cancel', {'id': sort.id}) }}">Annuler</a>
+                            {% elseif(sort.etat.libelle ==  'Clôturée') %}
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                                -
+                                <a href="{{ path('sortie_cancel', {'id': sort.id}) }}">Annuler</a>
+                            {% elseif(sort.etat.libelle ==  'Activité en cours') %}
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                            {% elseif(sort.etat.libelle ==  'Passée') %}
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                            {% elseif(sort.etat.libelle ==  'Annulée') %}
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                            {% endif %}
+                        {% else %}
+                            {% if(sort.etat.libelle ==  'Créée') %}
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                            {% elseif(sort.etat.libelle ==  'Ouverte') %}
+                                {% if(sort.participants.contains(app.user)) %}
+                                    <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                                    -
+                                    <a href="{{ path('sortie_unsubscride', {'id': sort.id}) }}">Se désister</a>
+                                {% else %}
+                                    <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                                    -
+                                    <a href="{{ path('sortie_subscribe', {'id': sort.id}) }}">S'inscrire</a>
+                                {% endif %}
+                            {% elseif(sort.etat.libelle ==  'Clôturée') %}
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                            {% elseif(sort.etat.libelle ==  'Activité en cours') %}
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                            {% elseif(sort.etat.libelle ==  'Passée') %}
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                            {% elseif(sort.etat.libelle ==  'Annulée') %}
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <button><a href="{{ path('sortie_add') }}">Crée une sortie</a></button>
 
 {% endblock %}
 
 {% block title %}
-
+{{ parent() }} List
 {% endblock %}
 

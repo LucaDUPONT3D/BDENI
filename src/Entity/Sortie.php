@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Sortie
 {
     #[ORM\Id]
@@ -57,8 +58,6 @@ class Sortie
     {
         $this->participants = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {
@@ -173,39 +172,41 @@ class Sortie
         return $this;
     }
 
-public function getOrganisateur(): ?User
-{
-    return $this->organisateur;
-}
-
-public function setOrganisateur(?User $organisateur): self
-{
-    $this->organisateur = $organisateur;
-
-    return $this;
-}
-
-/**
- * @return Collection<int, User>
- */
-public function getParticipants(): Collection
-{
-    return $this->participants;
-}
-
-public function addParticipant(User $participant): self
-{
-    if (!$this->participants->contains($participant)) {
-        $this->participants->add($participant);
+    public function getOrganisateur(): ?User
+    {
+        return $this->organisateur;
     }
 
-    return $this;
-}
+    public function setOrganisateur(?User $organisateur): self
+    {
+        $this->organisateur = $organisateur;
 
-public function removeParticipant(User $participant): self
-{
-    $this->participants->removeElement($participant);
+        return $this;
+    }
 
-    return $this;
-}
+    /**
+     * @return Collection<int, User>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(User $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(User $participant): self
+    {
+        $this->participants->removeElement($participant);
+
+        return $this;
+    }
+
+
 }
