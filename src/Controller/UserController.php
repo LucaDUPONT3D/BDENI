@@ -49,8 +49,8 @@ class UserController extends AbstractController
             'user' => $user
         ]);
     }
-    #[Route(path: '/user/update/{id}', name: 'user_update', requirements:['id' => '\d+']) ]
-    public function update(int $id,Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    #[Route(path: '/user/update', name: 'user_update') ]
+    public function update(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(UserType::class,$user);
@@ -68,7 +68,7 @@ class UserController extends AbstractController
             $entityManager->flush();
 
 
-
+            return $this->redirectToRoute('sortie_all');
         }
         return $this->render('user/update.html.twig', [
             'registrationForm' => $form->createView(),'user'=>$user

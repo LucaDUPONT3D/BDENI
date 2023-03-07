@@ -8,7 +8,7 @@
                 <li><a href="">Campus</a> </li>
                 <li><a href="">Villes</a> </li>
             {% endif%}
-            <li><a href="{{ path('user_update') }}">Mon Profile</a> </li>
+            <li><a href="{{ path('user_update') }}">Mon Profil</a> </li>
             <li><a href="{{ path('app_logout') }}">Déconnection - {{ app.user.pseudo }}</a> </li>
         {% else %}
             <li><a href="{{ path('app_login') }}">Connexion</a> </li>
