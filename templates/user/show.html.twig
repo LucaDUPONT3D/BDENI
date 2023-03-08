@@ -1,16 +1,18 @@
-{%  extends 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %} {{ parent() }} | {{ user.pseudo }} {% endblock %}
 
 {% block body %}
 
     <h1>{{ user.pseudo }}</h1>
-
+    <div class="">
+        <img src="{{ asset('assets/img/' ~ user.image ) }}" alt="{{ user.nom }}">
+    </div>
     <div>
         <label for="prenom">Prénom : {{ user.prenom }}</label>
     </div>
     <div>
-        <label for="nom">Nom : {{ user.nom}}</label>
+        <label for="nom">Nom : {{ user.nom }}</label>
     </div>
     <div>
         <label for="telephone">Téléphone : {{ user.telephone }}</label>
@@ -23,7 +25,9 @@
     </div>
 
     <div>
-        <a href="{{ path("main_home") }}"><button class="btn btn-info " type="button" name="Retour">Retour</button></a>
+        <a href="{{ path("main_home") }}">
+            <button class="btn btn-info " type="button" name="Retour">Retour</button>
+        </a>
     </div>
 
-{% endblock  %}
+{% endblock %}

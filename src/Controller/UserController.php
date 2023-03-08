@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Form\UserType;
+use App\Utils\Uploader;
 use App\Repository\UserRepository;
 use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -36,12 +38,12 @@ class UserController extends AbstractController
 
     }
 
-    #[Route(path: '/user/{id}', name: 'user_show', requirements:['id' => '\d+']) ]
+    #[Route(path: '/user/{id}', name: 'user_show', requirements: ['id' => '\d+'])]
     public function show(int $id, UserRepository $userRepository): Response
     {
         $user = $userRepository->find($id);
 
-        if(!$user){
+        if (!$user) {
             //lance une erreur 404 si le user n'existe pas
             throw $this->createNotFoundException("Cet utilisateur n'existe pas");
         }
@@ -49,14 +51,30 @@ class UserController extends AbstractController
             'user' => $user
         ]);
     }
-    #[Route(path: '/user/update', name: 'user_update') ]
-    public function update(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+
+    #[Route(path: '/user/update', name: 'user_update')]
+    public function update(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, Uploader $uploader): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserType::class,$user);
-        $form ->handleRequest($request);
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
 
+        dump($form->isSubmitted() && $form->isValid());
         if ($form->isSubmitted() && $form->isValid()) {
+            dump('bip');
+            //upload photo
+            /**
+             * @var UploadedFile $file
+             */
+            $file = $form->get('image')->getData();
+            //appel de l'uploader
+            $newFileName = $uploader->upload(
+                $file,
+                $this->getParameter('upload_utilisateur_photo'),
+                $user->getNom());
+            $user->setImage($newFileName);
+
+
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -67,11 +85,11 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-
+            $this->addFlash("success", "Modifications effectués");
             return $this->redirectToRoute('sortie_all');
         }
         return $this->render('user/update.html.twig', [
-            'userForm' => $form->createView(),'user'=>$user
+            'registrationForm' => $form->createView(), 'user' => $user
         ]);
     }
 
