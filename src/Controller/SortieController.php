@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\FiltreType;
 use App\Entity\Sortie;
-use App\Form\LieuType;
 use App\Form\model\Model;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
