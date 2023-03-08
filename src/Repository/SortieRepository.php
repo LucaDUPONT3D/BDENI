@@ -3,6 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Form\FiltreType;
+use App\Form\model\Model;
+use Cassandra\Date;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,28 +66,86 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function findALLjoin(){
+    public function findALLjoin()
+    {
 
-        $qb =$this->createQueryBuilder('s');
+        $qb = $this->createQueryBuilder('s');
         $qb->addSelect('s')
-        ->leftJoin('s.etat', 'et')
-        ->addSelect('et')
-        ->leftJoin('s.organisateur', 'us')
-        ->addSelect('us');
+            ->leftJoin('s.etat', 'et')
+            ->addSelect('et')
+            ->leftJoin('s.organisateur', 'us')
+            ->addSelect('us');
 
         $query = $qb->getQuery();
         return $query->getResult();
 
     }
 
-    public function findALLFilter($formFiltre){
-
-        $qb =$this->createQueryBuilder('s');
+    public function findALLFilter(Model $model)
+    {
+    dd($model);
+        $qb = $this->createQueryBuilder('s');
+        $qb = $this->createQueryBuilder('s');
         $qb->addSelect('s')
-            ->leftJoin('s.etat','et')
+            ->leftJoin('s.etat', 'et')
             ->addSelect('et')
-            ->leftJoin('s.organisateur','us')
-            ->addSelect('us');
+            ->leftJoin('s.organisateur', 'us')
+            ->addSelect('us')
+            ->leftJoin('s.campus', 'ca')
+            ->addSelect('ca')
+            ->andWhere('ca.nom = :campus')
+            ->setParameter('campus', $campus);
+        if (isset($recherche)) {
+            $qb->andWhere('s.nom LIKE :recherche')
+                ->setParameter('recherche', '%' . $recherche . '%');
+
+        }
+        if (isset($entre)) {
+
+            $qb->andWhere('s.dateHeureDebut > :datedebut')
+                ->setParameter('datedebut', $entre);
+        }
+        if (isset($et)) {
+
+            $qb->andWhere('s.dateHeureDebut < :dateapres')
+                ->setParameter('dateapres', $et);
+        }
+        if (isset($organisateur)) {
+
+            $qb->andWhere('us.email = :organisateur')
+                ->setParameter('organisateur', $organisateur);
+        }
+        if (isset($passe)) {
+
+            $qb->andWhere('s.dateLimiteInscription > :mtn')
+                ->setParameter('mtn', $passe);
+
+        }
+        if (isset($inscrit)) {
+
+            $qb->andWhere('s.participants = :inscrit')
+                ->setParameter('inscrit', $inscrit);
+
+        }
+
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
+    }
+
+    public function findjoin($id)
+    {
+
+        $qb = $this->createQueryBuilder('s');
+        $qb->addSelect('s')
+            ->leftJoin('s.etat', 'et')
+            ->addSelect('et')
+            ->leftJoin('s.organisateur', 'us')
+            ->addSelect('us')
+            ->andWhere('s.id= :id')
+            ->setParameter('id', $id);
 
         $query = $qb->getQuery();
         return $query->getResult();

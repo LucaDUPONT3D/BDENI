@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Form\model\Model;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -22,41 +23,64 @@ class FiltreType extends AbstractType
                     'Niort' => 'Niort',
                     'Angers' => 'Angers'
                 ],
-                'label'=> 'Campus : ',
+                'label'=> 'Campus',
                 'multiple' => false,
                 'expanded' => false
             ])
 
         ->add('recherche', SearchType::class,[
-        'label'=>'Le nom de la sortie contient : '])
+            'required'=>false,
+        'label'=>'le nom de la sortie contient : '])
+
             ->add('entre', DateType::class,[
+                'required'=>false,
                 'label'=> 'Entre : ',
                 'html5' => true,
                 'widget' => 'single_text'
             ])
             ->add('et', DateType::class,[
+                'required'=>false,
                 'label'=> 'et : ',
                 'html5' => true,
                 'widget' => 'single_text'
             ])
-            ->add('critere', ChoiceType::class, [
-                'label'=>'',
+            ->add('organisateur', ChoiceType::class, [
                 'choices' => [
-                    'Sortie dont je suis organisateur' => 'Sortie dont je suis organisateur',
-                    'Sortie au quel je suis inscrit' => 'Sortie au quel je suis inscrit',
-                    'Sortie au quel je ne suis pas inscrit' => 'Sortie au quel je ne suis pas inscrit',
-                    'Sortie Passé' => 'Sortie Passé',
+                    'Sortie dont je suis organisateur' => 'organisateur',
                 ],
                 'multiple' => true,
                 'expanded' => true
             ])
-        ;
+
+        ->add('inscrit', ChoiceType::class, [
+        'choices' => [
+            'Sortie au quel je suis inscrit' => 'inscrit',
+        ],
+        'multiple' => true,
+        'expanded' => true
+    ])
+            ->add('pasInscrit', ChoiceType::class, [
+
+                'choices' => [
+                    'Sortie au quel je ne suis pas inscrit' => 'pasInscrit',
+                    'Sortie Passé' => 'passe',
+                ],
+                'multiple' => true,
+                'expanded' => true
+            ])
+            ->add('passe', ChoiceType::class, [
+                'choices' => [
+                    'Sortie Passé' => 'passe',
+                ],
+                'multiple' => true,
+                'expanded' => true
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'data_class' => Model::class
         ]);
     }
 }
