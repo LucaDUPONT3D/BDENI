@@ -98,8 +98,11 @@
                                     <a href="{{ path('sortie_unsubscride', {'id': sort.id}) }}">Se désister</a>
                                 {% else %}
                                     <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
-                                    -
-                                    <a href="{{ path('sortie_subscribe', {'id': sort.id}) }}">S'inscrire</a>
+
+                                    {% if sort.dateLimiteInscription > date('now') %}
+                                        -
+                                        <a href="{{ path('sortie_subscribe', {'id': sort.id}) }}">S'inscrire</a>
+                                    {% endif %}
                                 {% endif %}
                             {% elseif(sort.etat.libelle ==  'Clôturée') %}
                                 <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">Afficher</a>
@@ -121,6 +124,6 @@
 {% endblock %}
 
 {% block title %}
-{{ parent() }} List
+    {{ parent() }} List
 {% endblock %}
 

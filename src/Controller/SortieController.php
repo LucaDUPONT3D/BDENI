@@ -23,35 +23,31 @@ class SortieController extends AbstractController
 
         $formFiltre->handleRequest($request);
 
-        if ($formFiltre->isSubmitted() && $formFiltre->isValid()){
+        if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
-            $campus =$formFiltre->get('campus')->getData();
+            $campus = $formFiltre->get('campus')->getData();
 
 
             $recherche = $formFiltre->get('recherche')->getData();
             $entre = $formFiltre->get('entre')->getData();
             $et = $formFiltre->get('et')->getData();
 
-       $critere = $formFiltre->get('critere')->getData();
-            $organisateur=null;
-            if(in_array("organisateur", $critere)){
-                $organisateur= $this->getUser()->getUserIdentifier();
+            $critere = $formFiltre->get('critere')->getData();
+            $organisateur = null;
+            if (in_array("organisateur", $critere)) {
+                $organisateur = $this->getUser()->getUserIdentifier();
 
             }
-            $passe=null;
-            if(in_array("passe", $critere)){
-                $passe=  new \DateTime();
+            $passe = null;
+            if (in_array("passe", $critere)) {
+                $passe = new \DateTime();
 
             }
-
-
-
-
 
 
             $sorties = $sortieRepository->findALLFilter($campus, $recherche, $entre, $et, $organisateur, $passe);
 
-        }else {
+        } else {
 
             $sorties = $sortieRepository->findALLjoin();
         }
@@ -72,7 +68,7 @@ class SortieController extends AbstractController
     public function show(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
     {
 
-        return $this->render('sortie/show.html.twig', ['sortie'=> $id]);
+        return $this->render('sortie/show.html.twig', ['sortie' => $id]);
     }
 
     #[Route('/add', name: 'add')]
@@ -83,31 +79,31 @@ class SortieController extends AbstractController
 
         $sortieForm->handleRequest($request);
 
-        return $this->render('sortie/add.html.twig', ['sortieForm'=> $sortieForm->createView()]);
+        return $this->render('sortie/add.html.twig', ['sortieForm' => $sortieForm->createView()]);
     }
 
-    #[Route('/update/{id}', name: 'update', requirements:['id' => '\d+'])]
+    #[Route('/update/{id}', name: 'update', requirements: ['id' => '\d+'])]
     public function update(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
     {
 
-        return $this->render('sortie/update.html.twig', ['sortie'=>$id]);
+        return $this->render('sortie/update.html.twig', ['sortie' => $id]);
     }
 
-    #[Route('/delete/{id}', name: 'delete', requirements:['id' => '\d+'])]
+    #[Route('/delete/{id}', name: 'delete', requirements: ['id' => '\d+'])]
     public function delete(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
     {
 
         return $this->render('sortie/afficher.html.twig');
     }
 
-    #[Route('/cancel/{id}', name: 'cancel', requirements:['id' => '\d+'])]
+    #[Route('/cancel/{id}', name: 'cancel', requirements: ['id' => '\d+'])]
     public function cancel(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
     {
 
-        return $this->render('sortie/cancel.html.twig', ['sortie'=>$id]);
+        return $this->render('sortie/cancel.html.twig', ['sortie' => $id]);
     }
 
-    #[Route('/publish/{id}', name: 'publish', requirements:['id' => '\d+'])]
+    #[Route('/publish/{id}', name: 'publish', requirements: ['id' => '\d+'])]
     public function publish(SortieRepository $sortieRepository, EtatRepository $etatRepository, Sortie $id): Response
     {
 
@@ -115,31 +111,41 @@ class SortieController extends AbstractController
 
         $sortieRepository->save($id, true);
 
-        return $this->render('sortie/show.html.twig', ['sortie'=>$id]);
+        return $this->render('sortie/show.html.twig', ['sortie' => $id]);
     }
 
-    #[Route('/subscribe/{id}', name: 'subscribe', requirements:['id' => '\d+'])]
-    public function subscribe(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
+    #[Route('/subscribe/{id}', name: 'subscribe', requirements: ['id' => '\d+'])]
+    public function subscribe(SortieRepository $sortieRepository, Request $request, int $id): Response
     {
 
-        $id->addParticipant($this->getUser());
+        $sortie = $sortieRepository->find($id);
 
+    ;
+        if (($sortie->getDateLimiteInscription() > date('now')&& $sortie->getEtat()->getLibelle()=='Ouverte' && $sortie->getNbInsriptionsMax()- count($sortie->getParticipants())>0 ) ){
+            $user = $this->getUser();
 
-        $sortieRepository->save($id, true);
+            $sortie->addParticipant($user);
+            $sortieRepository->save($sortie, true);
 
-        return $this->render('sortie/show.html.twig', ['sortie'=>$id]);
+            $resultat = $this->render('sortie/show.html.twig', ['sortie' => $sortie]);
+
+        }
+        else{
+
+            $resultat = $this->redirectToRoute('sortie_all');
+        }
+        return $resultat;
     }
 
-    #[Route('/unsubscride/{id}', name: 'unsubscride', requirements:['id' => '\d+'])]
+    #[Route('/unsubscride/{id}', name: 'unsubscride', requirements: ['id' => '\d+'])]
     public function unsubscride(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
     {
         $id->removeParticipant($this->getUser());
 
         $sortieRepository->save($id, true);
 
-        return $this->render('sortie/show.html.twig', ['sortie'=>$id]);
+        return $this->render('sortie/show.html.twig', ['sortie' => $id]);
     }
-
 
 
 }

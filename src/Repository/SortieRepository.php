@@ -65,66 +65,82 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function findALLjoin(){
+    public function findALLjoin()
+    {
 
-        $qb =$this->createQueryBuilder('s');
+        $qb = $this->createQueryBuilder('s');
         $qb->addSelect('s')
-        ->leftJoin('s.etat', 'et')
-        ->addSelect('et')
-        ->leftJoin('s.organisateur', 'us')
-        ->addSelect('us');
+            ->leftJoin('s.etat', 'et')
+            ->addSelect('et')
+            ->leftJoin('s.organisateur', 'us')
+            ->addSelect('us');
 
         $query = $qb->getQuery();
         return $query->getResult();
 
     }
 
-    public function findALLFilter($campus, $recherche, $entre, $et, $organisateur,$passe ){
+    public function findALLFilter($campus, $recherche, $entre, $et, $organisateur, $passe)
+    {
 
-        $qb =$this->createQueryBuilder('s');
-        $qb =$this->createQueryBuilder('s');
+        $qb = $this->createQueryBuilder('s');
+        $qb = $this->createQueryBuilder('s');
         $qb->addSelect('s')
-            ->leftJoin('s.etat','et')
+            ->leftJoin('s.etat', 'et')
             ->addSelect('et')
-            ->leftJoin('s.organisateur','us')
+            ->leftJoin('s.organisateur', 'us')
             ->addSelect('us')
-            ->leftJoin('s.campus','ca')
+            ->leftJoin('s.campus', 'ca')
             ->addSelect('ca')
-            ->andWhere( 'ca.nom = :campus')
-        ->setParameter('campus',$campus);
-            if (isset($recherche) ){
-                $qb->andWhere('s.nom LIKE :recherche')
-                    ->setParameter('recherche', '%'. $recherche . '%');
+            ->andWhere('ca.nom = :campus')
+            ->setParameter('campus', $campus);
+        if (isset($recherche)) {
+            $qb->andWhere('s.nom LIKE :recherche')
+                ->setParameter('recherche', '%' . $recherche . '%');
 
-            }
-        if (isset($entre) ){
+        }
+        if (isset($entre)) {
 
             $qb->andWhere('s.dateHeureDebut > :datedebut')
-                ->setParameter('datedebut' , $entre);
+                ->setParameter('datedebut', $entre);
         }
-        if (isset($et) ){
+        if (isset($et)) {
 
             $qb->andWhere('s.dateHeureDebut < :dateapres')
-                ->setParameter('dateapres' , $et);
+                ->setParameter('dateapres', $et);
         }
-        if (isset($organisateur) ){
+        if (isset($organisateur)) {
 
-          $qb->andWhere('us.email = :organisateur')
-                ->setParameter('organisateur' , $organisateur);
+            $qb->andWhere('us.email = :organisateur')
+                ->setParameter('organisateur', $organisateur);
         }
-        if (isset($passe) ){
+        if (isset($passe)) {
 
-      $qb->andWhere('s.dateLimiteInscription > :mtn')
-      ->setParameter('mtn',  $passe);
+            $qb->andWhere('s.dateLimiteInscription > :mtn')
+                ->setParameter('mtn', $passe);
 
         }
-
-
-
 
 
         $query = $qb->getQuery();
 
+        return $query->getResult();
+
+    }
+
+    public function findjoin($id)
+    {
+
+        $qb = $this->createQueryBuilder('s');
+        $qb->addSelect('s')
+            ->leftJoin('s.etat', 'et')
+            ->addSelect('et')
+            ->leftJoin('s.organisateur', 'us')
+            ->addSelect('us')
+            ->andWhere('s.id= :id')
+            ->setParameter('id', $id);
+
+        $query = $qb->getQuery();
         return $query->getResult();
 
     }
