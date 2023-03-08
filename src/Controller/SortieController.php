@@ -26,15 +26,13 @@ class SortieController extends AbstractController
 
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
-
-
-            $sorties = $sortieRepository->findALLFilter( $model);
+            $sorties = $sortieRepository->findALLFilter($model);
 
         } else {
 
             $sorties = $sortieRepository->findALLjoin();
         }
-        return $this->render('sortie/afficher.html.twig', [
+        return $this->render('sortie/showAll.html.twig', [
             'sorties' => $sorties,
             'form' => $formFiltre->createView()
         ]);
@@ -44,7 +42,7 @@ class SortieController extends AbstractController
     public function search(SortieRepository $sortieRepository, Request $request): Response
     {
 
-        return $this->render('sortie/afficher.html.twig');
+        return $this->render('sortie/showAll.html.twig');
     }
 
     #[Route('/{id}', name: 'show_one', requirements:['id' => '\d+'])]
@@ -78,7 +76,7 @@ class SortieController extends AbstractController
 
         return $this->render(
             'sortie/add.html.twig',
-            ['sortieForm'=> $sortieForm->createView()]
+            ['sortieForm'=> $sortieForm->createView(), 'sortie'=>$sortie]
         );
     }
 
@@ -132,24 +130,20 @@ class SortieController extends AbstractController
     #[Route('/subscribe/{id}', name: 'subscribe', requirements:['id' => '\d+'])]
     public function subscribe(SortieRepository $sortieRepository, Sortie $id): Response
     {
-
         $sortie = $sortieRepository->find($id);
+        if ($sortie->getDateLimiteInscription() > date('now') &&
+            $sortie->getEtat()->getLibelle()=='Ouverte' &&
+            $sortie->getNbInsriptionsMax()- count($sortie->getParticipants())>0) {
 
-
-    ;
-        if (($sortie->getDateLimiteInscription() > date('now')&& $sortie->getEtat()->getLibelle()=='Ouverte' && $sortie->getNbInsriptionsMax()- count($sortie->getParticipants())>0 ) ){
-            $user = $this->getUser();
-
-            $sortie->addParticipant($user);
+            $sortie->addParticipant($this->getUser());
             $sortieRepository->save($sortie, true);
 
 
             $resultat = $this->render('sortie/show.html.twig', ['sortie' => $sortie]);
 
-        }
-        else{
+        }else {
 
-            $resultat = $this->redirectToRoute('sortie_all');
+            $resultat = $this->redirectToRoute('main_home');
         }
         return $resultat;
     }
@@ -158,18 +152,14 @@ class SortieController extends AbstractController
     public function unsubscride(SortieRepository $sortieRepository, Sortie $id): Response
     {
         $sortie = $sortieRepository->find($id);
-    if ($sortie->getEtat()->getLibelle()!='Activité en cours'){
+    if ($sortie->getEtat()->getLibelle()!='Activité en cours') {
         $sortie->removeParticipant($this->getUser());
 
         $sortieRepository->save($sortie, true);
         $resultat = $this->render('sortie/show.html.twig', ['sortie' => $sortie]);
-    }else{
-        $resultat = $this->redirectToRoute('sortie_all');
+    }else {
+        $resultat = $this->redirectToRoute('main_home');
     }
-
-
         return $resultat;
     }
-
-
 }
