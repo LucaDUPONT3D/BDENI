@@ -138,13 +138,20 @@ class SortieController extends AbstractController
     }
 
     #[Route('/unsubscride/{id}', name: 'unsubscride', requirements: ['id' => '\d+'])]
-    public function unsubscride(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
+    public function unsubscride(SortieRepository $sortieRepository, Request $request, int $id): Response
     {
-        $id->removeParticipant($this->getUser());
+        $sortie = $sortieRepository->find($id);
+    if ($sortie->getEtat()->getLibelle()!='Activité en cours'){
+        $sortie->removeParticipant($this->getUser());
 
-        $sortieRepository->save($id, true);
+        $sortieRepository->save($sortie, true);
+        $resultat = $this->render('sortie/show.html.twig', ['sortie' => $sortie]);
+    }else{
+        $resultat = $this->redirectToRoute('sortie_all');
+    }
 
-        return $this->render('sortie/show.html.twig', ['sortie' => $id]);
+
+        return $resultat;
     }
 
 
