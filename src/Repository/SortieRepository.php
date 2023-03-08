@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use App\Form\FiltreType;
+use App\Form\model\Model;
 use Cassandra\Date;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -80,9 +81,9 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
-    public function findALLFilter($campus, $recherche, $entre, $et, $organisateur, $passe, $inscrit)
+    public function findALLFilter(Model $model)
     {
-
+    dd($model);
         $qb = $this->createQueryBuilder('s');
         $qb = $this->createQueryBuilder('s');
         $qb->addSelect('s')

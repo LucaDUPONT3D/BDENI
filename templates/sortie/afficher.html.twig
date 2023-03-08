@@ -30,9 +30,22 @@
             </div>
         </div>
         <div class="flex_colone">
-            {{ form_errors(form.critere) }}
-            {{ form_label(form.critere) }}
-            {{ form_widget(form.critere) }}
+            {{ form_errors(form.organisateur) }}
+            {{ form_label(form.organisateur) }}
+            {{ form_widget(form.organisateur) }}
+
+            {{ form_errors(form.inscrit) }}
+            {{ form_label(form.inscrit) }}
+            {{ form_widget(form.inscrit) }}
+
+            {{ form_errors(form.pasInscrit) }}
+            {{ form_label(form.pasInscrit) }}
+            {{ form_widget(form.pasInscrit) }}
+
+            {{ form_errors(form.passe) }}
+            {{ form_label(form.passe) }}
+            {{ form_widget(form.passe) }}
+
         </div>
         <div>
             <button>valider</button>

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Form\model\Model;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -43,24 +44,43 @@ class FiltreType extends AbstractType
                 'html5' => true,
                 'widget' => 'single_text'
             ])
-            ->add('critere', ChoiceType::class, [
-                'label'=>'',
+            ->add('organisateur', ChoiceType::class, [
                 'choices' => [
                     'Sortie dont je suis organisateur' => 'organisateur',
-                    'Sortie au quel je suis inscrit' => 'inscrit',
+                ],
+                'multiple' => true,
+                'expanded' => true
+            ])
+
+        ->add('inscrit', ChoiceType::class, [
+        'choices' => [
+            'Sortie au quel je suis inscrit' => 'inscrit',
+        ],
+        'multiple' => true,
+        'expanded' => true
+    ])
+            ->add('pasInscrit', ChoiceType::class, [
+
+                'choices' => [
                     'Sortie au quel je ne suis pas inscrit' => 'pasInscrit',
                     'Sortie Passé' => 'passe',
                 ],
                 'multiple' => true,
                 'expanded' => true
             ])
-        ;
+            ->add('passe', ChoiceType::class, [
+                'choices' => [
+                    'Sortie Passé' => 'passe',
+                ],
+                'multiple' => true,
+                'expanded' => true
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'data_class' => Model::class
         ]);
     }
 }

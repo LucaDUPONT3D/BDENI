@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\FiltreType;
 use App\Entity\Sortie;
+use App\Form\model\Model;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'all')]
-    public function afficher(SortieRepository $sortieRepository, Request $request): Response
+    public function afficher(SortieRepository $sortieRepository, Request $request, Model $model): Response
     {
         $formFiltre = $this->createForm(FiltreType::class);
 
@@ -25,34 +26,20 @@ class SortieController extends AbstractController
 
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
-            $campus = $formFiltre->get('campus')->getData();
-
-
-            $recherche = $formFiltre->get('recherche')->getData();
-            $entre = $formFiltre->get('entre')->getData();
-            $et = $formFiltre->get('et')->getData();
-
-            $critere = $formFiltre->get('critere')->getData();
-            $organisateur = null;
-            if (in_array("organisateur", $critere)) {
-                $organisateur = $this->getUser()->getUserIdentifier();
-
-            }
-            $passe = null;
-            if (in_array("passe", $critere)) {
-                $passe = new \DateTime();
-
-            }
-            $inscrit =null;
-            if (in_array("inscrit", $critere)) {
-                $inscrit = $this->getUser()->getId();
-            }
+//            $campus = $formFiltre->get('campus')->getData();
+//
+//
+//            $recherche = $formFiltre->get('recherche')->getData();
+//            $entre = $formFiltre->get('entre')->getData();
+//            $et = $formFiltre->get('et')->getData();
 
 
 
 
 
-            $sorties = $sortieRepository->findALLFilter($campus, $recherche, $entre, $et, $organisateur, $passe, $inscrit);
+
+
+            $sorties = $sortieRepository->findALLFilter( $model);
 
         } else {
 
@@ -90,8 +77,9 @@ class SortieController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update', requirements: ['id' => '\d+'])]
-    public function update(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
+    public function update(SortieRepository $sortieRepository, Request $request, int $id): Response
     {
+
 
         return $this->render('sortie/update.html.twig', ['sortie' => $id]);
     }
