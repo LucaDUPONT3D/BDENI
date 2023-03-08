@@ -18,24 +18,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'all')]
-    public function afficher(SortieRepository $sortieRepository, Request $request, Model $model): Response
+    public function afficher(SortieRepository $sortieRepository, Request $request): Response
     {
-        $formFiltre = $this->createForm(FiltreType::class);
+        $model = new Model();
+        $formFiltre = $this->createForm(FiltreType::class, $model);
 
         $formFiltre->handleRequest($request);
 
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
-
-//            $campus = $formFiltre->get('campus')->getData();
-//
-//
-//            $recherche = $formFiltre->get('recherche')->getData();
-//            $entre = $formFiltre->get('entre')->getData();
-//            $et = $formFiltre->get('et')->getData();
-
-
-
-
 
 
 

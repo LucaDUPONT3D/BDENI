@@ -8,6 +8,7 @@ use App\Form\model\Model;
 use Cassandra\Date;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function PHPUnit\Framework\isEmpty;
 
 /**
  * @extends ServiceEntityRepository<Sortie>
@@ -83,7 +84,7 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findALLFilter(Model $model)
     {
-    dd($model);
+
         $qb = $this->createQueryBuilder('s');
         $qb = $this->createQueryBuilder('s');
         $qb->addSelect('s')
@@ -94,39 +95,44 @@ class SortieRepository extends ServiceEntityRepository
             ->leftJoin('s.campus', 'ca')
             ->addSelect('ca')
             ->andWhere('ca.nom = :campus')
-            ->setParameter('campus', $campus);
-        if (isset($recherche)) {
+           ->setParameter('campus', $model->getCampus());
+        if (($model->getRecherche())!=null) {
             $qb->andWhere('s.nom LIKE :recherche')
-                ->setParameter('recherche', '%' . $recherche . '%');
+                ->setParameter('recherche', '%' . $model->getRecherche() . '%');
 
         }
-        if (isset($entre)) {
+        if (($model->getEntre()!=null)) {
 
             $qb->andWhere('s.dateHeureDebut > :datedebut')
-                ->setParameter('datedebut', $entre);
+                ->setParameter('datedebut', $model->getEntre());
         }
-        if (isset($et)) {
+        if (($model->getEt()!=null)){
 
             $qb->andWhere('s.dateHeureDebut < :dateapres')
-                ->setParameter('dateapres', $et);
+                ->setParameter('dateapres', $model->getEt());
         }
-        if (isset($organisateur)) {
+        if (($model->getOrganisateur()!=null)){
 
             $qb->andWhere('us.email = :organisateur')
-                ->setParameter('organisateur', $organisateur);
+                ->setParameter('organisateur', $model->getOrganisateur());
         }
-        if (isset($passe)) {
-
-            $qb->andWhere('s.dateLimiteInscription > :mtn')
-                ->setParameter('mtn', $passe);
-
-        }
-        if (isset($inscrit)) {
-
-            $qb->andWhere('s.participants = :inscrit')
-                ->setParameter('inscrit', $inscrit);
-
-        }
+//        if ((isEmpty($model->getPasse())))  {
+//dd("test");
+//            $qb->andWhere('s.dateLimiteInscription > :mtn')
+//                ->setParameter('mtn', \date('d/m/y H:i'));
+//
+//        }        if ((isEmpty($model->getPasse())))  {
+//dd("test");
+//            $qb->andWhere('s.dateLimiteInscription > :mtn')
+//                ->setParameter('mtn', \date('d/m/y H:i'));
+//
+//        }
+//        if (isset($inscrit)) {
+//
+//            $qb->andWhere('s.participants = :inscrit')
+//                ->setParameter('inscrit', $inscrit);
+//
+//        }
 
 
         $query = $qb->getQuery();
