@@ -1,15 +1,73 @@
 {% extends 'base.html.twig' %}
+{% form_theme sortieForm 'view/formTheme/formTheme.html.twig' %}
 
 {% block body %}
-    <h1>Modifier la sortie : {{ sortie.nom }} </h1>
+    <h1>Modifier la Sortie : {{ sortie.nom }}</h1>
 
     {{ form_start(sortieForm) }}
     {{ form_widget(sortieForm) }}
-    <button type="submit">Enregistrer</button>
-    <button type="submit">Publier la sortie</button>
-    <button type="button">Supprimer la sortie</button>
-    <a href="{{ path("main_home") }}"><button class="btn btn-info " type="button" name="Retour">Annuler</button></a>
+    <br>
+    <a href="{{ path("lieu_add") }}">
+        <button class="btn btn-info " type="button" name="Retour">Ajouter nouveau lieu</button>
+    </a>
+    <div id="infos_lieu">
+        <br>
+        <p id="sortie_lieu_rue"><b>Rue : </b></p>
+        <p id="sortie_lieu_cp"><b>Code postal :</b></p>
+        <p id="sortie_lieu_latitude"><b>Latitude :</b></p>
+        <p id="sortie_lieu_longitude"><b>Longitude :</b></p>
+    </div>
+    <button type="submit" name="submit" value="1">Enregistrer</button>
+    <button type="submit" name="submit" value="2">Publier la sortie</button>
+    <a href="{{ path('sortie_delete', {'id': sortie.id}) }}">
+        <button class="btn btn-info " type="button" name="Retour">Supprimer la sortie</button>
+    </a>
+
+    <a href="{{ path("main_home") }}">
+        <button class="btn btn-info " type="button" name="Retour">Annuler</button>
+    </a>
     {{ form_end(sortieForm) }}
+
+    <script>
+        document.getElementById('appbundle_sortie_ville').addEventListener('change', window.onload = function () {
+
+            let id = document.getElementById('appbundle_sortie_ville').value
+
+            data = fetch('/BDENI/public/api/lieu/ville/' + id,
+                {method: 'GET'})
+                .then(function (response) {
+                    return response.json()
+                })
+
+            data.then(function (data) {
+                let info = ""
+                for (let d of data) {
+                    let option = `<option value="${d.id}">${d.nom}</option>`
+                    info += option
+                }
+                let select = document.getElementById(`appbundle_sortie_lieu`)
+                select.innerHTML = info
+            })
+        })
+
+        document.getElementById('appbundle_sortie_lieu').addEventListener('change', window.onload = function () {
+
+            let id = document.getElementById('appbundle_sortie_lieu').value
+
+            let data = fetch('/BDENI/public/api/lieu/' + id,
+                {method: 'GET'})
+                .then(function (response) {
+                    return response.json()
+                })
+
+            data.then(function (data) {
+                document.getElementById('sortie_lieu_rue').innerHTML = '<b>Rue : </b>' + data.rue
+                document.getElementById('sortie_lieu_cp').innerHTML = '<b>Code Postal : </b>' + data.ville.codePostal
+                document.getElementById('sortie_lieu_latitude').innerHTML = '<b>Latitude : </b>' + data.latitude
+                document.getElementById('sortie_lieu_longitude').innerHTML = '<b>Longitude : </b>' + data.longitude
+            })
+        })
+    </script>
 {% endblock %}
 
 {% block title %}

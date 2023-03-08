@@ -37,22 +37,28 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show_one', requirements:['id' => '\d+'])]
-    public function show(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
+    public function show(Sortie $id): Response
     {
         return $this->render('sortie/show.html.twig', ['sortie'=> $id]);
     }
 
     #[Route('/add', name: 'add')]
-    public function add(SortieRepository $sortieRepository, Request $request): Response
+    public function add(SortieRepository $sortieRepository, EtatRepository $etatRepository, Request $request): Response
     {
         $sortie = new Sortie();
-        $lieu = $sortie->getLieu();
         $sortieForm = $this->createForm(SortieType::class, $sortie);
-        $lieuForm = $this->createForm(LieuType::class, $lieu);
 
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
+            $sortie->setOrganisateur($this->getUser());
+
+            if ($request->request->get('submit') == 1) {
+                $sortie->setEtat($etatRepository->find(1));
+            }elseif ($request->request->get('submit') == 2) {
+                $sortie->setEtat($etatRepository->find(2));
+            }
 
             $sortieRepository->save($sortie, true);
 
@@ -61,7 +67,7 @@ class SortieController extends AbstractController
 
         return $this->render(
             'sortie/add.html.twig',
-            ['sortieForm'=> $sortieForm->createView(), 'lieuForm'=>$lieuForm->createView()]
+            ['sortieForm'=> $sortieForm->createView()]
         );
     }
 
@@ -85,8 +91,13 @@ class SortieController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', requirements:['id' => '\d+'])]
     public function delete(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
     {
+        if ($id) {
+            $sortieRepository->remove($id, true);
+        } else {
+            throw  $this->createNotFoundException("Oops ! Delete not found !");
+        }
 
-        return $this->render('sortie/afficher.html.twig');
+        return $this->redirectToRoute('main_home');
     }
 
     #[Route('/cancel/{id}', name: 'cancel', requirements:['id' => '\d+'])]
