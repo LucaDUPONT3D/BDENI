@@ -43,9 +43,16 @@ class SortieController extends AbstractController
                 $passe = new \DateTime();
 
             }
+            $inscrit =null;
+            if (in_array("inscrit", $critere)) {
+                $inscrit = $this->getUser()->getId();
+            }
 
 
-            $sorties = $sortieRepository->findALLFilter($campus, $recherche, $entre, $et, $organisateur, $passe);
+
+
+
+            $sorties = $sortieRepository->findALLFilter($campus, $recherche, $entre, $et, $organisateur, $passe, $inscrit);
 
         } else {
 
@@ -120,12 +127,14 @@ class SortieController extends AbstractController
 
         $sortie = $sortieRepository->find($id);
 
+
     ;
         if (($sortie->getDateLimiteInscription() > date('now')&& $sortie->getEtat()->getLibelle()=='Ouverte' && $sortie->getNbInsriptionsMax()- count($sortie->getParticipants())>0 ) ){
             $user = $this->getUser();
 
             $sortie->addParticipant($user);
             $sortieRepository->save($sortie, true);
+
 
             $resultat = $this->render('sortie/show.html.twig', ['sortie' => $sortie]);
 

@@ -80,7 +80,7 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
-    public function findALLFilter($campus, $recherche, $entre, $et, $organisateur, $passe)
+    public function findALLFilter($campus, $recherche, $entre, $et, $organisateur, $passe, $inscrit)
     {
 
         $qb = $this->createQueryBuilder('s');
@@ -118,6 +118,12 @@ class SortieRepository extends ServiceEntityRepository
 
             $qb->andWhere('s.dateLimiteInscription > :mtn')
                 ->setParameter('mtn', $passe);
+
+        }
+        if (isset($inscrit)) {
+
+            $qb->andWhere('s.participants = :inscrit')
+                ->setParameter('inscrit', $inscrit);
 
         }
 
