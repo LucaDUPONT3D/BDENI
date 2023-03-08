@@ -20,59 +20,57 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email',EmailType::class,[
+            ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'trim' => true,
                 'required' => false
             ])
-            ->add('plainPassword',RepeatedType::class,[
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'mapped'=> false,
-                'invalid_message'=>'Les mots de passe ne correspondent pas',
+                'mapped' => false,
+                'invalid_message' => 'Les mots de passe ne correspondent pas',
                 'required' => true,
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation mot de passe']
             ])
-            ->add('nom',TextType::class,[
+            ->add('nom', TextType::class, [
                 'label' => 'Nom',
                 'trim' => true,
                 "required" => false
             ])
-            ->add('prenom',TextType::class,[
+            ->add('prenom', TextType::class, [
                 'label' => 'Prenom',
                 'trim' => true,
                 "required" => false
             ])
-            ->add('telephone',TextType::class,[
+            ->add('telephone', TextType::class, [
                 'label' => 'Téléphone',
                 'trim' => true,
                 "required" => false
             ])
-            ->add('image',FileType::class,[
+            ->add('image', FileType::class, [
                 'label' => 'Photo',
-                'mapped' => false ,
-                'required' => false ,
+                'mapped' => false,
+                'required' => false,
                 'constraints' => [
                     new File ([
-                        'maxSize' => '2500k' ,
-                        'mimeTypesMessage' => 'Image non valide !' ,
+                        'maxSize' => '5000k',
+                        'mimeTypesMessage' => 'Image non valide !',
                     ])
                 ],
             ])
-            ->add('pseudo',TextType::class,[
+            ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo',
-                'trim'=> true,
+                'trim' => true,
                 "required" => false,
 
-                ])
-            ->add('campus',EntityType::class,[
-                'class' => Campus::class,
-                'choice_label'=>'nom',
-                'label'=>'Campus',
-                'trim' =>true,
             ])
-
-        ;
+            ->add('campus', EntityType::class, [
+                'class' => Campus::class,
+                'choice_label' => 'nom',
+                'label' => 'Campus',
+                'trim' => true,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

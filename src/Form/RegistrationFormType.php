@@ -45,19 +45,6 @@ class RegistrationFormType extends AbstractType
                 'trim' => true,
                 'required' => true,
             ])
-            ->add('img', FileType::class,[
-                'label' => 'Photo',
-                'mapped' => false,
-                'required' => false,
-                'constraints'=>[
-                    new File ([
-                        'maxSize' => '2500k',
-                        'mimeTypesMessage' =>"l'image n'est pas valide"
-
-                    ])
-                ]
-
-            ])
             ->add('telephone',TextType::class,[
                 "trim" => true,
                 "label" => "Téléphone",
@@ -65,7 +52,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('email', EmailType::class,[
                 'label' => 'Email',
-                'trim' => 'true',
+                'trim' => true,
                 'required'=>false
             ])
             ->add('roles',CollectionType::class, [
