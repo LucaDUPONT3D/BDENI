@@ -32,7 +32,24 @@ class SortieController extends AbstractController
             $entre = $formFiltre->get('entre')->getData();
             $et = $formFiltre->get('et')->getData();
 
-            $sorties = $sortieRepository->findALLFilter($campus, $recherche, $entre, $et);
+       $critere = $formFiltre->get('critere')->getData();
+            $organisateur=null;
+            if(in_array("organisateur", $critere)){
+                $organisateur= $this->getUser()->getUserIdentifier();
+
+            }
+            $passe=null;
+            if(in_array("passe", $critere)){
+                $passe=  new \DateTime();
+
+            }
+
+
+
+
+
+
+            $sorties = $sortieRepository->findALLFilter($campus, $recherche, $entre, $et, $organisateur, $passe);
 
         }else {
 
@@ -104,7 +121,9 @@ class SortieController extends AbstractController
     #[Route('/subscribe/{id}', name: 'subscribe', requirements:['id' => '\d+'])]
     public function subscribe(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
     {
+
         $id->addParticipant($this->getUser());
+
 
         $sortieRepository->save($id, true);
 

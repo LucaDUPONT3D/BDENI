@@ -46,10 +46,10 @@ class FiltreType extends AbstractType
             ->add('critere', ChoiceType::class, [
                 'label'=>'',
                 'choices' => [
-                    'Sortie dont je suis organisateur' => 'Sortie dont je suis organisateur',
-                    'Sortie au quel je suis inscrit' => 'Sortie au quel je suis inscrit',
-                    'Sortie au quel je ne suis pas inscrit' => 'Sortie au quel je ne suis pas inscrit',
-                    'Sortie Passé' => 'Sortie Passé',
+                    'Sortie dont je suis organisateur' => 'organisateur',
+                    'Sortie au quel je suis inscrit' => 'inscrit',
+                    'Sortie au quel je ne suis pas inscrit' => 'pasInscrit',
+                    'Sortie Passé' => 'passe',
                 ],
                 'multiple' => true,
                 'expanded' => true

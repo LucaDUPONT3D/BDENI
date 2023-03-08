@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use App\Form\FiltreType;
+use Cassandra\Date;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -78,7 +79,7 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
-    public function findALLFilter($campus, $recherche, $entre, $et){
+    public function findALLFilter($campus, $recherche, $entre, $et, $organisateur,$passe ){
 
         $qb =$this->createQueryBuilder('s');
         $qb =$this->createQueryBuilder('s');
@@ -92,8 +93,9 @@ class SortieRepository extends ServiceEntityRepository
             ->andWhere( 'ca.nom = :campus')
         ->setParameter('campus',$campus);
             if (isset($recherche) ){
-                $qb->andWhere('s.nom= :recherche')
-                    ->setParameter('recherche',  $recherche);
+                $qb->andWhere('s.nom LIKE :recherche')
+                    ->setParameter('recherche', '%'. $recherche . '%');
+
             }
         if (isset($entre) ){
 
@@ -105,12 +107,24 @@ class SortieRepository extends ServiceEntityRepository
             $qb->andWhere('s.dateHeureDebut < :dateapres')
                 ->setParameter('dateapres' , $et);
         }
+        if (isset($organisateur) ){
+
+          $qb->andWhere('us.email = :organisateur')
+                ->setParameter('organisateur' , $organisateur);
+        }
+        if (isset($passe) ){
+
+      $qb->andWhere('s.dateLimiteInscription > :mtn')
+      ->setParameter('mtn',  $passe);
+
+        }
 
 
 
 
 
         $query = $qb->getQuery();
+
         return $query->getResult();
 
     }
