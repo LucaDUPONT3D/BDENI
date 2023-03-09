@@ -25,14 +25,18 @@ class SortieController extends AbstractController
         $formFiltre->handleRequest($request);
 
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
+            $user = $this->getUser()->getId();
 
 
 
-            $sorties = $sortieRepository->findALLFilter( $model);
+
+
+            $sorties = $sortieRepository->findALLFilter( $model, $user);
 
         } else {
 
             $sorties = $sortieRepository->findALLjoin();
+
         }
         return $this->render('sortie/afficher.html.twig', [
             'sorties' => $sorties,

@@ -63,7 +63,7 @@ class FiltreType extends AbstractType
 
                 'choices' => [
                     'Sortie au quel je ne suis pas inscrit' => 'pasInscrit',
-                    'Sortie Passé' => 'passe',
+
                 ],
                 'multiple' => true,
                 'expanded' => true
