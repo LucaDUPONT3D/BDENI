@@ -27,7 +27,7 @@ class SortieController extends AbstractController
     {
 
         $sorties = $sortieRepository->findALLjoin();
-        $sorties = $etatSortieManager->checkEtatSortie($sorties);
+        $sorties = $etatSortieManager->checkEtatSorties($sorties);
 
         $model = new Model();
         $formFiltre = $this->createForm(FiltreType::class, $model);
@@ -38,6 +38,8 @@ class SortieController extends AbstractController
 
             $user = $this->getUser()->getId();
             $sorties = $sortieRepository->findALLFilter($model, $user);
+        }else {
+            $sorties = $sortieRepository->findALLjoin();
         }
         return $this->render('sortie/showAll.html.twig', [
             'sorties' => $sorties,
@@ -45,16 +47,11 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/search', name: 'search')]
-    public function search(SortieRepository $sortieRepository, Request $request): Response
-    {
-
-        return $this->render('sortie/showAll.html.twig');
-    }
-
     #[Route('/{id}', name: 'show_one', requirements:['id' => '\d+'])]
-    public function show(Sortie $id): Response
+    public function show(Sortie $id, EtatSortieManager $etatSortieManager): Response
     {
+        $id = $etatSortieManager->checkEtatSortie($id);
+
         return $this->render('sortie/show.html.twig', ['sortie'=> $id]);
     }
 

@@ -14,53 +14,66 @@ class EtatSortieManager
     {
     }
 
-    public function checkEtatSortie(array $sorties): array
+    public function checkEtatSortie(Sortie $sortie): Sortie
     {
-        $today = new \DateTime('now');
+        $this->check($sortie);
+
+        return $sortie;
+    }
+
+    public function checkEtatSorties(array $sorties): array
+    {
 
         foreach ($sorties as $sortie) {
 
-            $dateHeureDebut = $sortie->getDateHeureDebut();
-            $dateInscription = $sortie->getDateLimiteInscription();
-            $nbParticipants = $sortie->getParticipants()->count();
-            $nbInscriptionMax = $sortie->getNbInsriptionsMax();
-            $dateHeureFin = date_add($sortie->getDateHeureDebut(),
-                DateInterval::createFromDateString($sortie->getDuree() . 'minutes'));
-            $dateHistory = date_add($sortie->getDateHeureDebut(),
-                DateInterval::createFromDateString($sortie->getDuree() + 43200 . 'minutes'));
-
-            if ($sortie instanceof Sortie &&
-                $sortie->getEtat()->getLibelle() != 'Créée' &&
-                $sortie->getEtat()->getLibelle() != 'Annulée') {
-                if ($dateHeureDebut > $today &&
-                    $dateInscription > $today &&
-                    $nbParticipants < $nbInscriptionMax) {
-                    $this->setEtatSortie($sortie, 2);
-                } elseif (($dateHeureDebut > $today &&
-                        $dateInscription <= $today) ||
-                    $nbParticipants >= $nbInscriptionMax) {
-                    $this->setEtatSortie($sortie, 3);
-                } elseif ($dateHeureDebut <= $today &&
-                    $dateHeureFin >= $today) {
-                    $this->setEtatSortie($sortie, 4);
-                } elseif ($dateHeureFin < $today &&
-                    $dateHistory > $today) {
-                    $this->setEtatSortie($sortie, 5);
-                } elseif ($dateHistory <= $today) {
-                    $this->setEtatSortie($sortie, 7);
-                }
-            } elseif ($sortie instanceof Sortie) {
-                if ($dateHeureFin < $today &&
-                    $dateHistory > $today) {
-                    $this->setEtatSortie($sortie, 5);
-                } elseif ($dateHistory <= $today) {
-                    $this->setEtatSortie($sortie, 7);
-                }
-            }
+            $this->check($sortie);
         }
         return $sorties;
     }
 
+
+    private function check(Sortie $sortie)
+    {
+
+        $today = new \DateTime('now');
+        $dateHeureDebut = clone $sortie->getDateHeureDebut();
+        $dateInscription = $sortie->getDateLimiteInscription();
+        $nbParticipants = $sortie->getParticipants()->count();
+        $nbInscriptionMax = $sortie->getNbInsriptionsMax();
+        $dateHeureFin = date_add($dateHeureDebut,
+            DateInterval::createFromDateString($sortie->getDuree() . 'minutes'));
+        $dateHistory = date_add($dateHeureDebut,
+            DateInterval::createFromDateString($sortie->getDuree() + 43200 . 'minutes'));
+
+        if ($sortie instanceof Sortie &&
+            $sortie->getEtat()->getLibelle() != 'Créée' &&
+            $sortie->getEtat()->getLibelle() != 'Annulée') {
+            if ($dateHeureDebut > $today &&
+                $dateInscription > $today &&
+                $nbParticipants < $nbInscriptionMax) {
+                $this->setEtatSortie($sortie, 2);
+            } elseif (($dateHeureDebut > $today &&
+                    $dateInscription <= $today) ||
+                $nbParticipants >= $nbInscriptionMax) {
+                $this->setEtatSortie($sortie, 3);
+            } elseif ($dateHeureDebut <= $today &&
+                $dateHeureFin >= $today) {
+                $this->setEtatSortie($sortie, 4);
+            } elseif ($dateHeureFin < $today &&
+                $dateHistory > $today) {
+                $this->setEtatSortie($sortie, 5);
+            } elseif ($dateHistory <= $today) {
+                $this->setEtatSortie($sortie, 7);
+            }
+        } elseif ($sortie instanceof Sortie) {
+            if ($dateHeureFin < $today &&
+                $dateHistory > $today) {
+                $this->setEtatSortie($sortie, 5);
+            } elseif ($dateHistory <= $today) {
+                $this->setEtatSortie($sortie, 7);
+            }
+        }
+    }
 
     private function setEtatSortie(Sortie $sortie, int $etatId)
     {
