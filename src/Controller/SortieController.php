@@ -9,6 +9,8 @@ use App\Form\model\Model;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use App\Utils\EtatSortieManager;
+use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'show_all')]
-    public function showAll(SortieRepository $sortieRepository, Request $request): Response
+    public function showAll(
+        SortieRepository $sortieRepository,
+        Request $request,
+        EtatSortieManager $etatSortieManager): Response
     {
         $model = new Model();
         $formFiltre = $this->createForm(FiltreType::class, $model);
@@ -28,10 +33,12 @@ class SortieController extends AbstractController
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
             $sorties = $sortieRepository->findALLFilter($model);
+            $sorties = $etatSortieManager->checkEtatSortie($sorties);
 
         } else {
 
             $sorties = $sortieRepository->findALLjoin();
+            $sorties = $etatSortieManager->checkEtatSortie($sorties);
         }
         return $this->render('sortie/showAll.html.twig', [
             'sorties' => $sorties,
