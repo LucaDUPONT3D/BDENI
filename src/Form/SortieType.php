@@ -129,7 +129,7 @@ class SortieType extends AbstractType
         $sortie = $event->getData();
         $lieu = $sortie->getLieu();
 
-        if($lieu){
+        if ($lieu) {
             $ville = $lieu->getVille();
             $lieux = $this->lieuRepository->findBy(['ville' => $ville]);
 

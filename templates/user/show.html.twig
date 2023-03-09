@@ -3,6 +3,8 @@
 {% block title %} {{ parent() }} | {{ user.pseudo }} {% endblock %}
 
 {% block body %}
+    <div class="centrer_page_largeur">
+        <div>
 
     <h1>{{ user.pseudo }}</h1>
     <div class="">
@@ -24,10 +26,12 @@
         <label for="campus">Campus : {{ user.campus.nom }}</label>
     </div>
 
-    <div>
-        <a href="{{ path("main_home") }}">
-            <button class="btn btn-info " type="button" name="Retour">Retour</button>
-        </a>
+            <div class="btn_centrer">
+                <a href="{{ path("main_home") }}">
+                    <button class="btn btn-info  " type="button" name="Retour">Retour</button>
+                </a>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

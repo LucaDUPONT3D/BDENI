@@ -1,18 +1,20 @@
 {% block styleCss %}
     <link rel="stylesheet" href="{{ asset('assets/css/filtreformulaire.css') }}">
 
-     {% endblock %}
+{% endblock %}
 
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="cote_droite">
     <p><b>Date du jour : </b>{{ date('now')|date('d/m/y') }}</p>
     <p><b>Participant : </b>{{ app.user.pseudo }}</p>
-    <h3>Filtrer les sortie</h3>
+    </div>
+    <h3 class="centrer">Filtrer les sortie</h3>
 
     {{ form_start(form) }}
     <div class="flex_ligne">
-        <div class="flex_colone">
+        <div class="flex_colon">
             {{ form_errors(form.campus) }}
             {{ form_label(form.campus) }}
             {{ form_widget(form.campus) }}
@@ -31,7 +33,7 @@
                 {{ form_widget(form.et) }}
             </div>
         </div>
-        <div class="flex_colone">
+        <div class="flex_colon">
             {{ form_errors(form.organisateur) }}
             {{ form_label(form.organisateur) }}
             {{ form_widget(form.organisateur) }}
@@ -49,7 +51,7 @@
             {{ form_widget(form.passe) }}
 
         </div>
-        <div>
+        <div class="flex_colon">
             <button type="submit" class="btn btn-secondary">Rechercher</button>
         </div>
     </div>
@@ -70,8 +72,8 @@
             {% for sort in sorties %}
                 <tr>
                     <td> {{ sort.nom }}</td>
-                    <td>{{ sort.dateHeureDebut| date('d/m/y H:i') }}</td>
-                    <td> {{ sort.dateLimiteInscription | date ('d/m/y') }}</td>
+                    <td>{{ sort.dateHeureDebut| date('d/m/Y H:i') }}</td>
+                    <td> {{ sort.dateLimiteInscription | date ('d/m/Y') }}</td>
                     <td> {{ sort.participants.count() }}/{{ sort.nbInsriptionsMax }}</td>
                     <td> {{ sort.etat.libelle }}</td>
                     <td>
@@ -143,7 +145,7 @@
                                     {% if sort.dateLimiteInscription > date('now') %}
                                         -
                                         <a href="{{ path('sortie_subscribe', {'id': sort.id}) }}">
-                                            <button type="button" class="btn btn-primary">S'inscrire'</button>
+                                            <button type="button" class="btn btn-primary">S'inscrire</button>
                                         </a>
                                     {% endif %}
                                 {% endif %}
@@ -170,10 +172,11 @@
             {% endfor %}
         </table>
     </div>
-    <a href="{{ path('sortie_add') }}">
-        <button type="button" class="btn btn-primary">Créer une sortie</button>
-    </a>
-
+    <div class="btn_centrer">
+        <a href="{{ path('sortie_add') }}">
+            <button type="button" class="btn btn-primary ">Créer une sortie</button>
+        </a>
+    </div>
 {% endblock %}
 
 {% block title %}

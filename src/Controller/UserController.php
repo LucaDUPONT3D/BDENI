@@ -26,7 +26,7 @@ class UserController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('sortie_all');
+            return $this->redirectToRoute('main_home');
         }
 
         // get the login error if there is one
@@ -53,7 +53,12 @@ class UserController extends AbstractController
     }
 
     #[Route(path: '/user/update', name: 'user_update')]
-    public function update(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, Uploader $uploader): Response
+    public function update(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager,
+        Uploader $uploader
+    ) : Response
     {
         $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
@@ -86,7 +91,7 @@ class UserController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash("success", "Modifications effectués");
-            return $this->redirectToRoute('sortie_all');
+            return $this->redirectToRoute('main_home');
         }
         return $this->render('user/update.html.twig', [
             'registrationForm' => $form->createView(), 'user' => $user
@@ -95,8 +100,5 @@ class UserController extends AbstractController
 
 
     #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(): void
-    {
-
-    }
+    public function logout(): void {}
 }
