@@ -30,15 +30,26 @@
                 <th>Pseudo</th>
                 <th>Nom - Prénom</th>
             </tr>
-        {% for participant in sortie.participants %}
-            <tr>
-                <td>{{ participant.pseudo }}</td>
-                <td>{{ participant.nom }} {{ participant.prenom }}</td>
-            </tr>
-        {% endfor %}
+            {% for participant in sortie.participants %}
+                <tr>
+                    <td>{{ participant.pseudo }}</td>
+                    <td>{{ participant.nom }} {{ participant.prenom }}</td>
+                </tr>
+            {% endfor %}
         </table>
     </div>
     <br>
+    {% if(sortie.etat.libelle == 'Ouverte') %}
+        {% if(sortie.participants.contains(app.user)) %}
+            <a href="{{ path('sortie_unsubscride', {'id': sortie.id}) }}">
+                <button type="button" class="btn btn-danger">Se désister</button>
+            </a>
+        {% else %}
+            <a href="{{ path('sortie_subscribe', {'id': sortie.id}) }}">
+                <button type="button" class="btn btn-primary">S'inscrire</button>
+            </a>
+        {% endif %}
+    {% endif %}
     <a href="{{ path("main_home") }}">
         <button type="button" class="btn btn-secondary">Retour</button>
     </a>
