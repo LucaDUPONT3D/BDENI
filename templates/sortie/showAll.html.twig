@@ -72,8 +72,8 @@
             {% for sort in sorties %}
                 <tr>
                     <td> {{ sort.nom }}</td>
-                    <td>{{ sort.dateHeureDebut| date('d/m/y H:i') }}</td>
-                    <td> {{ sort.dateLimiteInscription | date ('d/m/y') }}</td>
+                    <td>{{ sort.dateHeureDebut| date('d/m/Y H:i') }}</td>
+                    <td> {{ sort.dateLimiteInscription | date ('d/m/Y') }}</td>
                     <td> {{ sort.participants.count() }}/{{ sort.nbInsriptionsMax }}</td>
                     <td> {{ sort.etat.libelle }}</td>
                     <td>

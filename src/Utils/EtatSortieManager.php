@@ -20,13 +20,14 @@ class EtatSortieManager
             if ($sortie instanceof Sortie && $sortie->getEtat()->getLibelle() != 'Créée') {
 
                 if ($sortie->getEtat()->getLibelle() == 'Ouverte') {
-                    if ($sortie->getParticipants()->count() >= $sortie->getNbInsriptionsMax()) {
+                    if ($sortie->getParticipants()->count() >= $sortie->getNbInsriptionsMax() ||
+                        $sortie->getDateLimiteInscription() < new \DateTime('now')) {
                         $this->setEtat($sortie, 3);
                     } elseif ($sortie->getDateHeureDebut() >= new \DateTime('now')) {
                         $this->setEtat($sortie, 4);
                     } elseif ((date_add($sortie->getDateHeureDebut(),
                             DateInterval::createFromDateString($sortie->getDuree() . 'minute')))
-                        >= new \DateTime('now')) {
+                        <= new \DateTime('now')) {
                         $this->setEtat($sortie, 5);
                     } elseif ((date_add($sortie->getDateHeureDebut(),
                             DateInterval::createFromDateString($sortie->getDuree() + 43200 . 'minute')))
@@ -38,7 +39,7 @@ class EtatSortieManager
                 } elseif ($sortie->getEtat()->getLibelle() == 'Activité en cours') {
                     if ((date_add($sortie->getDateHeureDebut(),
                             DateInterval::createFromDateString($sortie->getDuree() . 'minute')))
-                        >= new \DateTime('now')) {
+                        <= new \DateTime('now')) {
                         $this->setEtat($sortie, 5);
                     } elseif ((date_add($sortie->getDateHeureDebut(),
                             DateInterval::createFromDateString($sortie->getDuree() + 43200 . 'minute')))
