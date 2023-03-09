@@ -3,60 +3,66 @@
     <link rel="stylesheet" href="{{ asset('assets/css/filtreformulaire.css') }}">
 {% endblock %}
 {% block body %}
-<div class="centrer_page_largeur">
-    <div>
-    <h1>Sortie : {{ sortie.nom }}</h1>
-    <br>
-    <div>
+    <div class="centrer_page_largeur">
         <div>
-            <p><b>Nom de la sortie : </b>{{ sortie.nom }}</p>
-            <p><b>Date et heure de la sortie : </b>{{ sortie.dateHeureDebut| date('d/m/y H:i') }}</p>
-            <p><b>Date limite d'inscription : </b>{{ sortie.dateLimiteInscription | date ('d/m/y') }}</p>
-            <p><b>Nombre de places : </b>{{ sortie.participants.count() }}/{{ sortie.nbInsriptionsMax }}</p>
-            <p><b>Durée : </b>{{ sortie.duree }} minutes</p>
-            <p><b>Description et Infos : </b>{{ sortie.infosSortie }} </p>
-        </div>
-        <div>
-            <p><b>Campus : </b>{{ sortie.campus.nom }}</p>
-            <p><b>Lieu : </b>{{ sortie.lieu.nom }}</p>
-            <p><b>Rue : </b>{{ sortie.lieu.rue }}</p>
-            <p><b>Ville : </b>{{ sortie.lieu.ville.nom }}</p>
-            <p><b>Code Postal : </b>{{ sortie.lieu.ville.codePostal }}</p>
-            <p><b>Longitude : </b>{{ sortie.lieu.longitude }}</p>
-            <p><b>Latitude : </b>{{ sortie.lieu.latitude }}</p>
-        </div>
-    </div>
-    <div>
-        <table>
-            <tr>
-                <th>Pseudo</th>
-                <th>Nom - Prénom</th>
-            </tr>
-            {% for participant in sortie.participants %}
-                <tr>
-                    <td>{{ participant.pseudo }}</td>
-                    <td>{{ participant.nom }} {{ participant.prenom }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <br>
-    {% if(sortie.etat.libelle == 'Ouverte') %}
-        {% if(sortie.participants.contains(app.user)) %}
-            <a href="{{ path('sortie_unsubscride', {'id': sortie.id}) }}">
-                <button type="button" class="btn btn-danger">Se désister</button>
+            <h1>Sortie : {{ sortie.nom }}</h1>
+            <br>
+            <div>
+                <div>
+                    <p><b>Nom de la sortie : </b>{{ sortie.nom }}</p>
+                    <p><b>Date et heure de la sortie : </b>{{ sortie.dateHeureDebut| date('d/m/y H:i') }}</p>
+                    <p><b>Date limite d'inscription : </b>{{ sortie.dateLimiteInscription | date ('d/m/y') }}</p>
+                    <p><b>Nombre de places : </b>{{ sortie.participants.count() }}/{{ sortie.nbInsriptionsMax }}</p>
+                    <p><b>Durée : </b>{{ sortie.duree }} minutes</p>
+                    <p><b>Description et Infos : </b>{{ sortie.infosSortie }} </p>
+                </div>
+                <div>
+                    <p><b>Campus : </b>{{ sortie.campus.nom }}</p>
+                    <p><b>Lieu : </b>{{ sortie.lieu.nom }}</p>
+                    <p><b>Rue : </b>{{ sortie.lieu.rue }}</p>
+                    <p><b>Ville : </b>{{ sortie.lieu.ville.nom }}</p>
+                    <p><b>Code Postal : </b>{{ sortie.lieu.ville.codePostal }}</p>
+                    <p><b>Longitude : </b>{{ sortie.lieu.longitude }}</p>
+                    <p><b>Latitude : </b>{{ sortie.lieu.latitude }}</p>
+                </div>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Nom - Prénom</th>
+                    </tr>
+                    {% for participant in sortie.participants %}
+                        <tr>
+                            <td>{{ participant.pseudo }}</td>
+                            <td>{{ participant.nom }} {{ participant.prenom }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <br>
+            {% if(sortie.etat.libelle == 'Ouverte') %}
+                {% if(sortie.participants.contains(app.user)) %}
+                    <a href="{{ path('sortie_unsubscride', {'id': sortie.id}) }}">
+                        <button type="button" class="btn btn-danger">Se désister</button>
+                    </a>
+                {% else %}
+                    <a href="{{ path('sortie_subscribe', {'id': sortie.id}) }}">
+                        <button type="button" class="btn btn-primary">S'inscrire</button>
+                    </a>
+                {% endif %}
+            {% elseif(sortie.etat.libelle == 'Clôturée') %}
+                {% if(sortie.participants.contains(app.user)) %}
+                    <a href="{{ path('sortie_unsubscride', {'id': sortie.id}) }}">
+                        <button type="button" class="btn btn-danger">Se désister</button>
+                    </a>
+                {% endif %}
+            {% endif %}
+            <a href="{{ path("main_home") }}">
+                <button type="button" class="btn btn-secondary">Retour</button>
             </a>
-        {% else %}
-            <a href="{{ path('sortie_subscribe', {'id': sortie.id}) }}">
-                <button type="button" class="btn btn-primary">S'inscrire</button>
-            </a>
-        {% endif %}
-    {% endif %}
-    <a href="{{ path("main_home") }}">
-        <button type="button" class="btn btn-secondary">Retour</button>
-    </a>
+        </div>
     </div>
-</div>
 {% endblock %}
 
 {% block title %}

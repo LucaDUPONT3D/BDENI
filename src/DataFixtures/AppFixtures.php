@@ -39,12 +39,12 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        //$this->addVilles(20);
-        //$this->addLieux(50);
-        //$this->addEtat();
-        //$this->addCampus();
-        //$this->addUsers(20);
-        //$this->addSortie(60);
+        $this->addVilles(20);
+        $this->addLieux(50);
+        $this->addEtat();
+        $this->addCampus();
+        $this->addUsers(20);
+        $this->addSortie(60);
     }
 
     private function addVilles(int $number = 10)
@@ -75,11 +75,35 @@ class AppFixtures extends Fixture
         $this->entityManager->flush();
     }
 
+    public function addEtat()
+    {
+        $libelles = ['Créée','Ouverte','Clôturée','Activité en cours','Passée','Annulée','Historisée'];
+        foreach ($libelles as $libelle) {
+            $etat = new Etat();
+            $etat->setLibelle($libelle);
+            $this->entityManager->persist($etat);
+        }
+
+        $this->entityManager->flush();
+    }
+
+    public function addCampus()
+    {
+        $campus = ['Rennes','Quimper','Nantes','Niort','Angers'];
+        foreach ($campus as $nom) {
+            $camp = new Campus();
+            $camp->setNom($nom);
+            $this->entityManager->persist($camp);
+        }
+
+        $this->entityManager->flush();
+    }
+
     private function addUsers(int $number = 10)
     {
 
-        $admin = new User();
-        $admin->setNom('Admin')
+        $adminTest = new User();
+        $adminTest->setNom('Admin')
             ->setPrenom('Admin')
             ->setPseudo('Admin')
             ->setRoles(['ROLE_ADMIN'])
@@ -89,10 +113,24 @@ class AppFixtures extends Fixture
             ->setImage('image.png')
             ->setCampus($this->campusRepository->find(rand(1, 5)));
 
-        $password = $this->passwordHasher->hashPassword($admin, 'admin');
-        $admin->setPassword($password);
+        $password = $this->passwordHasher->hashPassword($adminTest, 'admin');
+        $adminTest->setPassword($password);
+        $this->entityManager->persist($adminTest);
 
-        $this->entityManager->persist($admin);
+        $userTest = new User();
+        $userTest->setNom('User')
+            ->setPrenom('User')
+            ->setPseudo('User')
+            ->setRoles(['ROLE_USER'])
+            ->setTelephone('0102030405')
+            ->setEmail('user@user.fr')
+            ->setActif(true)
+            ->setImage('image.png')
+            ->setCampus($this->campusRepository->find(rand(1, 5)));
+
+        $password = $this->passwordHasher->hashPassword($userTest, 'user');
+        $userTest->setPassword($password);
+        $this->entityManager->persist($userTest);
 
         for ($i = 0; $i < $number; $i++) {
             $user = new User();
@@ -106,11 +144,12 @@ class AppFixtures extends Fixture
                 ->setImage('image.png')
                 ->setCampus($this->campusRepository->find(rand(1, 5)));
 
-                $password = $this->passwordHasher->hashPassword($user, '123');
+                $password = $this->passwordHasher->hashPassword($user, '123456');
                 $user->setPassword($password);
 
             $this->entityManager->persist($user);
         }
+
         $this->entityManager->flush();
     }
 
@@ -119,40 +158,18 @@ class AppFixtures extends Fixture
         for ($i=0; $i< $number; $i++) {
             $sortie = new Sortie();
             $sortie->setNom(implode($this->faker->words(3)));
-            $sortie->setDateHeureDebut($this->faker->dateTime);
-            $sortie->setDuree($this->faker->randomNumber(2));
-            $sortie->setDateLimiteInscription($this->faker->dateTimeBetween($sortie->getDateHeureDebut(), 'now'));
-            $sortie->setNbInsriptionsMax($this->faker->randomNumber(2));
+            $sortie->setDateHeureDebut($this->faker->dateTimeBetween('-1 month', '+ 1 month'));
+            $sortie->setDuree($this->faker->randomNumber(3));
+            $sortie->setDateLimiteInscription($this->faker->dateTimeBetween('-1 month', $sortie->getDateHeureDebut()));
+            $sortie->setNbInsriptionsMax($this->faker->randomNumber(1));
             $sortie->setInfosSortie(implode($this->faker->words(3)));
-            $sortie->setEtat($this->etatRepository->find(rand(1, 6)));
+            $sortie->setEtat($this->etatRepository->find(rand(1, 2)));
             $sortie->setCampus($this->campusRepository->find(rand(1, 5)));
-            $sortie->setUser($this->userRepository->find(rand(1, 20)));
+            $sortie->setOrganisateur($this->userRepository->find(rand(1, 10)));
             $sortie->setLieu($this->lieuRepository->find(rand(1, 50)));
 
             $this->entityManager->persist($sortie);
         }
-        $this->entityManager->flush();
-    }
-    public function addEtat()
-    {
-        $libelles = ['Créée','Ouverte','Clôturée','Activité en cours','Passée','Annulée'];
-      foreach ($libelles as $libelle) {
-          $etat = new Etat();
-          $etat->setLibelle($libelle);
-          $this->entityManager->persist($etat);
-      }
-
-      $this->entityManager->flush();
-    }
-    public function addCampus()
-    {
-        $campus = ['Rennes','Quimper','Nantes','Niort','Angers'];
-        foreach ($campus as $nom) {
-            $camp = new Campus();
-            $camp->setNom($nom);
-            $this->entityManager->persist($camp);
-        }
-
         $this->entityManager->flush();
     }
 

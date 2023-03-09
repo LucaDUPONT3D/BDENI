@@ -117,6 +117,9 @@
                                 {% endif %}
                             {% elseif(sort.etat.libelle ==  'Clôturée') %}
                                 <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
+                                {% if(sort.participants.contains(app.user)) %}
+                                    <a href="{{ path('sortie_unsubscride', {'id': sort.id}) }}"><button type="button" class="btn btn-danger">Se désister</button></a>
+                                {% endif %}
                             {% elseif(sort.etat.libelle ==  'Activité en cours') %}
                                 <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                             {% elseif(sort.etat.libelle ==  'Passée') %}

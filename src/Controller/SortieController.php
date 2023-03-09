@@ -159,9 +159,7 @@ class SortieController extends AbstractController
     public function subscribe(SortieRepository $sortieRepository, Sortie $id): Response
     {
         $sortie = $sortieRepository->find($id);
-        if ($sortie->getDateLimiteInscription() > date('now') &&
-            $sortie->getEtat()->getLibelle()=='Ouverte' &&
-            $sortie->getNbInsriptionsMax()- count($sortie->getParticipants())>0) {
+        if ($sortie->getEtat()->getLibelle()=='Ouverte') {
 
             $sortie->addParticipant($this->getUser());
             $sortieRepository->save($sortie, true);
@@ -180,7 +178,7 @@ class SortieController extends AbstractController
     public function unsubscride(SortieRepository $sortieRepository, Sortie $id): Response
     {
         $sortie = $sortieRepository->find($id);
-    if ($sortie->getEtat()->getLibelle()=='Ouverte'){
+    if ($sortie->getEtat()->getLibelle()=='Ouverte' || $sortie->getEtat()->getLibelle()=='Clôturée'){
         $sortie->removeParticipant($this->getUser());
 
         $sortieRepository->save($sortie, true);
