@@ -86,7 +86,7 @@ class SortieController extends AbstractController
     public function update(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
     {
         $sortieForm = $this->createForm(SortieType::class, $id);
-        dd($id->getOrganisateur()->getId());
+        $id->getOrganisateur()->getId();
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {

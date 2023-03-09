@@ -127,13 +127,13 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($model->getInscrit() != null) {
 
-            $qb->andWhere('pa.id = :inscrit')
+            $qb->andWhere(':inscrit MEMBER OF s.participants')
                 ->setParameter('inscrit', $user);
 
         }
         if ($model->getPasInscrit() != null) {
 
-            $qb ->andWhere('pa.id != :inscrit')
+            $qb ->andWhere(':inscrit NOT MEMBER OF s.participants')
                 ->setParameter('inscrit', $user)
                 ->select('s');
 

@@ -45,6 +45,7 @@ class FiltreType extends AbstractType
                 'widget' => 'single_text'
             ])
             ->add('organisateur', ChoiceType::class, [
+                'label'=>false,
                 'choices' => [
                     'Sortie dont je suis organisateur' => 'organisateur',
                 ],
@@ -53,6 +54,7 @@ class FiltreType extends AbstractType
             ])
 
         ->add('inscrit', ChoiceType::class, [
+            'label'=>false,
         'choices' => [
             'Sortie au quel je suis inscrit' => 'inscrit',
         ],
@@ -60,7 +62,7 @@ class FiltreType extends AbstractType
         'expanded' => true
     ])
             ->add('pasInscrit', ChoiceType::class, [
-
+                'label'=>false,
                 'choices' => [
                     'Sortie au quel je ne suis pas inscrit' => 'pasInscrit',
 
@@ -69,6 +71,7 @@ class FiltreType extends AbstractType
                 'expanded' => true
             ])
             ->add('passe', ChoiceType::class, [
+                'label'=>false,
                 'choices' => [
                     'Sortie Passé' => 'passe',
                 ],
