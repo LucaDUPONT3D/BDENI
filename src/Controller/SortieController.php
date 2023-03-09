@@ -32,7 +32,8 @@ class SortieController extends AbstractController
 
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
-            $sorties = $sortieRepository->findALLFilter($model);
+            $user = $this->getUser()->getId();
+            $sorties = $sortieRepository->findALLFilter($model, $user);
             $sorties = $etatSortieManager->checkEtatSortie($sorties);
 
         } else {
@@ -182,7 +183,7 @@ class SortieController extends AbstractController
     public function unsubscride(SortieRepository $sortieRepository, Sortie $id): Response
     {
         $sortie = $sortieRepository->find($id);
-    if ($sortie->getEtat()->getLibelle()!='Activité en cours') {
+    if ($sortie->getEtat()->getLibelle()=='Ouverte'){
         $sortie->removeParticipant($this->getUser());
 
         $sortieRepository->save($sortie, true);

@@ -3,6 +3,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/filtreformulaire.css') }}">
 {% endblock %}
 {% block body %}
+<div class="centrer_page_largeur">
+    <div>
     <h1>Sortie : {{ sortie.nom }}</h1>
     <br>
     <div>
@@ -53,7 +55,8 @@
     <a href="{{ path("main_home") }}">
         <button type="button" class="btn btn-secondary">Retour</button>
     </a>
-
+    </div>
+</div>
 {% endblock %}
 
 {% block title %}

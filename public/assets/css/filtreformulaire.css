@@ -3,9 +3,10 @@
     justify-content: space-evenly;
     margin: 1rem;
 }
-.flex_colone{
+.flex_colon{
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
 }
 input, select{
     margin-bottom: 1rem;
@@ -20,4 +21,13 @@ table, tr, td ,th{
     width: 100vw;
     display: flex;
     justify-content: center;
+}
+.centrer{
+    text-align: center;
+}
+.cote_droite{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 0;
 }
