@@ -1,0 +1,15 @@
+{% form_theme cancelForm 'view/formTheme/formTheme.html.twig' %}
+{{ form_start(cancelForm) }}
+<div>
+    <p><b>Nom de la sortie : </b>{{ sortie.nom }}</p>
+    <p><b>Date de la sortie : </b>{{ sortie.dateHeureDebut | date('d - m - Y')}}</p>
+    <p><b>Campus : </b>{{ sortie.campus.nom }}</p>
+    <p><b>Lieu : </b>{{ sortie.lieu.nom }} {{ sortie.lieu.rue }} {{ sortie.lieu.ville.nom }}</p>
+
+</div>
+{{ form_widget(cancelForm) }}
+<button type="submit" name="submit" value="1" class="btn btn-primary">Enregistrer</button>
+<a href="{{ path("main_home") }}">
+    <button type="button" class="btn btn-secondary">Annuler</button>
+</a>
+{{ form_end(cancelForm) }}

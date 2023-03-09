@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\CancelType;
 use App\Form\FiltreType;
 use App\Entity\Sortie;
 use App\Form\model\Model;
@@ -110,10 +111,32 @@ class SortieController extends AbstractController
     }
 
     #[Route('/cancel/{id}', name: 'cancel', requirements:['id' => '\d+'])]
-    public function cancel(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
+    public function cancel(
+        SortieRepository $sortieRepository,
+        EtatRepository $etatRepository,
+        Request $request,
+        Sortie $id
+    ): Response
     {
+        $cancelForm = $this->createForm(CancelType::class, $id);
 
-        return $this->render('sortie/cancel.html.twig', ['sortie'=>$id]);
+        $cancelForm->handleRequest($request);
+
+        if ($id->getOrganisateur() === $this->getUser()) {
+
+            if ($cancelForm->isSubmitted() && $cancelForm->isValid()) {
+                $id->setEtat($etatRepository->find(6));
+
+                $sortieRepository->save($id, true);
+
+                return $this->redirectToRoute('main_home');
+
+            }
+            return $this->render('sortie/cancel.html.twig', ['cancelForm'=> $cancelForm->createView(),'sortie'=>$id]);
+
+        }else {
+            return $this->redirectToRoute('main_home');
+        }
     }
 
     #[Route('/publish/{id}', name: 'publish', requirements:['id' => '\d+'])]
