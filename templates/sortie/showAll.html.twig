@@ -7,8 +7,8 @@
 
 {% block body %}
     <div class="cote_droite">
-    <p><b>Date du jour : </b>{{ date('now')|date('d/m/y') }}</p>
-    <p><b>Participant : </b>{{ app.user.pseudo }}</p>
+        <p><b>Date du jour : </b>{{ date('now')|date('d/m/y') }}</p>
+        <p><b>Participant : </b>{{ app.user.pseudo }}</p>
     </div>
     <h3 class="centrer">Filtrer les sortie</h3>
 
@@ -87,84 +87,42 @@
                     <td>
                         {% if(sort.organisateur == app.user) %}
                             {% if(sort.etat.libelle ==  'Créée') %}
-                                <a href="{{ path('sortie_update', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-primary">Modifier</button>
-                                </a>
-                                -
-                                <a href="{{ path('sortie_publish', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-success">Publier</button>
-                                </a>
+                                <a href="{{ path('sortie_update', {'id': sort.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
+                                <a href="{{ path('sortie_publish', {'id': sort.id}) }}"><button type="button" class="btn btn-success">Publier</button></a>
                             {% elseif(sort.etat.libelle ==  'Ouverte') %}
-                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-secondary">Afficher</button>
-                                </a>
-                                -
-                                <a href="{{ path('sortie_cancel', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-warning">Annuler</button>
-                                </a>
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
+                                <a href="{{ path('sortie_cancel', {'id': sort.id}) }}"><button type="button" class="btn btn-warning">Annuler</button></a>
                             {% elseif(sort.etat.libelle ==  'Clôturée') %}
-                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-secondary">Afficher</button>
-                                </a>
-                                -
-                                <a href="{{ path('sortie_cancel', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-warning">Annuler</button>
-                                </a>
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
+                                <a href="{{ path('sortie_cancel', {'id': sort.id}) }}"><button type="button" class="btn btn-warning">Annuler</button></a>
                             {% elseif(sort.etat.libelle ==  'Activité en cours') %}
-                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-secondary">Afficher</button>
-                                </a>
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                             {% elseif(sort.etat.libelle ==  'Passée') %}
-                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-secondary">Afficher</button>
-                                </a>
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                             {% elseif(sort.etat.libelle ==  'Annulée') %}
-                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-secondary">Afficher</button>
-                                </a>
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                             {% endif %}
                         {% else %}
                             {% if(sort.etat.libelle ==  'Créée') %}
-                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-secondary">Afficher</button>
-                                </a>
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                             {% elseif(sort.etat.libelle ==  'Ouverte') %}
                                 {% if(sort.participants.contains(app.user)) %}
-                                    <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                        <button type="button" class="btn btn-secondary">Afficher</button>
-                                    </a>
-                                    -
-                                    <a href="{{ path('sortie_unsubscride', {'id': sort.id}) }}">
-                                        <button type="button" class="btn btn-danger">Se désister</button>
-                                    </a>
+                                    <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
+                                    <a href="{{ path('sortie_unsubscride', {'id': sort.id}) }}"><button type="button" class="btn btn-danger">Se désister</button></a>
                                 {% else %}
-                                    <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                        <button type="button" class="btn btn-secondary">Afficher</button>
-                                    </a>
-
+                                    <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                                     {% if sort.dateLimiteInscription > date('now') %}
-                                        -
-                                        <a href="{{ path('sortie_subscribe', {'id': sort.id}) }}">
-                                            <button type="button" class="btn btn-primary">S'inscrire</button>
-                                        </a>
+                                        <a href="{{ path('sortie_subscribe', {'id': sort.id}) }}"><button type="button" class="btn btn-primary">S'inscrire</button></a>
                                     {% endif %}
                                 {% endif %}
                             {% elseif(sort.etat.libelle ==  'Clôturée') %}
-                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-secondary">Afficher</button>
-                                </a>
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                             {% elseif(sort.etat.libelle ==  'Activité en cours') %}
-                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-secondary">Afficher</button>
-                                </a>
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                             {% elseif(sort.etat.libelle ==  'Passée') %}
-                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-secondary">Afficher</button>
-                                </a>
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                             {% elseif(sort.etat.libelle ==  'Annulée') %}
-                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}">
-                                    <button type="button" class="btn btn-secondary">Afficher</button>
-                                </a>
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                             {% endif %}
                         {% endif %}
                     </td>
