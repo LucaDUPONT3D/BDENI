@@ -11,6 +11,13 @@
     {% block styleCss %} {% endblock %}
 </head>
 <body>
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash flash-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
 <div class="block_page">
     {% include("bodyStructures/header.html.twig") %}
     <main>
