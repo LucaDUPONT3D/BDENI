@@ -8,25 +8,7 @@
 {% block body %}
     <h1>Créer une Sortie</h1>
 
-    {{ form_start(sortieForm) }}
-    {{ form_widget(sortieForm) }}
-    <br>
-    <a href="{{ path("lieu_add") }}">
-        <button class="btn btn-info " type="button" name="Retour">Ajouter nouveau lieu</button>
-    </a>
-    <div id="infos_lieu">
-        <br>
-        <p id="sortie_lieu_rue"><b>Rue : </b></p>
-        <p id="sortie_lieu_cp"><b>Code postal :</b></p>
-        <p id="sortie_lieu_latitude"><b>Latitude :</b></p>
-        <p id="sortie_lieu_longitude"><b>Longitude :</b></p>
-    </div>
-    <button type="submit" name="submit" value="1">Enregistrer</button>
-    <button type="submit" name="submit" value="2">Publier la sortie</button>
-    <a href="{{ path("main_home") }}">
-        <button type="button" class="btn btn-secondary">Annuler</button>
-    </a>
-    {{ form_end(sortieForm) }}
+    {% include('bodyStructures/forms/sortieForm.html.twig') %}
 
     <script>
         document.getElementById('appbundle_sortie_ville').addEventListener('change', window.onload = function () {
