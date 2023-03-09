@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block css %}
+    {{ parent() }}
+{% endblock %}
+
 {% block title %}
     {{ parent() }} Connexion
 {% endblock %}
@@ -32,6 +36,7 @@
                 </label>
             </div>
 
+            <a class="mb-3" href="{{ path('app_forgot_password_request') }}">Mot de Passe oublié</a>
             <button class="btn btn-lg btn-primary" type="submit">
                 Connexion
             </button>

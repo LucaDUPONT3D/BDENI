@@ -67,7 +67,7 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function findALLjoin()
+    public function findAlltoCheck()
     {
 
         $qb = $this->createQueryBuilder('s');
@@ -82,10 +82,25 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
-    public function findALLFilter(Model $model, $user)
+    public function findAlltoDisplay()
     {
 
         $qb = $this->createQueryBuilder('s');
+        $qb->addSelect('s')
+            ->leftJoin('s.etat', 'et')
+            ->addSelect('et')
+            ->leftJoin('s.organisateur', 'us')
+            ->addSelect('us')
+            ->andWhere('et.id != 7');
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+
+    }
+
+    public function findAlltoDisplayFilter(Model $model, $user)
+    {
+
         $qb = $this->createQueryBuilder('s');
         $qb->addSelect('s')
             ->leftJoin('s.etat', 'et')
@@ -96,8 +111,14 @@ class SortieRepository extends ServiceEntityRepository
             ->addSelect('pa')
             ->leftJoin('s.campus', 'ca')
             ->addSelect('ca')
-            ->andWhere('ca.nom = :campus')
-            ->setParameter('campus', $model->getCampus());
+            ->andWhere('et.id != 7');
+
+        if (($model->getCampus()) != null) {
+            $qb->andWhere('ca.nom = :campus')
+                ->setParameter('campus', $model->getCampus());
+
+        }
+
         if (($model->getRecherche()) != null) {
             $qb->andWhere('s.nom LIKE :recherche')
                 ->setParameter('recherche', '%' . $model->getRecherche() . '%');
@@ -120,8 +141,7 @@ class SortieRepository extends ServiceEntityRepository
         }
         if ($model->getPasse() != null) {
 
-            $qb->andWhere('s.dateLimiteInscription < :mtn')
-                ->setParameter('mtn', new \DateTime('now'));
+            $qb->andWhere('et.id = 5');
 
         }
 
@@ -133,9 +153,11 @@ class SortieRepository extends ServiceEntityRepository
         }
         if ($model->getPasInscrit() != null) {
 
-            $qb ->andWhere(':inscrit NOT MEMBER OF s.participants')
+            $qb->andWhere(':inscrit NOT MEMBER OF s.participants')
                 ->setParameter('inscrit', $user)
-                ->select('s');
+                ->andWhere('et.id != 4')
+                ->andWhere('et.id != 5')
+                ->andWhere('et.id != 6');
 
 
         }

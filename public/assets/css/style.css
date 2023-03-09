@@ -26,8 +26,6 @@ footer{
     justify-content: space-between;
 }
 
-
-
 #registration_form_roles_0{
     width: 20rem;
 }
@@ -46,3 +44,12 @@ footer{
 .centre_titre{
     text-align: center;
 }
+
+.scroller {
+    width: 300px;
+    height: 80vh;
+    overflow-y: scroll;
+    scrollbar-color: darkgray gray;
+    scrollbar-width: initial;
+}
+

@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block css %}
+    {{ parent() }}
+{% endblock %}
+
 {% block title %}
     {{ parent() }} Créer Sortie
 {% endblock %}

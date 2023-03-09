@@ -21,7 +21,7 @@ class Sortie
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le nom est obligatoire")]
-    #[Assert\Length( max: 255 , maxMessage: "Le nom ne doit pas faire plus de {{ limit }} caractères")]
+    #[Assert\Length(max: 255 , maxMessage: "Le nom ne doit pas faire plus de {{ limit }} caractères")]
     #[Assert\Regex('/\w+/', message: 'Le nom ne doit contenir que des lettres, chiffres ou underscore')]
     private ?string $nom = null;
 
@@ -38,7 +38,8 @@ class Sortie
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\NotBlank(message: 'La date d\'inscription est obligatoire')]
-    #[Assert\LessThan(propertyPath: 'dateHeureDebut', message: 'La date d\'inscription doit être inférieur à la date de sortie')]
+    #[Assert\LessThan(propertyPath: 'dateHeureDebut',
+        message: 'La date d\'inscription doit être inférieur à la date de sortie')]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
     #[ORM\Column(nullable: true)]

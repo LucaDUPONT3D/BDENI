@@ -1,61 +1,18 @@
-{% block styleCss %}
-    <link rel="stylesheet" href="{{ asset('assets/css/filtreformulaire.css') }}">
-
+{% extends 'base.html.twig' %}
+{% block css %}
+    {{ parent() }}
 {% endblock %}
 
-{% extends 'base.html.twig' %}
+{% block title %}
+    {{ parent() }} List
+{% endblock %}
 
 {% block body %}
     <div class="cote_droite">
         <p><b>Date du jour : </b>{{ date('now')|date('d/m/y') }}</p>
         <p><b>Participant : </b>{{ app.user.pseudo }}</p>
     </div>
-    <h3 class="centrer">Filtrer les sortie</h3>
-
-    {{ form_start(form) }}
-    <div class="flex_ligne">
-        <div class="flex_colon">
-            {{ form_errors(form.campus) }}
-            {{ form_label(form.campus) }}
-            {{ form_widget(form.campus) }}
-
-            {{ form_errors(form.recherche) }}
-            {{ form_label(form.recherche) }}
-            {{ form_widget(form.recherche) }}
-
-            <div>
-                {{ form_errors(form.entre) }}
-                {{ form_label(form.entre) }}
-                {{ form_widget(form.entre) }}
-
-                {{ form_errors(form.et) }}
-                {{ form_label(form.et) }}
-                {{ form_widget(form.et) }}
-            </div>
-        </div>
-        <div class="flex_colon">
-            {{ form_errors(form.organisateur) }}
-            {{ form_label(form.organisateur) }}
-            {{ form_widget(form.organisateur) }}
-
-            {{ form_errors(form.inscrit) }}
-            {{ form_label(form.inscrit) }}
-            {{ form_widget(form.inscrit) }}
-
-            {{ form_errors(form.pasInscrit) }}
-            {{ form_label(form.pasInscrit) }}
-            {{ form_widget(form.pasInscrit) }}
-
-            {{ form_errors(form.passe) }}
-            {{ form_label(form.passe) }}
-            {{ form_widget(form.passe) }}
-
-        </div>
-        <div class="flex_colon">
-            <button type="submit" class="btn btn-secondary">Rechercher</button>
-        </div>
-    </div>
-    {{ form_end(form) }}
+    {% include('bodyStructures/forms/filtreForm.html.twig') %}
     <div class="centre_tableau">
         <table>
             <tr>
@@ -138,9 +95,5 @@
             <button type="button" class="btn btn-primary ">Créer une sortie</button>
         </a>
     </div>
-{% endblock %}
-
-{% block title %}
-    {{ parent() }} List
 {% endblock %}
 

@@ -1,7 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block css %}
-    <link rel="stylesheet" href="{{ asset('assets/css/filtreformulaire.css') }}">
+    {{ parent() }}
 {% endblock %}
+
+{% block title %}
+    {{ parent() }} | {{ sortie.nom }}
+{% endblock %}
+
 {% block body %}
     <div class="centrer_page_largeur">
         <div>
@@ -55,9 +60,5 @@
             <a href="{{ path("main_home") }}"><button type="button" class="btn btn-secondary">Retour</button></a>
         </div>
     </div>
-{% endblock %}
-
-{% block title %}
-    {{ parent() }} | {{ sortie.nom }}
 {% endblock %}
 

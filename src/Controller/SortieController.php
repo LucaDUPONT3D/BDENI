@@ -25,25 +25,27 @@ class SortieController extends AbstractController
         Request $request,
         EtatSortieManager $etatSortieManager): Response
     {
-
-        $sorties = $sortieRepository->findALLjoin();
+        //Checker les etats
+        $sorties = $sortieRepository->findAlltoCheck();
         $sorties = $etatSortieManager->checkEtatSorties($sorties);
 
         $model = new Model();
         $formFiltre = $this->createForm(FiltreType::class, $model);
-
         $formFiltre->handleRequest($request);
 
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
             $user = $this->getUser()->getId();
-            $sorties = $sortieRepository->findALLFilter($model, $user);
+            $sorties = $sortieRepository->findAlltoDisplayFilter($model, $user);
+
         }else {
-            $sorties = $sortieRepository->findALLjoin();
+
+            $sorties = $sortieRepository->findAlltoDisplay();
+
         }
         return $this->render('sortie/showAll.html.twig', [
             'sorties' => $sorties,
-            'form' => $formFiltre->createView()
+            'filtreForm' => $formFiltre->createView(),
         ]);
     }
 

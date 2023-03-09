@@ -31,3 +31,12 @@ table, tr, td ,th{
     align-items: flex-end;
     margin: 0;
 }
+
+.inline{
+    display: flex;
+}
+
+.checkBoxSpace label{
+    margin-left: 2rem ;
+    font-weight: bold;
+}

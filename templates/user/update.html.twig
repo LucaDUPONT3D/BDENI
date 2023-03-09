@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Modifier mon profil{% endblock %}
+{% block css %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}
+    {{ parent() }} | Modifier mon profil
+{% endblock %}
 
 {% block body %}
     <div class="mx-auto" style="width: 600px;">
