@@ -69,7 +69,6 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-
             $sortie->setOrganisateur($this->getUser());
 
             if ($request->request->get('submit') == 1) {
