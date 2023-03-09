@@ -26,7 +26,7 @@ class UserController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('sortie_all');
+            return $this->redirectToRoute('main_home');
         }
 
         // get the login error if there is one
@@ -59,34 +59,38 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        dump($form->isSubmitted() && $form->isValid());
+
         if ($form->isSubmitted() && $form->isValid()) {
-            dump('bip');
+
             //upload photo
             /**
              * @var UploadedFile $file
              */
             $file = $form->get('image')->getData();
             //appel de l'uploader
-            $newFileName = $uploader->upload(
-                $file,
-                $this->getParameter('upload_utilisateur_photo'),
-                $user->getNom());
-            $user->setImage($newFileName);
 
+            if ($file) {
+                $newFileName = $uploader->upload(
+                    $file,
+                    $this->getParameter('upload_utilisateur_photo'),
+                    $user->getNom());
+                $user->setImage($newFileName);
+            }
+            $password = $form->get('plainPassword')->getData();
 
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
+            if ($password) {
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $password
+                    )
+                );
+            }
             $entityManager->persist($user);
             $entityManager->flush();
 
             $this->addFlash("success", "Modifications effectués");
-            return $this->redirectToRoute('sortie_all');
+            return $this->redirectToRoute('main_home');
         }
         return $this->render('user/update.html.twig', [
             'registrationForm' => $form->createView(), 'user' => $user

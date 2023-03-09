@@ -3,11 +3,18 @@
 {% block title %}{{ parent() }} | Modifier mon profil{% endblock %}
 
 {% block body %}
-    <div class="mx-auto" style="width: 600px;">
+    <div class="user-profile">
+    <div class="photo-profil">
+        <img src="{{ asset('assets/img/' ~ user.image ) }}" alt="{{ user.nom }}">
+    </div>
+
+    <div class="mx-auto" style="width: 850px;">
         {{ form_start(registrationForm) }}
 
 
+
         <h1 class="text-center">Mon profil</h1>
+
         <div class="form-group" style="margin-bottom: 15px;">
             {{ form_label(registrationForm.pseudo, 'Pseudo', {'label_attr': {'class': 'col-sm-3'}}) }}
             {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre Pseudo'}}) }}
@@ -62,6 +69,8 @@
             </div>
         </div>
     </div>
+</div>
+
     {{ form_end(registrationForm) }}
 
 {% endblock %}

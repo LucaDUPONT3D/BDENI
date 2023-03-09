@@ -1,3 +1,20 @@
 .headerIcon{
     width: 100px;
 }
+.remember-me {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 40px;
+}
+.user-profile {
+    display: flex;
+    flex-direction: row;
+    padding-left: 40px;
+    margin-top: 40px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
