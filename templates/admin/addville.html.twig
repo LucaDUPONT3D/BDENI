@@ -17,6 +17,7 @@
         <tr>
             <td>{{ ville.nom }}</td>
             <td>{{ ville.codePostal }}</td>
+            <td><a href="{{ path('admin_delete_ville',{'id' : ville.id})}} ">suprimer</a></td>
         </tr>
         {% endfor %}
         <tr>

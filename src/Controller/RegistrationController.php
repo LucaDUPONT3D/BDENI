@@ -8,6 +8,7 @@ use App\Form\model\RechercheVilleModel;
 use App\Form\RechercheType;
 use App\Form\RegistrationFormType;
 use App\Form\VilleType;
+use App\Repository\LieuRepository;
 use App\Repository\VilleRepository;
 use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -72,19 +73,38 @@ class RegistrationController extends AbstractController
         $addVille->handleRequest($request);
         if ($addVille->isSubmitted() && $addVille->isValid()) {
 
-         $villeRepository->save($ville, true);
+            $villeRepository->save($ville, true);
         }
 
 
         return $this->render('admin/addville.html.twig', [
             'tableauVille' => $tableauVille,
             'villeForm' => $villeform->createView(),
-            'addville'=>$addVille->createView()
+            'addville' => $addVille->createView()
 
 
         ]);
 
     }
 
+    #[Route('/delete_ville{id}', name: 'delete_ville', requirements: ["id" => "\d+"])]
+    public function delete_ville(Request $request, VilleRepository $villeRepository, int $id, LieuRepository $lieuRepository): Response
+    {
+
+
+        $villeasuprimer = new Ville();
+        $villeasuprimer = $villeRepository->find($id);
+       $reussi= $lieuRepository->findBy(['ville' => $villeasuprimer]);
+
+        if ($reussi) {
+            $this->addFlash('echec', 'Supression imposible ville utiliser dans une autre page');
+        } else {
+            $villeRepository->remove($villeasuprimer, true);
+            $this->addFlash('reussi', 'Supression réussi');
+        }
+
+
+        return $this->redirectToRoute('admin_ville');
+    }
 
 }
