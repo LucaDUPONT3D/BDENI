@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h3> Gérer les villes</h3>
+    <h4>Filtrer les villes</h4>
+    {{ form_start(villeForm) }}
+{{ form_row(villeForm) }}
+    <button> valider</button>
+    {{ form_end(villeForm) }}
+    <table>
+        <tr>
+            <th>Ville</th>
+            <th>Code Postal</th>
+            <th>Action</th>
+        </tr>
+        {%for ville in tableauVille %}
+        <tr>
+            <td>{{ ville.nom }}</td>
+            <td>{{ ville.codePostal }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

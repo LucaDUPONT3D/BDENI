@@ -71,10 +71,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length( max: 255 , maxMessage: "Le pseudo ne doit pas faire plus de {{ limit }} caractères")]
     private ?string $pseudo = null;
 
-    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, )]
     private Collection $sorties;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants')]
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants', )]
     private Collection $inscriptions;
 
     /**

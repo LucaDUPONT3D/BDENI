@@ -21,10 +21,10 @@ class Campus
     #[Assert\Length(max: 255, maxMessage: 'Le nom  ne doit pas faire plus de {{ limit }} caractères')]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Sortie::class)]
+    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: Sortie::class, )]
     private Collection $sortie;
 
-    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: User::class)]
+    #[ORM\OneToMany(mappedBy: 'campus', targetEntity: User::class, )]
     private Collection $user;
 
     public function __construct()

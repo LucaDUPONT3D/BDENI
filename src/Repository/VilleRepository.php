@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Ville;
+use App\Form\model\RechercheVilleModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,4 +64,22 @@ class VilleRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+//}
+    public function findAllSearch(RechercheVilleModel $recherche)
+    {
+
+        $qb = $this->createQueryBuilder('v');
+
+
+        if ($recherche->getRecherche()) {
+            $qb->andWhere('v.nom LIKE :recherche')
+                ->setParameter('recherche', '%' . $recherche->getRecherche() . '%');
+        }
+
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
+    }
 }

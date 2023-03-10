@@ -114,6 +114,7 @@ class SortieRepository extends ServiceEntityRepository
             ->andWhere('et.id != 7');
 
         if (($model->getCampus()) != null) {
+
             $qb->andWhere('ca.nom = :campus')
                 ->setParameter('campus', $model->getCampus());
 
