@@ -31,7 +31,7 @@ class Ville
     #[Groups("api_lieu_show_one")]
     private ?string $codePostal = null;
 
-    #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class)]
+    #[ORM\OneToMany(mappedBy: 'ville', targetEntity: Lieu::class, cascade: ["remove"])]
     private Collection $lieu;
 
     public function __construct()
