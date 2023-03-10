@@ -112,10 +112,13 @@ class RegistrationController extends AbstractController
     {
 
         $ville = new Ville();
+        $ville = $villeRepository->find($id);
         $updateVille = $this->createForm(VilleType::class, $ville);
         $updateVille->handleRequest($request);
         if ($updateVille->isSubmitted() && $updateVille->isValid()) {
             $villeRepository->save($ville, true);
+            $this->addFlash('reussi', 'Modification Réussie');
+           return  $this->redirectToRoute('admin_ville');
         }
 
 
