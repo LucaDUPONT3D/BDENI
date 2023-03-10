@@ -88,9 +88,8 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/delete_ville{id}', name: 'delete_ville', requirements: ["id" => "\d+"])]
-    public function delete_ville(Request $request, VilleRepository $villeRepository, int $id, LieuRepository $lieuRepository): Response
+    public function delete_ville(VilleRepository $villeRepository, int $id, LieuRepository $lieuRepository): Response
     {
-
 
         $villeasuprimer = new Ville();
         $villeasuprimer = $villeRepository->find($id);
@@ -105,6 +104,23 @@ class RegistrationController extends AbstractController
 
 
         return $this->redirectToRoute('admin_ville');
+    }
+    #[Route('/update_ville{id}', name: 'update_ville', requirements: ["id" => "\d+"])]
+    public function update_ville(Request $request, VilleRepository $villeRepository, int $id): Response
+    {
+
+        $ville = new Ville();
+        $updateVille = $this->createForm(VilleType::class, $ville);
+        $updateVille->handleRequest($request);
+        if ($updateVille->isSubmitted() && $updateVille->isValid()) {
+            $villeRepository->save($ville, true);
+        }
+
+
+        return $this->render('admin/update_ville.html.twig', [
+            'updateVille' => $updateVille->createView()
+        ]);
+
     }
 
 }
