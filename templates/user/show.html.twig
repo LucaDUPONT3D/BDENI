@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ parent() }} | {{ user.pseudo }} {% endblock %}
+{% block css %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}
+    {{ parent() }} | {{ user.pseudo }}
+{% endblock %}
 
 {% block body %}
 
@@ -35,8 +41,5 @@
         </div>
 
     </div>
-
-
-
 
 {% endblock %}

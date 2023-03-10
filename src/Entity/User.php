@@ -9,9 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email', 'pseudo'], message: 'There is already an account with this email or this pseudo')]
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -21,6 +22,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message: "L'email est obligatoire")]
+    #[Assert\Email(message: 'Le champ attend un email')]
+    #[Assert\Length( max: 180 , maxMessage: "Le mail ne doit pas faire plus de {{ limit }} caractères")]
+
     private ?string $email = null;
 
     #[ORM\Column]
@@ -30,18 +35,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Le password est obligatoire")]
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom est obligatoire")]
+    #[Assert\Length( max: 255 , maxMessage: "Le nom ne doit pas faire plus de {{ limit }} caractères")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le prénom est obligatoire")]
+    #[Assert\Length( max: 255 , maxMessage: "Le prénom ne doit pas faire plus de {{ limit }} caractères")]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le téléphone est obligatoire")]
+    #[Assert\Regex('/0[1-79]([-. \/]?\d{2}){4}/', message: 'Merci d\'indiquer un numéro de téléphone valide')]
     private ?string $telephone = null;
 
     #[ORM\Column]
@@ -55,6 +67,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Campus $campus = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le pseudo est obligatoire")]
+    #[Assert\Length( max: 255 , maxMessage: "Le pseudo ne doit pas faire plus de {{ limit }} caractères")]
     private ?string $pseudo = null;
 
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class)]

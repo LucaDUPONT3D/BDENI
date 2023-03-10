@@ -1,3 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
 .headerIcon{
     width: 100px;
 }
@@ -18,3 +23,50 @@
     display: flex;
     flex-direction: column;
 }
+body{
+    width: 100vw;
+    height: 100vh;
+}
+footer{
+    text-align: center;
+}
+.btn_centrer{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+.block_page{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#registration_form_roles_0{
+    width: 20rem;
+}
+.page_centrer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60vw;
+    height: 50vh;
+}
+.centrer_page_largeur{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+.centre_titre{
+    text-align: center;
+}
+
+.scroller {
+    width: 300px;
+    height: 80vh;
+    overflow-y: scroll;
+    scrollbar-color: darkgray gray;
+    scrollbar-width: initial;
+}
+

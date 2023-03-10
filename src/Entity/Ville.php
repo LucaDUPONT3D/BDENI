@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VilleRepository::class)]
 class Ville
@@ -18,10 +19,15 @@ class Ville
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom est obligatoire')]
+    #[Assert\Length(max: 255, maxMessage: 'Le nom ne doit pas faire plus de {{ limit }} caractères')]
     #[Groups("api_lieu_show_one")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 5)]
+    #[Assert\NotBlank(message: 'Le code postal est obligatoire')]
+    #[Assert\Length(max: 5, maxMessage: 'Le code postal ne doit pas faire plus de {{ limit }} caractères')]
+    #[Assert\Regex('/(0[1-9]\d{3})$|^([1-9]\d{4})/',message: 'Le code postale n\'est pas au bon format')]
     #[Groups("api_lieu_show_one")]
     private ?string $codePostal = null;
 

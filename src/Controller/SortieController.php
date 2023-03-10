@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Form\CancelType;
 use App\Form\FiltreType;
 use App\Entity\Sortie;
 use App\Form\model\Model;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
+use App\Utils\EtatSortieManager;
+use DateInterval;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,37 +20,40 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'show_all')]
-    public function showAll(SortieRepository $sortieRepository, Request $request): Response
+    public function showAll(
+        SortieRepository $sortieRepository,
+        Request $request,
+        EtatSortieManager $etatSortieManager): Response
     {
+        //Checker les etats
+        $sorties = $sortieRepository->findAlltoCheck();
+        $sorties = $etatSortieManager->checkEtatSorties($sorties);
+
         $model = new Model();
         $formFiltre = $this->createForm(FiltreType::class, $model);
-
         $formFiltre->handleRequest($request);
 
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
-            $sorties = $sortieRepository->findALLFilter($model);
+            $user = $this->getUser()->getId();
+            $sorties = $sortieRepository->findAlltoDisplayFilter($model, $user);
 
-        } else {
+        }else {
 
-            $sorties = $sortieRepository->findALLjoin();
+            $sorties = $sortieRepository->findAlltoDisplay();
+
         }
         return $this->render('sortie/showAll.html.twig', [
             'sorties' => $sorties,
-            'form' => $formFiltre->createView()
+            'filtreForm' => $formFiltre->createView(),
         ]);
     }
 
-    #[Route('/search', name: 'search')]
-    public function search(SortieRepository $sortieRepository, Request $request): Response
-    {
-
-        return $this->render('sortie/showAll.html.twig');
-    }
-
     #[Route('/{id}', name: 'show_one', requirements:['id' => '\d+'])]
-    public function show(Sortie $id): Response
+    public function show(Sortie $id, EtatSortieManager $etatSortieManager): Response
     {
+        $id = $etatSortieManager->checkEtatSortie($id);
+
         return $this->render('sortie/show.html.twig', ['sortie'=> $id]);
     }
 
@@ -60,7 +66,6 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-
             $sortie->setOrganisateur($this->getUser());
 
             if ($request->request->get('submit') == 1) {
@@ -110,10 +115,32 @@ class SortieController extends AbstractController
     }
 
     #[Route('/cancel/{id}', name: 'cancel', requirements:['id' => '\d+'])]
-    public function cancel(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
+    public function cancel(
+        SortieRepository $sortieRepository,
+        EtatRepository $etatRepository,
+        Request $request,
+        Sortie $id
+    ): Response
     {
+        $cancelForm = $this->createForm(CancelType::class, $id);
 
-        return $this->render('sortie/cancel.html.twig', ['sortie'=>$id]);
+        $cancelForm->handleRequest($request);
+
+        if ($id->getOrganisateur() === $this->getUser()) {
+
+            if ($cancelForm->isSubmitted() && $cancelForm->isValid()) {
+                $id->setEtat($etatRepository->find(6));
+
+                $sortieRepository->save($id, true);
+
+                return $this->redirectToRoute('main_home');
+
+            }
+            return $this->render('sortie/cancel.html.twig', ['cancelForm'=> $cancelForm->createView(),'sortie'=>$id]);
+
+        }else {
+            return $this->redirectToRoute('main_home');
+        }
     }
 
     #[Route('/publish/{id}', name: 'publish', requirements:['id' => '\d+'])]
@@ -131,9 +158,7 @@ class SortieController extends AbstractController
     public function subscribe(SortieRepository $sortieRepository, Sortie $id): Response
     {
         $sortie = $sortieRepository->find($id);
-        if ($sortie->getDateLimiteInscription() > date('now') &&
-            $sortie->getEtat()->getLibelle()=='Ouverte' &&
-            $sortie->getNbInsriptionsMax()- count($sortie->getParticipants())>0) {
+        if ($sortie->getEtat()->getLibelle()=='Ouverte') {
 
             $sortie->addParticipant($this->getUser());
             $sortieRepository->save($sortie, true);
@@ -152,7 +177,7 @@ class SortieController extends AbstractController
     public function unsubscride(SortieRepository $sortieRepository, Sortie $id): Response
     {
         $sortie = $sortieRepository->find($id);
-    if ($sortie->getEtat()->getLibelle()!='Activité en cours') {
+    if ($sortie->getEtat()->getLibelle()=='Ouverte' || $sortie->getEtat()->getLibelle()=='Clôturée'){
         $sortie->removeParticipant($this->getUser());
 
         $sortieRepository->save($sortie, true);

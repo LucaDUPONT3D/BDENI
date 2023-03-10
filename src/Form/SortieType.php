@@ -58,7 +58,7 @@ class SortieType extends AbstractType
             ->add(
                 'duree',
                 NumberType::class,
-                ['label' => 'Durée : ',
+                ['label' => 'Durée (minutes) : ',
                     'attr' => ['placeholder' => 'Entrez une durée ...']
                 ]
             )
@@ -129,7 +129,7 @@ class SortieType extends AbstractType
         $sortie = $event->getData();
         $lieu = $sortie->getLieu();
 
-        if($lieu){
+        if ($lieu) {
             $ville = $lieu->getVille();
             $lieux = $this->lieuRepository->findBy(['ville' => $ville]);
 
@@ -163,12 +163,14 @@ class SortieType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'required'=>false,
             'data_class' => Sortie::class,
         ]);
     }
 
     public function getBlockPrefix()
     {
+
         return 'appbundle_sortie';
     }
 }

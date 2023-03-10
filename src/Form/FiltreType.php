@@ -23,54 +23,59 @@ class FiltreType extends AbstractType
                     'Niort' => 'Niort',
                     'Angers' => 'Angers'
                 ],
-                'label'=> 'Campus',
+                'label' => 'Campus',
                 'multiple' => false,
+                'placeholder' => 'Choisissez un campus ...',
                 'expanded' => false
             ])
-
-        ->add('recherche', SearchType::class,[
-            'required'=>false,
-        'label'=>'le nom de la sortie contient : '])
-
-            ->add('entre', DateType::class,[
-                'required'=>false,
-                'label'=> 'Entre : ',
+            ->add('recherche', SearchType::class, [
+                'required' => false,
+                'label' => 'Le nom de la sortie contient : '])
+            ->add('entre', DateType::class, [
+                'required' => false,
+                'label' => 'Entre : ',
                 'html5' => true,
                 'widget' => 'single_text'
             ])
-            ->add('et', DateType::class,[
-                'required'=>false,
-                'label'=> 'et : ',
+            ->add('et', DateType::class, [
+                'required' => false,
+                'label' => 'et : ',
                 'html5' => true,
                 'widget' => 'single_text'
             ])
             ->add('organisateur', ChoiceType::class, [
+                'attr' => ['class'=>'checkBoxSpace'],
+                'label' => false,
                 'choices' => [
-                    'Sortie dont je suis organisateur' => 'organisateur',
+                    'Sortie dont je suis organisateur/trice' => 'organisateur',
                 ],
                 'multiple' => true,
                 'expanded' => true
             ])
-
-        ->add('inscrit', ChoiceType::class, [
-        'choices' => [
-            'Sortie au quel je suis inscrit' => 'inscrit',
-        ],
-        'multiple' => true,
-        'expanded' => true
-    ])
-            ->add('pasInscrit', ChoiceType::class, [
-
+            ->add('inscrit', ChoiceType::class, [
+                'attr' => ['class'=>'checkBoxSpace'],
+                'label' => false,
                 'choices' => [
-                    'Sortie au quel je ne suis pas inscrit' => 'pasInscrit',
-                    'Sortie Passé' => 'passe',
+                    'Sortie auxquelles je suis inscrit/e' => 'inscrit',
+                ],
+                'multiple' => true,
+                'expanded' => true
+            ])
+            ->add('pasInscrit', ChoiceType::class, [
+                'attr' => ['class'=>'checkBoxSpace'],
+                'label' => false,
+                'choices' => [
+                    'Sortie auxquelles je ne suis pas inscrit/e' => 'pasInscrit',
+
                 ],
                 'multiple' => true,
                 'expanded' => true
             ])
             ->add('passe', ChoiceType::class, [
+                'attr' => ['class'=>'checkBoxSpace'],
+                'label' => false,
                 'choices' => [
-                    'Sortie Passé' => 'passe',
+                    'Sortie Passées' => 'passe',
                 ],
                 'multiple' => true,
                 'expanded' => true
@@ -80,7 +85,8 @@ class FiltreType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Model::class
+            'data_class' => Model::class,
+            'required' => false
         ]);
     }
 }

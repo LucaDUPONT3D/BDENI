@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+
 class Sortie
 {
     #[ORM\Id]
@@ -18,21 +20,37 @@ class Sortie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom est obligatoire")]
+    #[Assert\Length(max: 255 , maxMessage: "Le nom ne doit pas faire plus de {{ limit }} caractères")]
+    #[Assert\Regex('/\w+/', message: 'Le nom ne doit contenir que des lettres, chiffres ou underscore')]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank(message: 'La date d\'entrée est obligatoire')]
+    #[Assert\GreaterThan('today UTC', message: "La date d'entrée doit être supérieur à la date d'aujourd'hui")]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "La durée est obligatoire")]
+    #[Assert\Regex('/\d+/', message: 'La durée doit être un nombre')]
+    #[Assert\Positive(message: 'La durée doit être positive')]
     private ?int $duree = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank(message: 'La date d\'inscription est obligatoire')]
+    #[Assert\LessThan(propertyPath: 'dateHeureDebut',
+        message: 'La date d\'inscription doit être inférieur à la date de sortie')]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message: "Le nombre d'inscription est obligatoire")]
+    #[Assert\Regex('/\d+/', message: 'Le nombre d\'inscription doit être un nombre')]
+    #[Assert\Positive(message: 'Le nombre d\'inscription doit être positif')]
     private ?int $nbInsriptionsMax = null;
 
+
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: "La déscription est obligatoire")]
     private ?string $infosSortie = null;
 
     #[ORM\ManyToOne(inversedBy: 'sortie')]
@@ -81,7 +99,7 @@ class Sortie
         return $this->dateHeureDebut;
     }
 
-    public function setDateHeureDebut(\DateTimeInterface $dateHeureDebut): self
+    public function setDateHeureDebut(?\DateTimeInterface $dateHeureDebut): self
     {
         $this->dateHeureDebut = $dateHeureDebut;
 
@@ -105,7 +123,7 @@ class Sortie
         return $this->dateLimiteInscription;
     }
 
-    public function setDateLimiteInscription(\DateTimeInterface $dateLimiteInscription): self
+    public function setDateLimiteInscription(?\DateTimeInterface $dateLimiteInscription): self
     {
         $this->dateLimiteInscription = $dateLimiteInscription;
 
@@ -204,6 +222,7 @@ class Sortie
     public function removeParticipant(User $participant): self
     {
         $this->participants->removeElement($participant);
+
 
         return $this;
     }

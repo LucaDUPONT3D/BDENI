@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
+{% block css %}
+    {{ parent() }}
+{% endblock %}
+
 {% block title %}
-    {{ parent() }} Connexion
+{{ parent() }} Connexion
 {% endblock %}
 
 {% block body %}
@@ -26,6 +30,7 @@
 {#        remember me#}
             <div class="form-group row ">
                 <div class="col-sm-6 text-left">
+                    <a class="mb-3" href="{{ path('app_forgot_password_request') }}">Mot de Passe oublié</a>
                     <button type="submit" class="btn btn-primary mt-3">Connexion</button>
                 </div>
                 <div class="col-sm-6 remember-me" >
@@ -39,3 +44,5 @@
 </div>
 
 {% endblock %}
+
+

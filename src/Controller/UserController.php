@@ -53,7 +53,12 @@ class UserController extends AbstractController
     }
 
     #[Route(path: '/user/update', name: 'user_update')]
-    public function update(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, Uploader $uploader): Response
+    public function update(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $entityManager,
+        Uploader $uploader
+    ) : Response
     {
         $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
@@ -99,8 +104,5 @@ class UserController extends AbstractController
 
 
     #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(): void
-    {
-
-    }
+    public function logout(): void {}
 }

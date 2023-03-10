@@ -1,10 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-<h1>CANCEL</h1>
+{% block css %}
+    {{ parent() }}
 {% endblock %}
 
 {% block title %}
+    {{ parent() }} Annuler Sortie
+{% endblock %}
 
+{% block body %}
+    <h1 class="centre_titre">Annuler la Sortie : {{ sortie.nom }}</h1>
+    {% include('bodyStructures/forms/cancelForm.html.twig') %}
 {% endblock %}
 

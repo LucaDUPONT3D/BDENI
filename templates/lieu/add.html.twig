@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 {% form_theme lieuForm 'view/formTheme/formTheme.html.twig' %}
 
+{% block css %}
+    {{ parent() }}
+{% endblock %}
+
 {% block title %}
     {{ parent() }} Créer Nouveau Lieu
 {% endblock %}

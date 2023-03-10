@@ -1,0 +1,39 @@
+{% form_theme filtreForm 'view/formTheme/formTheme.html.twig' %}
+
+{{ form_start(filtreForm) }}
+<div class="flex_ligne">
+    <div class="flex_colon">
+        <h3>Filtrer les sortie</h3>
+    </div>
+</div>
+<div class="flex_ligne">
+    <div class="flex_colon">
+        {{ form_row(filtreForm.campus) }}
+
+        {{ form_row(filtreForm.recherche) }}
+
+        <div class="inline">
+            <b>{{ form_label(filtreForm.entre) }}</b>
+            &ensp;
+            {{ form_widget(filtreForm.entre) }}
+            &emsp;
+            <b>{{ form_label(filtreForm.et) }}</b>
+            &ensp;
+            {{ form_widget(filtreForm.et) }}
+        </div>
+    </div>
+    <div class="flex_colon">
+        {{ form_row(filtreForm.organisateur) }}
+
+        {{ form_row(filtreForm.inscrit) }}
+
+        {{ form_row(filtreForm.pasInscrit) }}
+
+        {{ form_row(filtreForm.passe) }}
+
+    </div>
+    <div class="flex_colon">
+        <button type="submit" class="btn btn-secondary">Rechercher</button>
+    </div>
+</div>
+{{ form_end(filtreForm) }}
