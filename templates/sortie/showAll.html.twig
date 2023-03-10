@@ -72,10 +72,16 @@
                                         <a href="{{ path('sortie_subscribe', {'id': sort.id}) }}"><button type="button" class="btn btn-primary">S'inscrire</button></a>
                                     {% endif %}
                                 {% endif %}
+                                {% if(app.user.roles[0] == 'ROLE_ADMIN') %}
+                                    <a href="{{ path('sortie_cancel', {'id': sort.id}) }}"><button type="button" class="btn btn-warning">Annuler</button></a>
+                                {% endif %}
                             {% elseif(sort.etat.libelle ==  'Clôturée') %}
                                 <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                                 {% if(sort.participants.contains(app.user)) %}
                                     <a href="{{ path('sortie_unsubscride', {'id': sort.id}) }}"><button type="button" class="btn btn-danger">Se désister</button></a>
+                                {% endif %}
+                                {% if(app.user.roles[0] == 'ROLE_ADMIN') %}
+                                    <a href="{{ path('sortie_cancel', {'id': sort.id}) }}"><button type="button" class="btn btn-warning">Annuler</button></a>
                                 {% endif %}
                             {% elseif(sort.etat.libelle ==  'Activité en cours') %}
                                 <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>

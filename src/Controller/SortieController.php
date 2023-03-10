@@ -126,7 +126,7 @@ class SortieController extends AbstractController
 
         $cancelForm->handleRequest($request);
 
-        if ($id->getOrganisateur() === $this->getUser()) {
+        if ($id->getOrganisateur() === $this->getUser() || $this->getUser()->getRoles()[0] == 'ROLE_ADMIN') {
 
             if ($cancelForm->isSubmitted() && $cancelForm->isValid()) {
                 $id->setEtat($etatRepository->find(6));
