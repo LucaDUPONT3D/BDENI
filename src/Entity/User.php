@@ -12,8 +12,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this email or this pseudo')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email or this pseudo')]
+#[UniqueEntity(fields: ['pseudo'], message: 'Un compte avec ce pseudo existe déja')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte avec cet email existe déja')]
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {

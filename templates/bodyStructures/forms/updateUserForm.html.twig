@@ -1,0 +1,61 @@
+{% form_theme userForm 'view/formTheme/formTheme.html.twig' %}
+
+<div class="form-container">
+
+        <h1 class="text-center">Mon profil</h1>
+
+        <div class="photo-profil">
+            <img src="{{ asset('assets/img/' ~ user.image ) }}" alt="{{ user.nom }}" class="img-responsive img-thumbnail" width="200" height="200">
+        </div>
+
+    {{ form_start(userForm) }}
+
+
+        <div class="form-group ">
+            {{ form_label(userForm.pseudo) }}
+            {{ form_widget(userForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(userForm.prenom) }}
+            {{ form_widget(userForm.prenom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(userForm.nom) }}
+            {{ form_widget(userForm.nom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(userForm.telephone) }}
+            {{ form_widget(userForm.telephone, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(userForm.email) }}
+            {{ form_widget(userForm.email, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(userForm.plainPassword.first, 'Nouveau mot de passe') }}
+            {{ form_widget(userForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(userForm.plainPassword.second, 'Confirmation de mot de passe') }}
+            {{ form_widget(userForm.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(userForm.campus) }}
+            {{ form_widget(userForm.campus, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(userForm.image) }}
+            {{ form_widget(userForm.image, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group text-center">
+            <div class="col-sm-offset-3">
+                <button type="submit" class="btn btn-primary mr-15">Enregistrer</button>
+                <a href="{{ path("main_home") }}">
+                    <button type="button" class="btn btn-secondary">Annuler</button>
+                </a>
+            </div>
+        </div>
+        {{ form_end(userForm) }}
+
+</div>
+

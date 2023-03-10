@@ -74,8 +74,6 @@ class RegistrationFormType extends AbstractType
                 'attr'=> array('class'=>'form-control')
             ])
             ->add('plainPassword', RepeatedType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'first_options' => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation du mot de passe'],
                 'mapped' => false,

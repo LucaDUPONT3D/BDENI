@@ -69,8 +69,22 @@ footer{
     scrollbar-color: darkgray gray;
     scrollbar-width: thin;
 }
-th{
-    position: sticky;
+
+/*.scroller {*/
+/*    width: 300px;*/
+/*    height: 80vh;*/
+/*    overflow-y: scroll;*/
+/*    scrollbar-color: darkgray gray;*/
+/*    scrollbar-width: initial;*/
+/*}*/
+
+
+.form-container {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .red{

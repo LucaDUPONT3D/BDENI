@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+
 use App\Form\UserType;
 use App\Utils\Uploader;
 use App\Repository\UserRepository;
@@ -102,7 +102,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('main_home');
         }
         return $this->render('user/update.html.twig', [
-            'registrationForm' => $form->createView(), 'user' => $user
+            'userForm' => $form->createView(), 'user' => $user
         ]);
     }
 
