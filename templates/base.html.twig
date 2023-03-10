@@ -12,15 +12,15 @@
     {% endblock %}
 </head>
 <body>
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="flash flash-{{ label }}">
-            {{ message }}
-        </div>
-    {% endfor %}
-{% endfor %}
 <div class="block_page">
     {% include("bodyStructures/header.html.twig") %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}">
+                <h5 class="text-center">{{ message }}</h5>
+            </div>
+        {% endfor %}
+    {% endfor %}
     <main>
         {% block body %}{% endblock %}
     </main>

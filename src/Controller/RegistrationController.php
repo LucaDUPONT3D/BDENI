@@ -35,6 +35,8 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->addFlash("primary", "Utilisateur inscrit !");
+
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,

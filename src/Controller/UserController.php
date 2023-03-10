@@ -26,6 +26,9 @@ class UserController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
+
+            $this->addFlash("success", "Bienvenue !");
+
             return $this->redirectToRoute('main_home');
         }
 
@@ -33,6 +36,7 @@ class UserController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
 
@@ -94,7 +98,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash("success", "Modifications effectués");
+            $this->addFlash("primary", "Votre profil a été modifié !");
             return $this->redirectToRoute('main_home');
         }
         return $this->render('user/update.html.twig', [

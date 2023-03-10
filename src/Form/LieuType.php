@@ -24,6 +24,7 @@ class LieuType extends AbstractType
                 EntityType::class,
                 ['class' => Ville::class,
                     'choice_label' => 'nom',
+                    'placeholder' => 'Choisissez une ville ...',
                     'query_builder' => function (VilleRepository $villeRepository) {
                         return $villeRepository->createQueryBuilder('v');
                     },

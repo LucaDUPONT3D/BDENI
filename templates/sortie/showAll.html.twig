@@ -8,6 +8,8 @@
 {% endblock %}
 
 {% block body %}
+
+
     <div class="cote_droite">
         <p><b>Date du jour : </b>{{ date('now')|date('d/m/y') }}</p>
         <p><b>Participant : </b>{{ app.user.pseudo }}</p>
@@ -44,6 +46,7 @@
                     <td>
                         {% if(sort.organisateur == app.user) %}
                             {% if(sort.etat.libelle ==  'Créée') %}
+                                <a href="{{ path('sortie_show_one', {'id': sort.id}) }}"><button type="button" class="btn btn-secondary">Afficher</button></a>
                                 <a href="{{ path('sortie_update', {'id': sort.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
                                 <a href="{{ path('sortie_publish', {'id': sort.id}) }}"><button type="button" class="btn btn-success">Publier</button></a>
                             {% elseif(sort.etat.libelle ==  'Ouverte') %}
@@ -80,6 +83,7 @@
                                 {% if(sort.participants.contains(app.user)) %}
                                     <a href="{{ path('sortie_unsubscride', {'id': sort.id}) }}"><button type="button" class="btn btn-danger">Se désister</button></a>
                                 {% endif %}
+{#                                {% if is_granted("ROLE_ADMIN") %}#}
                                 {% if(app.user.roles[0] == 'ROLE_ADMIN') %}
                                     <a href="{{ path('sortie_cancel', {'id': sort.id}) }}"><button type="button" class="btn btn-warning">Annuler</button></a>
                                 {% endif %}

@@ -40,54 +40,51 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAlltoCheck()
+    private function baseQuery(): \Doctrine\ORM\QueryBuilder
+    {
+        return  $this->createQueryBuilder('s')
+            ->leftJoin('s.etat', 'e')
+            ->addSelect('e')
+            ->leftJoin('s.organisateur', 'o')
+            ->addSelect('o')
+            ->leftJoin('s.lieu', 'l')
+            ->addSelect('l')
+            ->leftJoin('s.campus', 'c')
+            ->addSelect('c')
+            ->leftJoin('s.participants', 'p')
+            ->addSelect('p')
+            ->orderBy('e.id')
+            ->andWhere('e.id != 7');
+    }
+
+    public function findAllToCheck()
     {
 
-        $qb = $this->createQueryBuilder('s');
-        $qb->addSelect('s')
-            ->leftJoin('s.etat', 'et')
-            ->addSelect('et')
-            ->leftJoin('s.organisateur', 'us')
-            ->addSelect('us');
+        $qb = $this->baseQuery();
 
         $query = $qb->getQuery();
         return $query->getResult();
 
     }
 
-    public function findAlltoDisplay()
+    public function findAllToDisplay()
     {
 
-        $qb = $this->createQueryBuilder('s');
-        $qb->addSelect('s')
-            ->leftJoin('s.etat', 'et')
-            ->addSelect('et')
-            ->leftJoin('s.organisateur', 'us')
-            ->addSelect('us')
-            ->andWhere('et.id != 7');
+        $qb = $this->baseQuery();
+
 
         $query = $qb->getQuery();
         return $query->getResult();
 
     }
 
-    public function findAlltoDisplayFilter(Model $model, $user)
+    public function findAllToDisplayFilter(Model $model, $user)
     {
 
-        $qb = $this->createQueryBuilder('s');
-        $qb->addSelect('s')
-            ->leftJoin('s.etat', 'et')
-            ->addSelect('et')
-            ->leftJoin('s.organisateur', 'us')
-            ->addSelect('us')
-            ->leftJoin('s.participants', 'pa')
-            ->addSelect('pa')
-            ->leftJoin('s.campus', 'ca')
-            ->addSelect('ca')
-            ->andWhere('et.id != 7');
+        $qb = $this->baseQuery();
 
         if ($model->getCampus() != null) {
-            $qb->andWhere('ca.nom = :campus')
+            $qb->andWhere('c.nom = :campus')
                 ->setParameter('campus', $model->getCampus());
         }
 
@@ -110,13 +107,13 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($model->getOrganisateur() != null) {
 
-            $qb->andWhere('us.id = :organisateur')
+            $qb->andWhere('o.id = :organisateur')
                 ->setParameter('organisateur', $user);
         }
 
         if ($model->getPasse() != null) {
 
-            $qb->andWhere('et.id = 5');
+            $qb->andWhere('e.id = 5');
         }
 
         if ($model->getInscrit() != null) {
@@ -129,9 +126,9 @@ class SortieRepository extends ServiceEntityRepository
 
             $qb->andWhere(':inscrit NOT MEMBER OF s.participants')
                 ->setParameter('inscrit', $user)
-                ->andWhere('et.id != 4')
-                ->andWhere('et.id != 5')
-                ->andWhere('et.id != 6');
+                ->andWhere('e.id != 4')
+                ->andWhere('e.id != 5')
+                ->andWhere('e.id != 6');
         }
 
         $query = $qb->getQuery();

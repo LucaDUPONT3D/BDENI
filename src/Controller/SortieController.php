@@ -26,7 +26,7 @@ class SortieController extends AbstractController
         EtatSortieManager $etatSortieManager): Response
     {
         //Checker les etats
-        $sorties = $sortieRepository->findAlltoCheck();
+        $sorties = $sortieRepository->findAllToCheck();
         $sorties = $etatSortieManager->checkEtatSorties($sorties);
 
         $model = new Model();
@@ -36,11 +36,11 @@ class SortieController extends AbstractController
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
             $user = $this->getUser()->getId();
-            $sorties = $sortieRepository->findAlltoDisplayFilter($model, $user);
+            $sorties = $sortieRepository->findAllToDisplayFilter($model, $user);
 
         }else {
 
-            $sorties = $sortieRepository->findAlltoDisplay();
+            $sorties = $sortieRepository->findAllToDisplay();
 
         }
         return $this->render('sortie/showAll.html.twig', [
@@ -67,6 +67,7 @@ class SortieController extends AbstractController
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $sortie->setOrganisateur($this->getUser());
+            $sortie->addParticipant($this->getUser());
 
             if ($request->request->get('submit') == 1) {
                 $sortie->setEtat($etatRepository->find(1));
@@ -75,6 +76,8 @@ class SortieController extends AbstractController
             }
 
             $sortieRepository->save($sortie, true);
+
+            $this->addFlash("primary", "Sortie créée !");
 
             return $this->redirectToRoute('sortie_show_one', ['id' => $sortie->getId()]);
         }
@@ -96,6 +99,8 @@ class SortieController extends AbstractController
 
             $sortieRepository->save($id, true);
 
+            $this->addFlash("primary", "Sortie modifiée !");
+
             return $this->redirectToRoute('sortie_show_one', ['id' => $id->getId()]);
         }
 
@@ -105,11 +110,14 @@ class SortieController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', requirements:['id' => '\d+'])]
     public function delete(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
     {
+
         if ($id) {
             $sortieRepository->remove($id, true);
         } else {
             throw  $this->createNotFoundException("Oops ! Delete not found !");
         }
+
+        $this->addFlash("danger", "Sortie supprimée !");
 
         return $this->redirectToRoute('main_home');
     }
@@ -133,6 +141,8 @@ class SortieController extends AbstractController
 
                 $sortieRepository->save($id, true);
 
+                $this->addFlash("warning", "Sortie annulée !");
+
                 return $this->redirectToRoute('main_home');
 
             }
@@ -151,6 +161,8 @@ class SortieController extends AbstractController
 
         $sortieRepository->save($id, true);
 
+        $this->addFlash("success", "Sortie publiée !");
+
         return $this->render('sortie/show.html.twig', ['sortie'=>$id]);
     }
 
@@ -162,6 +174,8 @@ class SortieController extends AbstractController
 
             $sortie->addParticipant($this->getUser());
             $sortieRepository->save($sortie, true);
+
+            $this->addFlash("primary", "Inscription pris en compte !");
 
 
             $resultat = $this->render('sortie/show.html.twig', ['sortie' => $sortie]);
@@ -181,6 +195,9 @@ class SortieController extends AbstractController
         $sortie->removeParticipant($this->getUser());
 
         $sortieRepository->save($sortie, true);
+
+        $this->addFlash("danger", "Désinscription pris en compte !");
+
         $resultat = $this->render('sortie/show.html.twig', ['sortie' => $sortie]);
     }else {
         $resultat = $this->redirectToRoute('main_home');
