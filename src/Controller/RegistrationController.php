@@ -67,9 +67,20 @@ class RegistrationController extends AbstractController
             $tableauVille = $villeRepository->findAllSearch($recherche);
         }
 
+        $ville = new Ville();
+        $addVille = $this->createForm(VilleType::class, $ville);
+        $addVille->handleRequest($request);
+        if ($addVille->isSubmitted() && $addVille->isValid()) {
+
+         $villeRepository->save($ville, true);
+        }
+
+
         return $this->render('admin/addville.html.twig', [
             'tableauVille' => $tableauVille,
             'villeForm' => $villeform->createView(),
+            'addville'=>$addVille->createView()
+
 
         ]);
 

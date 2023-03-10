@@ -19,6 +19,14 @@
             <td>{{ ville.codePostal }}</td>
         </tr>
         {% endfor %}
+        <tr>
+            {{ form_start(addville) }}
+
+            <td> {{ form_row(addville.nom) }}</td>
+            <td>{{ form_row(addville.codePostal) }}</td>
+            <td> <button> valider</button></td>
+            {{ form_end(addville) }}
+        </tr>
 
     </table>
 
