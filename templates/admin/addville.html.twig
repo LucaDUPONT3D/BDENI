@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h3> Gérer les villes</h3>
+    <h4>Filtrer les villes</h4>
+    {{ form_start(villeForm) }}
+{{ form_row(villeForm) }}
+    <button> valider</button>
+    {{ form_end(villeForm) }}
+    <table>
+        <tr>
+            <th>Ville</th>
+            <th>Code Postal</th>
+            <th>Action</th>
+        </tr>
+        {%for ville in tableauVille %}
+        <tr>
+            <td>{{ ville.nom }}</td>
+            <td>{{ ville.codePostal }}</td>
+            <td><a href="{{ path('admin_delete_ville',{'id' : ville.id})}} ">suprimer</a> <a href="{{ path('admin_update_ville',{'id' : ville.id})}} ">modifier</a></td>
+        </tr>
+        {% endfor %}
+        <tr>
+            {{ form_start(addville) }}
+
+            <td> {{ form_row(addville.nom) }}</td>
+            <td>{{ form_row(addville.codePostal) }}</td>
+            <td> <button> valider</button></td>
+            {{ form_end(addville) }}
+        </tr>
+
+    </table>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

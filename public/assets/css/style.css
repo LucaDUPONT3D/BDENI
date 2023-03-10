@@ -67,7 +67,10 @@ footer{
     height: 80vh;
     overflow-y: scroll;
     scrollbar-color: darkgray gray;
-    scrollbar-width: initial;
+    scrollbar-width: thin;
+}
+th{
+    position: sticky;
 }
 
 .red{
