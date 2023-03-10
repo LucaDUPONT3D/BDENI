@@ -9,76 +9,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="user-profile">
-    <div class="photo-profil">
-        <img src="{{ asset('assets/img/' ~ user.image ) }}" alt="{{ user.nom }}">
-    </div>
-
-    <div class="mx-auto" style="width: 850px;">
-        {{ form_start(registrationForm) }}
-
-
-
-        <h1 class="text-center">Mon profil</h1>
-
-        <div class="form-group" style="margin-bottom: 15px;">
-            {{ form_label(registrationForm.pseudo, 'Pseudo', {'label_attr': {'class': 'col-sm-3'}}) }}
-            {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre Pseudo'}}) }}
-            {{ form_errors(registrationForm.pseudo) }}
-        </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            {{ form_label(registrationForm.prenom, 'Prénom', {'label_attr': {'class': 'col-sm-3'}}) }}
-            {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre prénom'}}) }}
-            {{ form_errors(registrationForm.prenom) }}
-        </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            {{ form_label(registrationForm.nom, 'Nom', {'label_attr': {'class': 'col-sm-3'}}) }}
-            {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre nom'}}) }}
-            {{ form_errors(registrationForm.nom) }}
-        </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            {{ form_label(registrationForm.telephone, 'Téléphone', {'label_attr': {'class': 'col-sm-3'}}) }}
-            {{ form_widget(registrationForm.telephone, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre numéro de téléphone'}}) }}
-            {{ form_errors(registrationForm.telephone) }}
-        </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'col-sm-3'}}) }}
-            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre email'}}) }}
-            {{ form_errors(registrationForm.email) }}
-        </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            {{ form_label(registrationForm.plainPassword.first, 'Nouveau mot de passe', {'label_attr': {'class': 'col-sm-5'}}) }}
-            {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(registrationForm.plainPassword.first) }}
-        </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            {{ form_label(registrationForm.plainPassword.second, 'Confirmation de mot de passe', {'label_attr': {'class': 'col-sm-5'}}) }}
-            {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(registrationForm.plainPassword.second) }}
-        </div>
-        <div class="form-group" style="margin-bottom: 15px;">
-            {{ form_label(registrationForm.campus, 'Campus', {'label_attr': {'class': 'col-sm-3'}}) }}
-            {{ form_widget(registrationForm.campus, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(registrationForm.campus) }}
-        </div>
-        <div class="form-group" style="margin-bottom: 40px;">
-            {{ form_label(registrationForm.image, 'Photo', {'label_attr': {'class': 'col-sm-3'}}) }}
-            {{ form_widget(registrationForm.image, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(registrationForm.image) }}
-        </div>
-        <div class="form-group text-center ">
-            <div class="col-sm-offset-3">
-                <button type="submit" class="btn btn-primary mr-15">Enregistrer</button>
-                <a href="{{ path("main_home") }}">
-                    <button type="button" class="btn btn-secondary">Annuler</button>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-    {{ form_end(registrationForm) }}
-
+    {% include('bodyStructures/forms/updateUserForm.html.twig') %}
 {% endblock %}
 
 

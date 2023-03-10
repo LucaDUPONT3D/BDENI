@@ -2,10 +2,12 @@
 <nav class="navbar navbar-expand-lg navbar-light ">
     <div class="container-fluid">
         <ul class="navbar-nav">
+            <div class="collapse navbar-collapse" id="navbarNav">
             <li class="nav-item">
                 <a class="nav-link navbar-nav" href="{{ path("main_home") }}">Accueil</a>
             </li>
-            <div class="collapse navbar-collapse" id="navbarNav">
+
+
 
                 {% if app.user %}
                 {% if is_granted("ROLE_ADMIN") %}
@@ -19,19 +21,24 @@
                         <a class="nav-link" href="#">Villes</a>
                     </li>
                 {% endif %}
-            </div>
+
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('user_update') }}">Mon Profil</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_logout') }}">Déconnection - {{ app.user.pseudo }}</a>
+
+            <li class="nav-item ">
+                <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion - {{ app.user.pseudo }}</a>
             </li>
+            <div class="photo-profil">
+                <img src="{{ asset('assets/img/' ~ app.user.image ) }}" alt="{{ app.user.nom }}" class="img-thumbnail" width="75" height="75">
+            </div>
+
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
                 </li>
             {% endif %}
-
+            </div>
 
         </ul>
 
