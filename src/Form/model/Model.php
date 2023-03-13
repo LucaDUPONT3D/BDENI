@@ -2,15 +2,23 @@
 
 namespace App\Form\model;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Model
 {
     private $campus;
     private $recherche;
-    private $entre;
-    private $et;
+
+    #[Assert\LessThan(propertyPath: 'et', message: 'La date de début doit être inférieur à la date de fin')]
+    private ?\DateTimeInterface $entre = null;
+
+    #[Assert\GreaterThan(propertyPath: 'entre', message: "La date fin doit être supérieur à la date de début")]
+    private  ?\DateTimeInterface $et = null;
+
     private $organisateur;
     private $inscrit;
     private $pasInscrit;
+
     private $passe;
 
     /**
@@ -142,3 +150,4 @@ class Model
     }
 
 }
+

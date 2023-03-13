@@ -47,7 +47,7 @@ class Lieu
     #[Groups("api_lieu_show_one")]
     private ?Ville $ville = null;
 
-    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Sortie::class)]
+    #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Sortie::class, cascade: ["remove"])]
     private Collection $sortie;
 
     public function __construct()

@@ -167,6 +167,7 @@ class AppFixtures extends Fixture
             $sortie->setCampus($this->campusRepository->find(rand(1, 5)));
             $sortie->setOrganisateur($this->userRepository->find(rand(1, 10)));
             $sortie->setLieu($this->lieuRepository->find(rand(1, 50)));
+            $sortie->addParticipant($sortie->getOrganisateur());
 
             $this->entityManager->persist($sortie);
         }

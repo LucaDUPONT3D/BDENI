@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Length;
 
 class UserType extends AbstractType
 {
@@ -22,34 +23,63 @@ class UserType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'Email',
+                'attr'=>[
+                    'placeholder' =>'Entrez votre email'
+
+                ],
                 'trim' => true,
                 'required' => false
+
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
+                'attr'=>[
+                    'placeholder' =>'Entrez votre nouveau mot de passe'
+                ],
                 'mapped' => false,
                 'invalid_message' => 'Les mots de passe ne correspondent pas',
-                'required' => true,
+                'required' => false,
+                'trim'=>true,
                 'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmation mot de passe']
+                'second_options' => ['label' => 'Confirmation mot de passe'],
+                'constraints' => [
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Votre mot de passe doit être au moins de {{ limit }} caractères',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
             ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom',
+                'attr'=>[
+                    'placeholder' =>'Entrez votre nom'
+                ],
                 'trim' => true,
                 "required" => false
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prenom',
+                'attr'=>[
+                    'placeholder' =>'Entrez votre prenom'
+                ],
                 'trim' => true,
                 "required" => false
             ])
             ->add('telephone', TextType::class, [
                 'label' => 'Téléphone',
+                'attr'=>[
+                    'placeholder' =>'Entrez votre numéro de téléphone'
+                ],
                 'trim' => true,
                 "required" => false
             ])
             ->add('image', FileType::class, [
                 'label' => 'Photo',
+                'attr'=>[
+                    'placeholder' =>'Chargez votre photo de profil'
+                ],
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -61,14 +91,18 @@ class UserType extends AbstractType
             ])
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo',
+                'attr'=>[
+                    'placeholder' =>'Entrez votre pseudo'
+                ],
                 'trim' => true,
                 "required" => false,
+
 
             ])
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
-                'choice_label' => 'nom',
                 'label' => 'Campus',
+                'choice_label' => 'nom',
                 'trim' => true,
             ]);
     }

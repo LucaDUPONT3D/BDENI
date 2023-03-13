@@ -26,7 +26,7 @@ class SortieController extends AbstractController
         EtatSortieManager $etatSortieManager): Response
     {
         //Checker les etats
-        $sorties = $sortieRepository->findAlltoCheck();
+        $sorties = $sortieRepository->findAllToCheck();
         $sorties = $etatSortieManager->checkEtatSorties($sorties);
 
         $model = new Model();
@@ -36,11 +36,11 @@ class SortieController extends AbstractController
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
             $user = $this->getUser()->getId();
-            $sorties = $sortieRepository->findAlltoDisplayFilter($model, $user);
+            $sorties = $sortieRepository->findAllToDisplayFilter($model, $user);
 
         }else {
 
-            $sorties = $sortieRepository->findAlltoDisplay();
+            $sorties = $sortieRepository->findAllToDisplay();
 
         }
         return $this->render('sortie/showAll.html.twig', [
@@ -50,8 +50,10 @@ class SortieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show_one', requirements:['id' => '\d+'])]
-    public function show(Sortie $id, EtatSortieManager $etatSortieManager): Response
+    public function show(int $id, EtatSortieManager $etatSortieManager, SortieRepository $sortieRepository): Response
     {
+
+        $id = $sortieRepository->findOneToDisplay($id);
         $id = $etatSortieManager->checkEtatSortie($id);
 
         return $this->render('sortie/show.html.twig', ['sortie'=> $id]);
@@ -67,6 +69,7 @@ class SortieController extends AbstractController
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $sortie->setOrganisateur($this->getUser());
+            $sortie->addParticipant($this->getUser());
 
             if ($request->request->get('submit') == 1) {
                 $sortie->setEtat($etatRepository->find(1));
@@ -75,6 +78,8 @@ class SortieController extends AbstractController
             }
 
             $sortieRepository->save($sortie, true);
+
+            $this->addFlash("primary", "Sortie créée !");
 
             return $this->redirectToRoute('sortie_show_one', ['id' => $sortie->getId()]);
         }
@@ -86,8 +91,10 @@ class SortieController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update', requirements:['id' => '\d+'])]
-    public function update(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
+    public function update(SortieRepository $sortieRepository, Request $request, int $id): Response
     {
+        $id = $sortieRepository->findOneToDisplay($id);
+
         $sortieForm = $this->createForm(SortieType::class, $id);
 
         $sortieForm->handleRequest($request);
@@ -96,6 +103,8 @@ class SortieController extends AbstractController
 
             $sortieRepository->save($id, true);
 
+            $this->addFlash("primary", "Sortie modifiée !");
+
             return $this->redirectToRoute('sortie_show_one', ['id' => $id->getId()]);
         }
 
@@ -103,13 +112,18 @@ class SortieController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete', requirements:['id' => '\d+'])]
-    public function delete(SortieRepository $sortieRepository, Request $request, Sortie $id): Response
+    public function delete(SortieRepository $sortieRepository, Request $request, int $id): Response
     {
+
+        $id = $sortieRepository->findOneToDisplay($id);
+
         if ($id) {
             $sortieRepository->remove($id, true);
         } else {
             throw  $this->createNotFoundException("Oops ! Delete not found !");
         }
+
+        $this->addFlash("danger", "Sortie supprimée !");
 
         return $this->redirectToRoute('main_home');
     }
@@ -119,19 +133,24 @@ class SortieController extends AbstractController
         SortieRepository $sortieRepository,
         EtatRepository $etatRepository,
         Request $request,
-        Sortie $id
+        int $id
     ): Response
     {
+
+        $id = $sortieRepository->findOneToDisplay($id);
+
         $cancelForm = $this->createForm(CancelType::class, $id);
 
         $cancelForm->handleRequest($request);
 
-        if ($id->getOrganisateur() === $this->getUser()) {
+        if ($id->getOrganisateur() === $this->getUser() || $this->getUser()->getRoles()[0] == 'ROLE_ADMIN') {
 
             if ($cancelForm->isSubmitted() && $cancelForm->isValid()) {
                 $id->setEtat($etatRepository->find(6));
 
                 $sortieRepository->save($id, true);
+
+                $this->addFlash("warning", "Sortie annulée !");
 
                 return $this->redirectToRoute('main_home');
 
@@ -144,24 +163,31 @@ class SortieController extends AbstractController
     }
 
     #[Route('/publish/{id}', name: 'publish', requirements:['id' => '\d+'])]
-    public function publish(SortieRepository $sortieRepository, EtatRepository $etatRepository, Sortie $id): Response
+    public function publish(SortieRepository $sortieRepository, EtatRepository $etatRepository, int $id): Response
     {
+        $id = $sortieRepository->findOneToDisplay($id);
 
         $id->setEtat($etatRepository->find(2));
 
         $sortieRepository->save($id, true);
 
+        $this->addFlash("success", "Sortie publiée !");
+
         return $this->render('sortie/show.html.twig', ['sortie'=>$id]);
     }
 
     #[Route('/subscribe/{id}', name: 'subscribe', requirements:['id' => '\d+'])]
-    public function subscribe(SortieRepository $sortieRepository, Sortie $id): Response
+    public function subscribe(SortieRepository $sortieRepository, int $id): Response
     {
+        $id = $sortieRepository->findOneToDisplay($id);
+
         $sortie = $sortieRepository->find($id);
         if ($sortie->getEtat()->getLibelle()=='Ouverte') {
 
             $sortie->addParticipant($this->getUser());
             $sortieRepository->save($sortie, true);
+
+            $this->addFlash("primary", "Inscription pris en compte !");
 
 
             $resultat = $this->render('sortie/show.html.twig', ['sortie' => $sortie]);
@@ -174,13 +200,18 @@ class SortieController extends AbstractController
     }
 
     #[Route('/unsubscride/{id}', name: 'unsubscride', requirements:['id' => '\d+'])]
-    public function unsubscride(SortieRepository $sortieRepository, Sortie $id): Response
+    public function unsubscride(SortieRepository $sortieRepository, int $id): Response
     {
+        $id = $sortieRepository->findOneToDisplay($id);
+
         $sortie = $sortieRepository->find($id);
     if ($sortie->getEtat()->getLibelle()=='Ouverte' || $sortie->getEtat()->getLibelle()=='Clôturée'){
         $sortie->removeParticipant($this->getUser());
 
         $sortieRepository->save($sortie, true);
+
+        $this->addFlash("danger", "Désinscription pris en compte !");
+
         $resultat = $this->render('sortie/show.html.twig', ['sortie' => $sortie]);
     }else {
         $resultat = $this->redirectToRoute('main_home');

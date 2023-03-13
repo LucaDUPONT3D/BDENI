@@ -21,7 +21,7 @@ class Etat
     #[Assert\Length(max: 255, maxMessage: 'Le libelle  ne doit pas faire plus de {{ limit }} caractères')]
     private ?string $libelle = null;
 
-    #[ORM\OneToMany(mappedBy: 'etat', targetEntity: Sortie::class)]
+    #[ORM\OneToMany(mappedBy: 'etat', targetEntity: Sortie::class, cascade: ["remove"])]
     private Collection $sortie;
 
     public function __construct()

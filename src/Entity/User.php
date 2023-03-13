@@ -12,7 +12,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email', 'pseudo'], message: 'There is already an account with this email or this pseudo')]
+#[UniqueEntity(fields: ['pseudo'], message: 'Un compte avec ce pseudo existe déja')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte avec cet email existe déja')]
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -24,7 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(message: "L'email est obligatoire")]
     #[Assert\Email(message: 'Le champ attend un email')]
-    #[Assert\Length( max: 180 , maxMessage: "Le mail ne doit pas faire plus de {{ limit }} caractères")]
+    #[Assert\Length(max: 180 , maxMessage: "Le mail ne doit pas faire plus de {{ limit }} caractères")]
 
     private ?string $email = null;
 
@@ -35,7 +36,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: "Le password est obligatoire")]
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
@@ -71,10 +71,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length( max: 255 , maxMessage: "Le pseudo ne doit pas faire plus de {{ limit }} caractères")]
     private ?string $pseudo = null;
 
-    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, )]
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, cascade: ["remove"])]
     private Collection $sorties;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants', )]
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants')]
     private Collection $inscriptions;
 
     /**

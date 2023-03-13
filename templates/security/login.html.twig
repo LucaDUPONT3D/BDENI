@@ -5,45 +5,44 @@
 {% endblock %}
 
 {% block title %}
-    {{ parent() }} Connexion
+{{ parent() }} Connexion
 {% endblock %}
 
 {% block body %}
-    <div class="petit-block">
-        <form method="post" class="page_centrer">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
+<div class="mx-auto" style="width: 600px;">
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        <div class="mx-auto" style="width: 600px;">
+{#        titre#}
+        <h1 class="text-center">Connexion</h1>
 
+{#        identifiant#}
+        <label for="inputEmailOrUsername">Identifiant</label>
+        <input type="text" value="{{ last_username }}" name="usernameOrEmail" id="inputEmailOrUsername" class="form-control" autocomplete="usernameOrEmail" required autofocus><br>
 
-            <h3 class="h3 mb-3 font-weight-normal">Connexion</h3>
-            <label for="inputEmailOrUsername">Identifiant</label>
-            <input type="text" value="{{ last_username }}" name="usernameOrEmail" id="inputEmailOrUsername"
-                   class="form-control"
-                   autocomplete="usernameOrEmail" required autofocus><br>
-            <label for="inputPassword">Mot de Passe</label>
-            <input type="password" name="password" id="inputPassword" class="form-control"
-                   autocomplete="current-password"
-                   required>
+{#        mot de passe#}
+        <label for="inputPassword" >Mot de Passe</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required >
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
-
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
-                </label>
+{#        remember me#}
+            <div class="form-group row ">
+                <div class="col-sm-6 text-left">
+                    <a class="mb-3" href="{{ path('app_forgot_password_request') }}">Mot de Passe oublié</a>
+                    <button type="submit" class="btn btn-primary mt-3">Connexion</button>
+                </div>
+                <div class="col-sm-6 remember-me" >
+                    <div class="form-check mt-3" >
+                        <input type="checkbox" class="form-check-input " id="rememberMeCheckbox" name="_remember_me">
+                        <label class="form-check-label" for="rememberMeCheckbox">Remember me</label>
+                    </div>
+                </div>
             </div>
-
-            <a class="mb-3" href="{{ path('app_forgot_password_request') }}">Mot de Passe oublié</a>
-            <button class="btn btn-lg btn-primary" type="submit">
-                Connexion
-            </button>
-        </form>
-    </div>
+    </form>
+</div>
 
 {% endblock %}
-  {% block styleCss %}
-      <link rel="stylesheet" href="{{ asset('assets/css/connexion.css') }}">  {% endblock %}
+
 

@@ -25,6 +25,9 @@ class LieuController extends AbstractController
 
         if ($lieuForm->isSubmitted() && $lieuForm->isValid()) {
             $lieuRepository->save($lieu, true);
+
+            $this->addFlash("success", "Lieu créé !");
+
             return $this->redirectToRoute('sortie_add');
         }
 

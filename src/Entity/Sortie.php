@@ -53,23 +53,23 @@ class Sortie
     #[Assert\NotBlank(message: "La déscription est obligatoire")]
     private ?string $infosSortie = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'sortie')]
+    #[ORM\ManyToOne(inversedBy: 'sortie')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Etat $etat = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'sortie')]
+    #[ORM\ManyToOne(inversedBy: 'sortie')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'sortie')]
+    #[ORM\ManyToOne(inversedBy: 'sortie')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'sorties')]
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $organisateur = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'inscriptions',fetch: 'EAGER')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'inscriptions')]
     private Collection $participants;
 
     public function __construct()

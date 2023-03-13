@@ -1,0 +1,50 @@
+{% form_theme registrationForm 'view/formTheme/formTheme.html.twig' %}
+<div class="form-container">
+<h1 class="text-center">Inscrire un utilisateur</h1>
+
+    {{ form_start(registrationForm) }}
+
+    <div class="form-group">
+        {{ form_label(registrationForm.email)}}
+        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Entrez un email'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(registrationForm.pseudo)}}
+        {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'form-control', 'placeholder': 'Entrez un pseudo'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(registrationForm.prenom)}}
+        {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez un prénom'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(registrationForm.nom)}}
+        {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez un nom'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(registrationForm.telephone)}}
+        {{ form_widget(registrationForm.telephone, {'attr': {'class': 'form-control', 'placeholder': 'Entrez un numéro de téléphone'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(registrationForm.plainPassword.first)}}
+        {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(registrationForm.plainPassword.second)}}
+        {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(registrationForm.campus)}}
+        {{ form_widget(registrationForm.campus, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group text-center ">
+        <div class="col-sm-offset-3">
+            <button type="submit" class="btn btn-primary mr-15">Enregistrer</button>
+            <a href="{{ path("main_home") }}">
+                <button type="button" class="btn btn-secondary">Annuler</button>
+            </a>
+        </div>
+    </div>
+    {{ form_end(registrationForm) }}
+
+</div>
+

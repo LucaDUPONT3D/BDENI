@@ -15,11 +15,17 @@
             <div>
                 <div>
                     <p><b>Nom de la sortie : </b>{{ sortie.nom }}</p>
+                    <p><b>Organisateur : </b><a href="{{ path('user_show', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a></p>
                     <p><b>Date et heure de la sortie : </b>{{ sortie.dateHeureDebut| date('d/m/y H:i') }}</p>
                     <p><b>Date limite d'inscription : </b>{{ sortie.dateLimiteInscription | date ('d/m/y') }}</p>
                     <p><b>Nombre de places : </b>{{ sortie.participants.count() }}/{{ sortie.nbInsriptionsMax }}</p>
                     <p><b>Durée : </b>{{ sortie.duree }} minutes</p>
-                    <p><b>Description et Infos : </b>{{ sortie.infosSortie }} </p>
+
+                    {% if(sortie.etat.libelle == 'Annulée') %}
+                        <p class="red"><b>Motif d'annulation : </b>{{ sortie.infosSortie }} </p>
+                        {% else %}
+                            <p><b>Description et Infos : </b>{{ sortie.infosSortie }} </p>
+                    {% endif %}
                 </div>
                 <div>
                     <p><b>Campus : </b>{{ sortie.campus.nom }}</p>
@@ -47,11 +53,13 @@
             </div>
             <br>
             {% if(sortie.etat.libelle == 'Ouverte') %}
-                {% if(sortie.participants.contains(app.user)) %}
-                    <a href="{{ path('sortie_unsubscride', {'id': sortie.id}) }}"><button type="button" class="btn btn-danger">Se désister</button></a>
-                {% else %}
-                    <a href="{{ path('sortie_subscribe', {'id': sortie.id}) }}"><button type="button" class="btn btn-primary">S'inscrire</button></a>
+                {% if(sortie.organisateur != app.user) %}
+                    {% if(sortie.participants.contains(app.user)) %}
+                        <a href="{{ path('sortie_unsubscride', {'id': sortie.id}) }}"><button type="button" class="btn btn-danger">Se désister</button></a>
+                  {% else%}
+                        <a href="{{ path('sortie_subscribe', {'id': sortie.id}) }}"><button type="button" class="btn btn-primary">S'inscrire</button></a>
                 {% endif %}
+                    {% endif %}
             {% elseif(sortie.etat.libelle == 'Clôturée') %}
                 {% if(sortie.participants.contains(app.user)) %}
                     <a href="{{ path('sortie_unsubscride', {'id': sortie.id}) }}"><button type="button" class="btn btn-danger">Se désister</button></a>

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+
 use App\Form\UserType;
 use App\Utils\Uploader;
 use App\Repository\UserRepository;
@@ -26,6 +26,9 @@ class UserController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
+
+            $this->addFlash("success", "Bienvenue !");
+
             return $this->redirectToRoute('main_home');
         }
 
@@ -34,6 +37,7 @@ class UserController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
+
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
 
     }
@@ -41,7 +45,7 @@ class UserController extends AbstractController
     #[Route(path: '/user/{id}', name: 'user_show', requirements: ['id' => '\d+'])]
     public function show(int $id, UserRepository $userRepository): Response
     {
-        $user = $userRepository->find($id);
+        $user = $userRepository->findOneToDisplay($id);
 
         if (!$user) {
             //lance une erreur 404 si le user n'existe pas
@@ -64,37 +68,41 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        dump($form->isSubmitted() && $form->isValid());
+
         if ($form->isSubmitted() && $form->isValid()) {
-            dump('bip');
+
             //upload photo
             /**
              * @var UploadedFile $file
              */
             $file = $form->get('image')->getData();
             //appel de l'uploader
-            $newFileName = $uploader->upload(
-                $file,
-                $this->getParameter('upload_utilisateur_photo'),
-                $user->getNom());
-            $user->setImage($newFileName);
 
+            if ($file) {
+                $newFileName = $uploader->upload(
+                    $file,
+                    $this->getParameter('upload_utilisateur_photo'),
+                    $user->getNom());
+                $user->setImage($newFileName);
+            }
+            $password = $form->get('plainPassword')->getData();
 
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
+            if ($password) {
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $password
+                    )
+                );
+            }
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash("success", "Modifications effectués");
+            $this->addFlash("primary", "Votre profil a été modifié !");
             return $this->redirectToRoute('main_home');
         }
         return $this->render('user/update.html.twig', [
-            'registrationForm' => $form->createView(), 'user' => $user
+            'userForm' => $form->createView(), 'user' => $user
         ]);
     }
 

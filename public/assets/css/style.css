@@ -6,6 +6,23 @@
 .headerIcon{
     width: 100px;
 }
+.remember-me {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 40px;
+}
+.user-profile {
+    display: flex;
+    flex-direction: row;
+    padding-left: 40px;
+    margin-top: 40px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
 body{
     width: 100vw;
     height: 100vh;
@@ -52,7 +69,24 @@ footer{
     scrollbar-color: darkgray gray;
     scrollbar-width: thin;
 }
-th{
-    position: sticky;
+
+/*.scroller {*/
+/*    width: 300px;*/
+/*    height: 80vh;*/
+/*    overflow-y: scroll;*/
+/*    scrollbar-color: darkgray gray;*/
+/*    scrollbar-width: initial;*/
+/*}*/
+
+
+.form-container {
+    margin-left: 1vw;
+    margin-right: 1vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
+.red{
+    color: red;
+}
