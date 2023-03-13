@@ -1,4 +1,13 @@
 {% extends 'base.html.twig' %}
+{% form_theme villeForm 'view/formTheme/formTheme.html.twig' %}
+
+{% block css %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}
+    {{ parent() }} Add Ville
+{% endblock %}
 
 {% block body %}
     <h3> Gérer les villes</h3>
@@ -31,7 +40,4 @@
 
 {% endblock %}
 
-{% block title %}
-
-{% endblock %}
 
