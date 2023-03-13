@@ -67,6 +67,7 @@ class RegistrationController extends AbstractController
         if ($villeform->isSubmitted() && $villeform->isValid()) {
 
             $tableauVille = $villeRepository->findAllSearch($recherche);
+
         }
 
         $ville = new Ville();
@@ -75,6 +76,7 @@ class RegistrationController extends AbstractController
         if ($addVille->isSubmitted() && $addVille->isValid()) {
 
             $villeRepository->save($ville, true);
+            return $this->redirectToRoute('admin_ville');
         }
 
 
