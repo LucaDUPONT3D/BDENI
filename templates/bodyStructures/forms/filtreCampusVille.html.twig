@@ -1,5 +1,10 @@
 {% form_theme filtreCampusForm 'view/formTheme/formTheme.html.twig' %}
+
     {{ form_start(filtreCampusForm) }}
-    {{ form_row(filtreCampusForm) }}
-    <button type="button" class="btn btn-secondary"> Rechercher</button>
+<div class="d-flex flex-row">
+    {{ form_errors(filtreCampusForm)  }}
+    {{ form_widget(filtreCampusForm) }}
+    <button type="button" class="btn btn-secondary margin_left"> Rechercher</button>
+</div>
     {{ form_end(filtreCampusForm) }}
+
