@@ -10,7 +10,8 @@
 {% endblock %}
 
 {% block body %}
-    <h3> Gérer les Campus</h3>
+    <h3 class="text-center"> Gérer les Campus</h3>
+    <div class="d-flex flex-column align-items-center ">
 
         {% include('bodyStructures/forms/filtreCampusVille.html.twig') %}
 
@@ -27,19 +28,20 @@
                 <a href="{{ path('admin_campus_update',{'id' : campus.id}) }} "><button type="button" class="btn btn-primary"> Modifier</button></a>
             </td>
 
-            {% endfor %}
-        <tr>
+                {% endfor %}
+            <tr>
 
-            {{ form_start(campusForm) }}
+                {{ form_start(campusForm) }}
 
-            <td> {{ form_row(campusForm.nom) }}</td>
-            <td>
-                <button type="submit" class="btn btn-primary mr-15">Enregistrer</button>
-            </td>
-            {{ form_end(campusForm) }}
-        </tr>
+                <td> {{ form_row(campusForm.nom) }}</td>
+                <td>
+                    <button type="submit" class="btn btn-primary mr-15">Enregistrer</button>
+                </td>
+                {{ form_end(campusForm) }}
+            </tr>
 
     </table>
+    </div>
     <script>
         let elements = document.getElementsByClassName('supprimer')
 
