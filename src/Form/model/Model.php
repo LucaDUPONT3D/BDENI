@@ -13,6 +13,7 @@ class Model
     private ?\DateTimeInterface $entre = null;
 
     #[Assert\GreaterThan(propertyPath: 'entre', message: "La date fin doit être supérieur à la date de début")]
+
     private  ?\DateTimeInterface $et = null;
 
     private $organisateur;
