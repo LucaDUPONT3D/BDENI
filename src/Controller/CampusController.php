@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CampusController extends AbstractController
 {
     #[Route('/add', name: 'add')]
-    public function add_campus(CampusRepository $campusRepository, Request $request): Response
+    public function add(CampusRepository $campusRepository, Request $request): Response
     {
         //Créer un formulaire de filtre
         $model = new ModelCampusVille();
@@ -51,14 +51,14 @@ class CampusController extends AbstractController
 
         return $this->render('/admin/campus/add.html.twig', [
             'listeCampus' => $listeCampus,
-            'filtreCampusForm' => $filtreCampusForm->createView(),
+            'filtreCampusVilleForm' => $filtreCampusForm->createView(),
             'campusForm' => $campusForm->createView()
 
         ]);
     }
 
     #[Route('/delete/{id}', name: 'delete', requirements: ["id" => "\d+"])]
-    public function delete_campus(
+    public function delete(
         CampusRepository $campusRepository,
         Request $request,
         int $id,
@@ -70,7 +70,7 @@ class CampusController extends AbstractController
         $reussi = $sortieRepository->findBy(['campus' => $campusASuprimer]);
 
         if ($reussi) {
-            $this->addFlash('warning', 'Supression imposible campus utiliser dans une autre page');
+            $this->addFlash('warning', 'Suppression impossible, campus en cours d\'utilisation');
         } else {
             $campusRepository->remove($campusASuprimer, true);
             $this->addFlash('danger', 'Campus supprimé');
@@ -81,7 +81,7 @@ class CampusController extends AbstractController
     }
 
     #[Route('/update/{id}', name: 'update', requirements: ["id" => "\d+"])]
-    public function update_campus(CampusRepository $campusRepository, Request $request, int $id): Response
+    public function update(CampusRepository $campusRepository, Request $request, int $id): Response
     {
 
         $updateCampus = $campusRepository->find($id);

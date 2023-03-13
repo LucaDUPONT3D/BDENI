@@ -1,0 +1,8 @@
+{% form_theme lieuForm 'view/formTheme/formTheme.html.twig' %}
+{{ form_start(lieuForm) }}
+    {{ form_widget(lieuForm) }}
+<button type="submit" name="submit" value="1" class="btn btn-primary">Enregistrer</button>
+<a href="{{ path("sortie_add") }}">
+    <button class="btn btn-secondary" type="button" name="Retour">Annuler</button>
+</a>
+{{ form_start(lieuForm) }}

@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 {% form_theme campusForm 'view/formTheme/formTheme.html.twig' %}
 
+{% block css %}
+    {{ parent() }}
+{% endblock %}
+
 {% block title %}
     {{ parent() }} | Campus
 {% endblock %}
