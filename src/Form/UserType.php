@@ -28,7 +28,7 @@ class UserType extends AbstractType
 
                 ],
                 'trim' => true,
-                'required' => false
+
 
             ])
             ->add('plainPassword', RepeatedType::class, [
@@ -37,11 +37,10 @@ class UserType extends AbstractType
                     'placeholder' =>'Entrez votre nouveau mot de passe'
                 ],
                 'mapped' => false,
-                'invalid_message' => 'Les mots de passe ne correspondent pas',
-                'required' => false,
                 'trim'=>true,
                 'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmation mot de passe'],
+                'second_options' => ['label' => 'Confirmation du mot de passe'],
+                'invalid_message' => 'Les mots de passe ne correspondent pas',
                 'constraints' => [
                     new Length([
                         'min' => 6,
@@ -50,6 +49,7 @@ class UserType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+
             ])
             ->add('nom', TextType::class, [
                 'label' => 'Nom',
@@ -57,7 +57,7 @@ class UserType extends AbstractType
                     'placeholder' =>'Entrez votre nom'
                 ],
                 'trim' => true,
-                "required" => false
+
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prenom',
@@ -65,7 +65,7 @@ class UserType extends AbstractType
                     'placeholder' =>'Entrez votre prenom'
                 ],
                 'trim' => true,
-                "required" => false
+
             ])
             ->add('telephone', TextType::class, [
                 'label' => 'Téléphone',
@@ -73,7 +73,7 @@ class UserType extends AbstractType
                     'placeholder' =>'Entrez votre numéro de téléphone'
                 ],
                 'trim' => true,
-                "required" => false
+
             ])
             ->add('image', FileType::class, [
                 'label' => 'Photo',
@@ -95,7 +95,7 @@ class UserType extends AbstractType
                     'placeholder' =>'Entrez votre pseudo'
                 ],
                 'trim' => true,
-                "required" => false,
+
 
 
             ])

@@ -74,7 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, cascade: ["remove"])]
     private Collection $sorties;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants')]
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants', cascade: ["remove"])]
     private Collection $inscriptions;
 
     /**
