@@ -25,7 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(message: "L'email est obligatoire")]
     #[Assert\Email(message: 'Le champ attend un email')]
-    #[Assert\Length( max: 180 , maxMessage: "Le mail ne doit pas faire plus de {{ limit }} caractères")]
+    #[Assert\Length(max: 180 , maxMessage: "Le mail ne doit pas faire plus de {{ limit }} caractères")]
 
     private ?string $email = null;
 
@@ -36,7 +36,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: "Le password est obligatoire")]
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
@@ -75,7 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, cascade: ["remove"])]
     private Collection $sorties;
 
-    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants', cascade: ["remove"])]
+    #[ORM\ManyToMany(targetEntity: Sortie::class, mappedBy: 'participants')]
     private Collection $inscriptions;
 
     /**

@@ -45,7 +45,7 @@ class UserController extends AbstractController
     #[Route(path: '/user/{id}', name: 'user_show', requirements: ['id' => '\d+'])]
     public function show(int $id, UserRepository $userRepository): Response
     {
-        $user = $userRepository->find($id);
+        $user = $userRepository->findOneToDisplay($id);
 
         if (!$user) {
             //lance une erreur 404 si le user n'existe pas

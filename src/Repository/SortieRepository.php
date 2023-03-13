@@ -78,6 +78,27 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
+    public function findOneToDisplay(int $id)
+    {
+        return  $this->createQueryBuilder('s')
+            ->leftJoin('s.etat', 'e')
+            ->addSelect('e')
+            ->leftJoin('s.organisateur', 'o')
+            ->addSelect('o')
+            ->leftJoin('s.lieu', 'l')
+            ->addSelect('l')
+            ->leftJoin('l.ville', 'v')
+            ->addSelect('v')
+            ->leftJoin('s.campus', 'c')
+            ->addSelect('c')
+            ->leftJoin('s.participants', 'p')
+            ->addSelect('p')
+            ->andWhere('s.id = :idSortie')
+            ->setParameter('idSortie', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function findAllToDisplayFilter(Model $model, $user)
     {
 

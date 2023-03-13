@@ -39,16 +39,15 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $user->setRoles(['ROLE_USER']);
+
             $entityManager->persist($user);
             $entityManager->flush();
 
             $this->addFlash("primary", "Utilisateur inscrit !");
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+            return $this->redirectToRoute('main_home');
+
         }
 
         return $this->render('admin/register.html.twig', [

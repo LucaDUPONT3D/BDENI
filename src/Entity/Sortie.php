@@ -69,7 +69,7 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?User $organisateur = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'inscriptions', cascade: ["remove"])]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'inscriptions')]
     private Collection $participants;
 
     public function __construct()

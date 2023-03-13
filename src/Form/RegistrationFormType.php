@@ -55,17 +55,6 @@ class RegistrationFormType extends AbstractType
                 'trim' => true,
                 'required'=>false
             ])
-            ->add('roles',CollectionType::class, [
-                'entry_type' => ChoiceType::class,
-                'label' => "Role de l'utilisateur",
-                'entry_options' => [
-                    'label' => false,
-                    'choices'=> [
-                        'User' => 'ROLE_USER',
-                        'Admin' => 'ROLE_ADMIN'
-                    ],
-                ],
-            ])
             ->add('campus',EntityType::class,[
                 'class' => Campus::class,
                 'choice_label' => 'nom',
@@ -82,7 +71,9 @@ class RegistrationFormType extends AbstractType
                 'trim'=>true,
                 'label' => 'Confirmation',
                 'constraints' => [
-
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Votre mot de passe doit être au moins de {{ limit }} caractères',
