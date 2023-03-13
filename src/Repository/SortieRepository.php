@@ -17,6 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
+    const SORTIE_LIMIT = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Sortie::class);
@@ -42,6 +44,7 @@ class SortieRepository extends ServiceEntityRepository
 
     private function baseQuery(): \Doctrine\ORM\QueryBuilder
     {
+
         return  $this->createQueryBuilder('s')
             ->leftJoin('s.etat', 'e')
             ->addSelect('e')
@@ -67,10 +70,14 @@ class SortieRepository extends ServiceEntityRepository
 
     }
 
-    public function findAllToDisplay()
+    public function findAllToDisplay(int $page)
     {
 
-        $qb = $this->baseQuery();
+        $offset = ($page - 1) * self::SORTIE_LIMIT;
+
+        $qb = $this->baseQuery()
+            ->setMaxResults(self::SORTIE_LIMIT)
+            ->setFirstResult($offset);
 
 
         $query = $qb->getQuery();
@@ -101,6 +108,7 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findAllToDisplayFilter(Model $model, $user)
     {
+
 
         $qb = $this->baseQuery();
 

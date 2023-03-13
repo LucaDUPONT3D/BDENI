@@ -19,33 +19,55 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/sortie', name: 'sortie_')]
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'show_all')]
+    #[Route('/{page}', name: 'show_all',  requirements: ["page"=>"\d+"])]
     public function showAll(
         SortieRepository $sortieRepository,
         Request $request,
-        EtatSortieManager $etatSortieManager): Response
+        EtatSortieManager $etatSortieManager,
+        int $page = 1
+    ) : Response
     {
+
+        $nbSortieMax = count($sortieRepository->findAllToCheck());
+        $maxPage = ceil($nbSortieMax/SortieRepository::SORTIE_LIMIT);
+
         //Checker les etats
         $sorties = $sortieRepository->findAllToCheck();
         $sorties = $etatSortieManager->checkEtatSorties($sorties);
 
+        //Création du formulaire de filtre
         $model = new Model();
         $formFiltre = $this->createForm(FiltreType::class, $model);
         $formFiltre->handleRequest($request);
 
-        if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
-            $user = $this->getUser()->getId();
-            $sorties = $sortieRepository->findAllToDisplayFilter($model, $user);
+            if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
-        }else {
+                $user = $this->getUser()->getId();
+                $sorties = $sortieRepository->findAllToDisplayFilter($model, $user);
 
-            $sorties = $sortieRepository->findAllToDisplay();
+                return $this->render('sortie/showAll.html.twig', [
+                    'sorties' => $sorties,
+                    'filtreForm' => $formFiltre->createView(),
+                    "currentPage"=>1,
+                    "maxPage"=>1
+                ]);
+            }else {
+                if ($page >= 1 && $page <= $maxPage) {
 
-        }
+                $sorties = $sortieRepository->findAllToDisplay($page);
+
+                } else {
+                    throw $this->createNotFoundException("Oops ! Page non trouvée !");
+                }
+
+            }
+
         return $this->render('sortie/showAll.html.twig', [
             'sorties' => $sorties,
             'filtreForm' => $formFiltre->createView(),
+            "currentPage"=>$page,
+            "maxPage"=>$maxPage
         ]);
     }
 
