@@ -71,7 +71,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'show_one', requirements:['id' => '\d+'])]
+    #[Route('/show/{id}', name: 'show_one', requirements:['id' => '\d+'])]
     public function show(int $id, EtatSortieManager $etatSortieManager, SortieRepository $sortieRepository): Response
     {
 
