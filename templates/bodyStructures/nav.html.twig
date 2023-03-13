@@ -1,65 +1,53 @@
-<hr>
 <nav class="navbar navbar-expand-lg navbar-light ">
     <div class="container-fluid">
-        <ul class="navbar-nav">
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <li class="nav-item">
-                <a class="nav-link navbar-nav" href="{{ path("main_home") }}">Accueil</a>
-            </li>
+        <div>
+        <a class="navbar-brand" href="{{ path('main_home') }}"><img src="{{ asset('assets/medias/logo/logoBDENI.png') }}" alt="logo BDENI"></a>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+            <ul class="navbar-nav">
+
+                <li class="nav-item dropdown">
+                    {% if app.user %}
+                    {% if is_granted("ROLE_ADMIN") %}
+
+                    <li> <a class="dropdown-item" href="{{ path('admin_register') }}"><svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19.903 8.586a.997.997 0 0 0-.196-.293l-6-6a.997.997 0 0 0-.293-.196c-.03-.014-.062-.022-.094-.033a.991.991 0 0 0-.259-.051C13.04 2.011 13.021 2 13 2H6c-1.103 0-2 .897-2 2v16c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V9c0-.021-.011-.04-.013-.062a.954.954 0 0 0-.051-.259c-.01-.032-.019-.063-.033-.093ZM16.586 8H14V5.414L16.586 8ZM6 20V4h6v5a1 1 0 0 0 1 1h5l.002 10H6Z"></path>
+                            <path d="M8 12h8v2H8v-2Zm0 4h8v2H8v-2Zm0-8h2v2H8V8Z"></path>
+                        </svg> Inscription</a></li>
 
 
+                        <li><a class="dropdown-item" href="#"> <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 10h-2V4h1V2H4v2h1v6H3a1 1 0 0 0-1 1v9h20v-9a1 1 0 0 0-1-1Zm-7 8v-4h-4v4H7V4h10v14h-3Z"></path>
+                                    <path d="M9 6h2v2H9V6Zm4 0h2v2h-2V6Zm-4 4h2v2H9v-2Zm4 0h2v2h-2v-2Z"></path>
+                                </svg> Campus </a></li>
 
-                {% if app.user %}
-                {% if is_granted("ROLE_ADMIN") %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('admin_register') }}">Inscription</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Campus</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('admin_ville') }}">Villes</a>
-                    </li>
-                {% endif %}
+                        <li><a class="dropdown-item" href="{{ path('admin_ville') }}"><svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 6h-4V3a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1ZM6 18H4v-2h2v2Zm0-4H4v-2h2v2Zm5 4H9v-2h2v2Zm0-4H9v-2h2v2Zm0-4H9V8h2v2Zm0-4H9V4h2v2Zm4 12h-2v-2h2v2Zm0-4h-2v-2h2v2Zm0-4h-2V8h2v2Zm0-4h-2V4h2v2Zm5 12h-2v-2h2v2Zm0-4h-2v-2h2v2Zm0-4h-2V8h2v2Z"></path>
+                                </svg> Villes </a></li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('user_update') }}">Mon Profil</a>
-            </li>
+                    {% endif %}
 
-            <li class="nav-item ">
-                <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion - {{ app.user.pseudo }}</a>
-            </li>
-            <div class="photo-profil">
-                <img src="{{ asset('assets/img/' ~ app.user.image ) }}" alt="{{ app.user.nom }}" class="img-thumbnail" width="75" height="75">
-            </div>
+                        <li><a class="dropdown-item" href="{{ path('user_update') }}"><svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2Zm0 18c-4.411 0-8-3.589-8-8 0-1.168.258-2.275.709-3.276.154.09.308.182.456.276.396.25.791.5 1.286.688.494.187 1.088.312 1.879.312.792 0 1.386-.125 1.881-.313.495-.188.891-.437 1.287-.687.396-.25.792-.5 1.287-.688.494-.187 1.088-.312 1.88-.312.792 0 1.386.125 1.88.313.495.187.891.437 1.287.687.396.25.792.5 1.287.688.178.067.374.122.581.171.191.682.3 1.398.3 2.141 0 4.411-3.589 8-8 8Z"></path>
+                                    <path d="M8.5 14a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path>
+                                    <path d="M15.5 14a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path>
+                                </svg> Mon Profil</a></li>
 
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                        <li><a class="dropdown-item" href="{{ path('app_logout') }}"> <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 2H6a1 1 0 0 0-1 1v9l5-4v3h6v2h-6v3l-5-4v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"></path>
+                                </svg> Déconnexion - {{ app.user.pseudo }}</a></li>
+                    {% else %}
+
+{#                    <li><a  class="dropdown-item" href="{{ path('app_login') }}"> <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">#}
+{#                                <path d="M18.5 2h-13a.5.5 0 0 0-.5.5V11h6V8l5 4-5 4v-3H5v8.5a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-19a.5.5 0 0 0-.5-.5Z"></path>#}
+{#                            </svg>Connexion</a></li>#}
+
+                    {% endif %}
                 </li>
-            {% endif %}
-            </div>
-
-        </ul>
-
+            </ul>
+        </div>
     </div>
 </nav>
-<hr>
-{# <hr> #}
-{# <nav> #}
-{#    <ul> #}
-{#        <li><a  href="{{ path("main_home") }}">Accueil</a> </li> #}
-{#        {% if app.user %} #}
-{#            {% if is_granted("ROLE_ADMIN") %} #}
-{#                <li><a href="{{ path('app_register') }}">Enregistrer Utilisateur</a> </li> #}
-{#                <li><a href="">Campus</a> </li> #}
-{#                <li><a href="">Villes</a> </li> #}
-{#            {% endif%} #}
-{#            <li><a href="{{ path('user_update') }}">Mon Profil</a> </li> #}
-{#            <li><a href="{{ path('app_logout') }}">Déconnection - {{ app.user.pseudo }}</a> </li> #}
-{#        {% else %} #}
-{#            <li><a href="{{ path('app_login') }}">Connexion</a> </li> #}
-{#        {% endif %} #}
-{#    </ul> #}
-{# </nav> #}
-{# <hr> #}

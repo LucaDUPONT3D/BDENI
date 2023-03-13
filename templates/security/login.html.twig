@@ -24,23 +24,24 @@
 
 {#        mot de passe#}
         <label for="inputPassword" >Mot de Passe</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required >
+        <input type="password" name="password" id="inputPassword" class="form-control"  autocomplete="current-password" required >
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 {#        remember me#}
-            <div class="form-group row ">
+            <div class="form-group row  ">
                 <div class="col-sm-6 text-left">
                     <a class="mb-3" href="{{ path('app_forgot_password_request') }}">Mot de Passe oublié</a>
-                    <button type="submit" class="btn btn-primary mt-3">Connexion</button>
-                </div>
-                <div class="col-sm-6 remember-me" >
+
                     <div class="form-check mt-3" >
                         <input type="checkbox" class="form-check-input " id="rememberMeCheckbox" name="_remember_me">
                         <label class="form-check-label" for="rememberMeCheckbox">Remember me</label>
                     </div>
                 </div>
+                <button type="submit" class="btn btn-primary col-sm-5">Connexion</button>
+            </div>
             </div>
     </form>
+
 </div>
 
 {% endblock %}

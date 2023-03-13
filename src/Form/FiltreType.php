@@ -47,7 +47,7 @@ class FiltreType extends AbstractType
                 'attr' => ['class'=>'checkBoxSpace'],
                 'label' => false,
                 'choices' => [
-                    'Sortie dont je suis organisateur/trice' => 'organisateur',
+                    'Je suis organisateur(trice)' => 'organisateur',
                 ],
                 'multiple' => true,
                 'expanded' => true
@@ -56,7 +56,7 @@ class FiltreType extends AbstractType
                 'attr' => ['class'=>'checkBoxSpace'],
                 'label' => false,
                 'choices' => [
-                    'Sortie auxquelles je suis inscrit/e' => 'inscrit',
+                    'Je suis inscrit(e)' => 'inscrit',
                 ],
                 'multiple' => true,
                 'expanded' => true
@@ -65,7 +65,7 @@ class FiltreType extends AbstractType
                 'attr' => ['class'=>'checkBoxSpace'],
                 'label' => false,
                 'choices' => [
-                    'Sortie auxquelles je ne suis pas inscrit/e' => 'pasInscrit',
+                    'Je ne suis pas inscrit(e)' => 'pasInscrit',
 
                 ],
                 'multiple' => true,

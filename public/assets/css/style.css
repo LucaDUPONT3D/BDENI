@@ -17,8 +17,8 @@
     flex-direction: row;
     padding-left: 40px;
     margin-top: 40px;
+    
 }
-
 .user-info {
     display: flex;
     flex-direction: column;
@@ -42,16 +42,8 @@ footer{
     flex-direction: column;
     justify-content: space-between;
 }
-
 #registration_form_roles_0{
     width: 20rem;
-}
-.page_centrer{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 60vw;
-    height: 50vh;
 }
 .centrer_page_largeur{
     width: 100vw;
@@ -61,24 +53,6 @@ footer{
 .centre_titre{
     text-align: center;
 }
-
-.scroller {
-    width: 300px;
-    height: 80vh;
-    overflow-y: scroll;
-    scrollbar-color: darkgray gray;
-    scrollbar-width: thin;
-}
-
-/*.scroller {*/
-/*    width: 300px;*/
-/*    height: 80vh;*/
-/*    overflow-y: scroll;*/
-/*    scrollbar-color: darkgray gray;*/
-/*    scrollbar-width: initial;*/
-/*}*/
-
-
 .form-container {
     margin-left: 1vw;
     margin-right: 1vw;
@@ -86,7 +60,6 @@ footer{
     align-items: center;
     flex-direction: column;
 }
-
 .red{
     color: red;
 }

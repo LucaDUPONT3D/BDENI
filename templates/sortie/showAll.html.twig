@@ -10,13 +10,10 @@
 {% block body %}
 
 
-    <div class="cote_droite">
-        <p><b>Date du jour : </b>{{ date('now')|date('d/m/y') }}</p>
-        <p><b>Participant : </b>{{ app.user.pseudo }}</p>
-    </div>
+
     {% include('bodyStructures/forms/filtreForm.html.twig') %}
-    <div class="centre_tableau ">
-        <table >
+    <div class="centre_tableau">
+        <table class="" >
             <tr>
                 <th>Nom de la sortie</th>
                 <th>Date de la sortie</th>
@@ -30,8 +27,8 @@
 
             {% for sort in sorties %}
                 <tr>
-                    <td> {{ sort.nom }}</td>
-                    <td>{{ sort.dateHeureDebut| date('d/m/Y H:i') }}</td>
+                    <td class=""> {{ sort.nom }}</td>
+                    <td> {{ sort.dateHeureDebut| date('d/m/Y H:i') }}</td>
                     <td> {{ sort.dateLimiteInscription | date ('d/m/Y') }}</td>
                     <td> {{ sort.participants.count() }}/{{ sort.nbInsriptionsMax }}</td>
                     <td> {{ sort.etat.libelle }}</td>
@@ -40,9 +37,11 @@
                             X
                         {% endif %}
                     </td>
+
                     <td>
                         <a href="{{ path('user_show', {'id': sort.organisateur.id}) }}">{{ sort.organisateur.pseudo }}</a>
                     </td>
+
                     <td>
                         {% if(sort.organisateur == app.user) %}
                             {% if(sort.etat.libelle ==  'Créée') %}
@@ -100,10 +99,6 @@
             {% endfor %}
         </table>
     </div>
-    <div class="btn_centrer">
-        <a href="{{ path('sortie_add') }}">
-            <button type="button" class="btn btn-primary ">Créer une sortie</button>
-        </a>
-    </div>
+
 {% endblock %}
 
