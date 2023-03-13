@@ -42,7 +42,7 @@ class UserController extends AbstractController
 
     }
 
-    #[Route(path: '/user/{id}', name: 'user_show', requirements: ['id' => '\d+'])]
+    #[Route(path: '/user/show/{id}', name: 'user_show', requirements: ['id' => '\d+'])]
     public function show(int $id, UserRepository $userRepository): Response
     {
         $user = $userRepository->findOneToDisplay($id);
