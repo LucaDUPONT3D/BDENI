@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 
+use App\Form\FiltreCampusVille;
+use App\Form\model\ModelCampusVille;
 use App\Form\UserType;
 use App\Utils\Uploader;
 use App\Repository\UserRepository;
@@ -109,4 +111,24 @@ class UserController extends AbstractController
 
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void {}
+
+    #[Route(path: '/admin/user', name: 'admin_user_show_all')]
+    public function showAll(UserRepository $userRepository, Request $request){
+
+        $recherche = new ModelCampusVille();
+        $rechercheFormulaire = $this->createForm(FiltreCampusVille::class, $recherche);
+        $rechercheFormulaire->handleRequest($request);
+
+        if($rechercheFormulaire->isSubmitted() && $rechercheFormulaire->isValid()){
+
+            $listUser =  $userRepository->findAllSearch($recherche);
+        }else{
+            $listUser = $userRepository->findAll();
+        }
+
+        return $this->render('admin/user.html.twig',[
+            'listUser'=>$listUser,
+            'rechercheFormulaire'=>$rechercheFormulaire->createView()
+        ]);
+    }
 }

@@ -1,5 +1,9 @@
 {% form_theme villeForm 'view/formTheme/formTheme.html.twig' %}
+
     {{ form_start(villeForm) }}
+<div class="d-flex flex-column align-items-center justify-content-center">
+    {{ form_errors(villeForm) }}
     {{ form_widget(villeForm) }}
-<button type="submit" class="btn btn-primary mr-15">Enregistrer</button>
+    <button type="submit" class="btn btn-primary mr-15 ">Enregistrer</button>
+</div>
 {{ form_end(villeForm) }}

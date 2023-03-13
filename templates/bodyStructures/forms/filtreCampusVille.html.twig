@@ -1,5 +1,10 @@
 {% form_theme filtreCampusVilleForm 'view/formTheme/formTheme.html.twig' %}
+
     {{ form_start(filtreCampusVilleForm) }}
-    {{ form_row(filtreCampusVilleForm) }}
-    <button type="submit" class="btn btn-secondary"> Rechercher</button>
-    {{ form_end(filtreCampusVilleForm) }}
+<div class="d-flex flex-row justify-content-center align-items-center ">
+{{ form_errors(filtreCampusVilleForm) }}
+{{ form_widget(filtreCampusVilleForm) }}
+
+<button type="submit" class="btn btn-secondary margin_left"> Rechercher</button>
+</div>
+{{ form_end(filtreCampusVilleForm) }}

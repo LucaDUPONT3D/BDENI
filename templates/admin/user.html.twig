@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    {{ include('/bodyStructures/forms/filtreUtilisateurRecherche.html.twig') }}
+    <div class="d-flex justify-content-center">
+
+        <table>
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Action </th>
+            </tr>
+            {%for user in listUser %}
+                <tr>
+                    <td>{{ user.pseudo }}</td>
+                    <td>{{ user.nom }}</td>
+                    <td>{{ user.prenom }}</td>
+{#                    <td><a href="{{ path('admin_ville_delete',{'id' : ville.id})}} "><button class="btn btn-danger">Supprimer</button></a>#}
+{#                        <a href="{{ path('admin_ville_update',{'id' : ville.id})}} "><button class="btn btn-primary">Modifier</button></a></td>#}
+                </tr>
+            {% endfor %}
+{#            <tr>#}
+{#                {{ form_start(villeForm) }}#}
+
+{#                <td> {{ form_row(villeForm.nom) }}</td>#}
+{#                <td>{{ form_row(villeForm.codePostal) }}</td>#}
+{#                <td> <button type="submit" class="btn btn-primary" > Enregistrer</button></td>#}
+{#                {{ form_end(villeForm) }}#}
+{#            </tr>#}
+
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

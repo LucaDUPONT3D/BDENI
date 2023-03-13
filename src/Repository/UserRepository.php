@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Form\model\ModelCampusVille;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -87,4 +88,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery()
             ->getOneOrNullResult();
     }
+    public function findAllSearch(ModelCampusVille $recherche)
+    {
+
+        $qb = $this->createQueryBuilder('u');
+
+
+        if ($recherche->getRecherche()) {
+            $qb->andWhere('u.pseudo LIKE :recherche')
+                ->setParameter('recherche', '%' . $recherche->getRecherche() . '%');
+        }
+
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
+    }
+
 }

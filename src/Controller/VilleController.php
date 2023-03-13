@@ -21,8 +21,10 @@ class VilleController extends AbstractController
     {
 
         $model = new ModelCampusVille();
+
         $filtreVilleForm = $this->createForm(FiltreCampusVille::class, $model);
         $filtreVilleForm->handleRequest($request);
+
 
 
         if ($filtreVilleForm->isSubmitted() && $filtreVilleForm->isValid()) {
@@ -46,6 +48,7 @@ class VilleController extends AbstractController
 
             return $this->redirectToRoute('admin_ville_add');
         }
+
 
 
         return $this->render('admin/ville/add.html.twig', [
