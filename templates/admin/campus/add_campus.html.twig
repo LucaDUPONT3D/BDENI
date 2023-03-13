@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h3> Gérer les Campus</h3>
+    <h4>Filtrer les villes</h4>
+    {% include('bodyStructures/forms/addCampusForm.html.twig') %}
+    <table>
+        <tr>
+            <th>Campus</th>
+            <th>Action</th>
+        </tr>
+        {% for campus in listeCampus %}
+        <tr>
+            <td>{{ campus.nom }}</td>
+            <td><a href="{{ path('admin_delete_campus',{'id' : campus.id}) }} "><button type="button" class="btn btn-danger"> Supprimer</button></a>
+                <a href="{{ path('admin_update_campus',{'id' : campus.id}) }} "><button type="button" class="btn btn-primary"> Modifier</button></a></td>
+
+            {% endfor %}
+        <tr>
+            {{ form_start(campusForm) }}
+
+            <td> {{ form_row(campusForm.nom) }}</td>
+            <td>
+                <button type="submit" class="btn btn-primary mr-15">Enregistrer</button>
+            </td>
+            {{ form_end(campusForm) }}
+        </tr>
+
+    </table>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

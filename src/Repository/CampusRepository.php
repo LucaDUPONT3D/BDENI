@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Campus;
+use App\Form\model\RechercheVilleModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -49,6 +50,21 @@ class CampusRepository extends ServiceEntityRepository
             ->getQuery();
 
         return new $query;
+    }
+    public function findAllSearch(RechercheVilleModel $recherche)
+    {
+
+        $qb = $this->createQueryBuilder('c');
+        if ($recherche->getRecherche()) {
+            $qb->andWhere('c.nom LIKE :recherche')
+                ->setParameter('recherche', '%' . $recherche->getRecherche() . '%');
+        }
+
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
     }
 
 }
