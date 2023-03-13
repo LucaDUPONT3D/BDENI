@@ -12,19 +12,24 @@
 {% block body %}
     <h3 class="text-center"> Gérer les Campus</h3>
 
-        {% include('bodyStructures/forms/filtreCampusVille.html.twig') %}
+    {% include('bodyStructures/forms/filtreCampusVille.html.twig') %}
     <div class="d-flex flex-row justify-content-center">
-    <table>
-        <tr>
-            <th>Campus</th>
-            <th>Action</th>
-        </tr>
-        {% for campus in listeCampus %}
-        <tr>
-            <td>{{ campus.nom }}</td>
-            <button class="btn btn-danger supprimer" data-campus="{{ campus.id }}">Supprimer</button>                <a href="{{ path('admin_campus_update',{'id' : campus.id}) }} "><button type="button" class="btn btn-primary"> Modifier</button></a></td>
-
-                {% endfor %}
+        <table>
+            <tr>
+                <th>Campus</th>
+                <th>Action</th>
+            </tr>
+            {% for campus in listeCampus %}
+                <tr>
+                    <td>{{ campus.nom }}</td>
+                    <td>
+                        <button class="btn btn-danger supprimer" data-campus="{{ campus.id }}">Supprimer</button>
+                        <a href="{{ path('admin_campus_update',{'id' : campus.id}) }} ">
+                            <button type="button" class="btn btn-primary"> Modifier</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
             <tr>
 
                 {{ form_start(campusForm) }}
@@ -36,7 +41,7 @@
                 {{ form_end(campusForm) }}
             </tr>
 
-    </table>
+        </table>
     </div>
     <script>
         let elements = document.getElementsByClassName('supprimer')
@@ -50,7 +55,7 @@
                     let url = "{{ path("admin_campus_delete", {"id" : 0}) }}";
                     let id = element.dataset.campus;
                     url = url.replace('/0', '/' + id);
-                    window.location.href=url
+                    window.location.href = url
                 }
             })
         }

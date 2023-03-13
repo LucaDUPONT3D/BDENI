@@ -30,6 +30,7 @@ class FiltreType extends AbstractType
             ])
             ->add('recherche', SearchType::class, [
                 'required' => false,
+                'attr' => ['placeholder'=>'Entrez un mot...'],
                 'label' => 'Le nom de la sortie contient : '])
             ->add('entre', DateType::class, [
                 'required' => false,
