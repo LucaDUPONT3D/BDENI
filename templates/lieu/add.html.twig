@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-{% form_theme lieuForm 'view/formTheme/formTheme.html.twig' %}
 
 {% block css %}
     {{ parent() }}
@@ -12,12 +11,6 @@
 {% block body %}
     <h1>Créer un Lieu</h1>
 
-    {{ form_start(lieuForm) }}
-    {{ form_widget(lieuForm) }}
-    <button type="submit" name="submit" value="1" class="btn btn-primary">Enregistrer</button>
-    <a href="{{ path("sortie_add") }}">
-        <button class="btn btn-secondary" type="button" name="Retour">Annuler</button>
-    </a>
-    {{ form_start(lieuForm) }}
+{% include('bodyStructures/forms/lieuForm.html.twig') %}
 
 {% endblock %}
