@@ -100,6 +100,15 @@
             {% endfor %}
         </table>
     </div>
+    <div class="inline">
+        {% if currentPage > 1 %}
+            <a href="{{ path('sortie_show_all', {'page': currentPage-1}) }}"><button type="button" class="btn btn-secondary">Page Précédente</button></a>
+        {% endif %}
+        <div><b>{{ currentPage }}/{{ maxPage }}</b></div>
+        {% if currentPage < maxPage %}
+            <a href="{{ path('sortie_show_all', {'page': currentPage+1}) }}"><button type="button" class="btn btn-secondary">Page Suivante</button></a>
+        {% endif %}
+    </div>
     <div class="btn_centrer">
         <a href="{{ path('sortie_add') }}">
             <button type="button" class="btn btn-primary ">Créer une sortie</button>

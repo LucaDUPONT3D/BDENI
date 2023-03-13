@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Ville;
-use App\Form\model\RechercheVilleModel;
-use App\Form\RechercheType;
+use App\Form\model\ModelCampusVille;
+use App\Form\FiltreCampusVille;
 use App\Form\RegistrationFormType;
 use App\Form\VilleType;
 use App\Repository\LieuRepository;
@@ -59,8 +59,8 @@ class RegistrationController extends AbstractController
     public function addville(Request $request, VilleRepository $villeRepository): Response
     {
         $tableauVille = $villeRepository->findAll();
-        $recherche = new RechercheVilleModel();
-        $villeform = $this->createForm(RechercheType::class, $recherche);
+        $recherche = new ModelCampusVille();
+        $villeform = $this->createForm(FiltreCampusVille::class, $recherche);
         $villeform->handleRequest($request);
 
 

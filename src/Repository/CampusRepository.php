@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Campus;
-use App\Form\model\RechercheVilleModel;
+use App\Form\model\ModelCampusVille;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -51,7 +51,7 @@ class CampusRepository extends ServiceEntityRepository
 
         return new $query;
     }
-    public function findAllSearch(RechercheVilleModel $recherche)
+    public function findAllSearch(ModelCampusVille $recherche)
     {
 
         $qb = $this->createQueryBuilder('c');

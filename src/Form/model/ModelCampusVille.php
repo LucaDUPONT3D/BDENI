@@ -2,7 +2,7 @@
 
 namespace App\Form\model;
 
-class RechercheVilleModel
+class ModelCampusVille
 {
     private $recherche;
 
