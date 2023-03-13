@@ -12,8 +12,8 @@
         {% for campus in listeCampus %}
         <tr>
             <td>{{ campus.nom }}</td>
-            <td><a href="{{ path('admin_delete_campus',{'id' : campus.id}) }} ">suprimer</a>
-                <a href="{{ path('admin_update_campus',{'id' : campus.id}) }} ">modifier</a></td>
+            <td><a href="{{ path('admin_delete_campus',{'id' : campus.id}) }} "><button type="button" class="btn btn-danger"> Supprimer</button></a>
+                <a href="{{ path('admin_update_campus',{'id' : campus.id}) }} "><button type="button" class="btn btn-primary"> Modifier</button></a></td>
 
             {% endfor %}
         <tr>
@@ -21,7 +21,7 @@
 
             <td> {{ form_row(campusForm.nom) }}</td>
             <td>
-                <button> valider</button>
+                <button type="submit" class="btn btn-primary mr-15">Enregistrer</button>
             </td>
             {{ form_end(campusForm) }}
         </tr>

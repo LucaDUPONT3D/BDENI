@@ -14,7 +14,8 @@
         <tr>
             <td>{{ ville.nom }}</td>
             <td>{{ ville.codePostal }}</td>
-            <td><a href="{{ path('admin_delete_ville',{'id' : ville.id})}} ">suprimer</a> <a href="{{ path('admin_update_ville',{'id' : ville.id})}} ">modifier</a></td>
+            <td><a href="{{ path('admin_delete_ville',{'id' : ville.id})}} "><button class="btn btn-danger">Supprimer</button></a>
+                <a href="{{ path('admin_update_ville',{'id' : ville.id})}} "><button class="btn btn-primary">Modifier</button></a></td>
         </tr>
         {% endfor %}
         <tr>
@@ -22,7 +23,7 @@
 
             <td> {{ form_row(addville.nom) }}</td>
             <td>{{ form_row(addville.codePostal) }}</td>
-            <td> <button> valider</button></td>
+            <td> <button type="submit" class="btn btn-primary" > Enregistrer</button></td>
             {{ form_end(addville) }}
         </tr>
 
