@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
+{% form_theme campusForm 'view/formTheme/formTheme.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | Campus
+{% endblock %}
 
 {% block body %}
     <h3> Gérer les Campus</h3>
-    <h4>Filtrer les villes</h4>
-    {% include('bodyStructures/forms/addCampusForm.html.twig') %}
+
+        {% include('bodyStructures/forms/filtreCampusVille.html.twig') %}
+
     <table>
         <tr>
             <th>Campus</th>
@@ -12,11 +18,12 @@
         {% for campus in listeCampus %}
         <tr>
             <td>{{ campus.nom }}</td>
-            <td><a href="{{ path('admin_delete_campus',{'id' : campus.id}) }} "><button type="button" class="btn btn-danger"> Supprimer</button></a>
-                <a href="{{ path('admin_update_campus',{'id' : campus.id}) }} "><button type="button" class="btn btn-primary"> Modifier</button></a></td>
+            <td><a href="{{ path('admin_campus_delete',{'id' : campus.id}) }} "><button type="button" class="btn btn-danger"> Supprimer</button></a>
+                <a href="{{ path('admin_campus_update',{'id' : campus.id}) }} "><button type="button" class="btn btn-primary"> Modifier</button></a></td>
 
             {% endfor %}
         <tr>
+
             {{ form_start(campusForm) }}
 
             <td> {{ form_row(campusForm.nom) }}</td>
@@ -27,10 +34,6 @@
         </tr>
 
     </table>
-
-{% endblock %}
-
-{% block title %}
 
 {% endblock %}
 

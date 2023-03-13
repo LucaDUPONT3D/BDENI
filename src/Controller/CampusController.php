@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\Campus;
 use App\Entity\Ville;
 use App\Form\CampusType;
-use App\Form\model\RechercheVilleModel;
-use App\Form\RechercheType;
+use App\Form\model\ModelCampusVille;
+use App\Form\FiltreCampusVille;
 use App\Repository\CampusRepository;
 
 use App\Repository\LieuRepository;
@@ -16,69 +16,84 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin', name: 'admin_')]
+#[Route('/admin/campus', name: 'admin_campus_')]
 class CampusController extends AbstractController
 {
-    #[Route('/add_campus', name: 'add_campus')]
+    #[Route('/add', name: 'add')]
     public function add_campus(CampusRepository $campusRepository, Request $request): Response
     {
-        $listeCampus = $campusRepository->findAll();
-        $campusRecherche = new RechercheVilleModel();
-        $formRecherche = $this->createForm(RechercheType::class, $campusRecherche);
-        $formRecherche->handleRequest($request);
-        if ($formRecherche->isSubmitted() && $formRecherche->isValid()) {
-            $listeCampus = $campusRepository->findAllSearch($campusRecherche);
+        //Créer un formulaire de filtre
+        $model = new ModelCampusVille();
+        $filtreCampusForm = $this->createForm(FiltreCampusVille::class, $model);
+        $filtreCampusForm->handleRequest($request);
+
+
+        if ($filtreCampusForm->isSubmitted() && $filtreCampusForm->isValid()) {
+
+            $listeCampus = $campusRepository->findAllSearch($model);
+
+        } else {
+            $listeCampus = $campusRepository->findAll();
         }
+
+        //Créer un formulaire de création de campus
         $campus = new Campus();
         $campusForm = $this->createForm(CampusType::class, $campus);
         $campusForm->handleRequest($request);
+
         if ($campusForm->isSubmitted() && $campusForm->isValid()) {
             $campusRepository->save($campus, true);
-            $this->addFlash('réussi', 'Ajout reussi');
+            $this->addFlash('primary', 'Campus créé');
+
+            return $this->redirectToRoute('admin_campus_add');
 
         }
 
-        return $this->render('admin/campus/add_campus.html.twig', [
+        return $this->render('/admin/campus/add.html.twig', [
             'listeCampus' => $listeCampus,
-            'formRecherche' => $formRecherche->createView(),
+            'filtreCampusForm' => $filtreCampusForm->createView(),
             'campusForm' => $campusForm->createView()
 
         ]);
     }
 
-    #[Route('/delete_campus/{id}', name: 'delete_campus', requirements: ["page" => "\d+"])]
-    public function delete_campus(CampusRepository $campusRepository, Request $request, int $id, SortieRepository $sortieRepository): Response
+    #[Route('/delete/{id}', name: 'delete', requirements: ["id" => "\d+"])]
+    public function delete_campus(
+        CampusRepository $campusRepository,
+        Request $request,
+        int $id,
+        SortieRepository $sortieRepository
+    ): Response
     {
-        $campusASuprimer = new Campus();
+
         $campusASuprimer = $campusRepository->find($id);
         $reussi = $sortieRepository->findBy(['campus' => $campusASuprimer]);
 
         if ($reussi) {
-            $this->addFlash('echec', 'Supression imposible campus utiliser dans une autre page');
+            $this->addFlash('warning', 'Supression imposible campus utiliser dans une autre page');
         } else {
             $campusRepository->remove($campusASuprimer, true);
-            $this->addFlash('reussi', 'Supression réussi');
+            $this->addFlash('danger', 'Campus supprimé');
         }
-        return $this->redirectToRoute('admin_add_campus');
+        return $this->redirectToRoute('admin_campus_add');
 
 
     }
 
-    #[Route('/update_campus/{id}', name: 'update_campus', requirements: ["page" => "\d+"])]
+    #[Route('/update/{id}', name: 'update', requirements: ["id" => "\d+"])]
     public function update_campus(CampusRepository $campusRepository, Request $request, int $id): Response
     {
 
-        $updateCampus = new  Campus();
         $updateCampus = $campusRepository->find($id);
-        $campusform = $this->createForm(CampusType::class, $updateCampus );
+        $campusform = $this->createForm(CampusType::class, $updateCampus);
         $campusform->handleRequest($request);
 
-        if ($campusform->isSubmitted() && $campusform->isValid()){
+        if ($campusform->isSubmitted() && $campusform->isValid()) {
             $campusRepository->save($updateCampus, true);
-            $this->addFlash('reussi', 'modification reussie');
-          $returner =  $this->redirectToRoute('admin_add_campus');
-        }else{
-            $returner =  $this->render('admin/update_campus.html.twig', [
+            $this->addFlash('primary', 'Campus modifié');
+          $returner =  $this->redirectToRoute('admin_campus_add');
+        }else {
+            $returner =  $this->render('admin/campus/update.html.twig', [
                 'campusform' => $campusform->createView()
             ]);
         }
