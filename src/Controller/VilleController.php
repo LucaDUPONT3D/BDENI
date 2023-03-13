@@ -57,7 +57,7 @@ class VilleController extends AbstractController
 
     }
 
-    #[Route('/delete{id}', name: 'delete', requirements: ["id" => "\d+"])]
+    #[Route('/delete/{id}', name: 'delete', requirements: ["id" => "\d+"])]
     public function delete(VilleRepository $villeRepository, int $id, LieuRepository $lieuRepository): Response
     {
 
@@ -74,7 +74,7 @@ class VilleController extends AbstractController
 
         return $this->redirectToRoute('admin_ville_add');
     }
-    #[Route('/update{id}', name: 'update', requirements: ["id" => "\d+"])]
+    #[Route('/update/{id}', name: 'update', requirements: ["id" => "\d+"])]
     public function update(Request $request, VilleRepository $villeRepository, int $id): Response
     {
 

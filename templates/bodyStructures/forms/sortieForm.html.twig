@@ -15,8 +15,12 @@
 <button type="submit" name="submit" value="1" class="btn btn-primary">Enregistrer</button>
 <button type="submit" name="submit" value="2" class="btn btn-success">Publier la sortie</button>
 {% if(sortie.id) %}
-    <a href="{{ path('sortie_delete', {'id': sortie.id}) }}"><button type="button" id="supprimer" class="btn btn-danger">Supprimer la sortie</button></a>
+    <button type="button" id="supprimer" class="btn btn-danger" data-sortie="{{ sortie.id }}">Supprimer la sortie</button>
 {% endif %}
 <a href="{{ path("main_home") }}"><button type="button" class="btn btn-secondary">Annuler</button></a>
 
 {{ form_end(sortieForm) }}
+
+<script>
+
+</script>

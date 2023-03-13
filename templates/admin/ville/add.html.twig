@@ -11,7 +11,7 @@
 
 {% block body %}
     <h3> Gérer les villes</h3>
-{% include('bodyStructures/forms/filtreCampusVille.html.twig') %}
+    {% include('bodyStructures/forms/filtreCampusVille.html.twig') %}
 
     <table>
         <tr>
@@ -19,24 +19,49 @@
             <th>Code Postal</th>
             <th>Action</th>
         </tr>
-        {%for ville in tableauVille %}
-        <tr>
-            <td>{{ ville.nom }}</td>
-            <td>{{ ville.codePostal }}</td>
-            <td><a href="{{ path('admin_ville_delete',{'id' : ville.id})}} "><button class="btn btn-danger">Supprimer</button></a>
-                <a href="{{ path('admin_ville_update',{'id' : ville.id})}} "><button class="btn btn-primary">Modifier</button></a></td>
-        </tr>
+        {% for ville in tableauVille %}
+            <tr>
+                <td>{{ ville.nom }}</td>
+                <td>{{ ville.codePostal }}</td>
+                <td>
+                    <button class="btn btn-danger supprimer" data-ville="{{ ville.id }}">Supprimer</button>
+                    <a href="{{ path('admin_ville_update',{'id' : ville.id}) }} ">
+                        <button class="btn btn-primary">Modifier</button>
+                    </a>
+                </td>
+            </tr>
         {% endfor %}
         <tr>
             {{ form_start(villeForm) }}
 
             <td> {{ form_row(villeForm.nom) }}</td>
             <td>{{ form_row(villeForm.codePostal) }}</td>
-            <td> <button type="submit" class="btn btn-primary" > Enregistrer</button></td>
+            <td>
+                <button type="submit" class="btn btn-primary"> Enregistrer</button>
+            </td>
             {{ form_end(villeForm) }}
         </tr>
 
     </table>
+
+    <script>
+        let elements = document.getElementsByClassName('supprimer')
+
+        for (let element of elements) {
+            element.addEventListener('click', function () {
+
+                let result = window.confirm('Êtes-vous sur de vouloir supprimer cette ville ?')
+
+                if (result) {
+
+                    let url = "{{ path("admin_ville_delete", {"id" : 0}) }}";
+                    let id = element.dataset.ville;
+                    url = url.replace('/0', '/' + id);
+                    window.location.href=url
+                }
+            })
+        }
+    </script>
 
 {% endblock %}
 

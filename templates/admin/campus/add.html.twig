@@ -22,8 +22,10 @@
         {% for campus in listeCampus %}
         <tr>
             <td>{{ campus.nom }}</td>
-            <td><a href="{{ path('admin_campus_delete',{'id' : campus.id}) }} "><button type="button" class="btn btn-danger"> Supprimer</button></a>
-                <a href="{{ path('admin_campus_update',{'id' : campus.id}) }} "><button type="button" class="btn btn-primary"> Modifier</button></a></td>
+            <td>
+                <button class="btn btn-danger supprimer" data-campus="{{ campus.id }}">Supprimer</button>
+                <a href="{{ path('admin_campus_update',{'id' : campus.id}) }} "><button type="button" class="btn btn-primary"> Modifier</button></a>
+            </td>
 
             {% endfor %}
         <tr>
@@ -38,6 +40,22 @@
         </tr>
 
     </table>
+    <script>
+        let elements = document.getElementsByClassName('supprimer')
 
+        for (let element of elements) {
+            element.addEventListener('click', function () {
+
+                let result = window.confirm('Êtes-vous sur de vouloir supprimer ce campus ?')
+
+                if (result) {
+                    let url = "{{ path("admin_campus_delete", {"id" : 0}) }}";
+                    let id = element.dataset.campus;
+                    url = url.replace('/0', '/' + id);
+                    window.location.href=url
+                }
+            })
+        }
+    </script>
 {% endblock %}
 
