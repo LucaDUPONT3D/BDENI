@@ -17,7 +17,8 @@ class FiltreCampusVille extends AbstractType
             ->add(
                 'recherche',
                 SearchType::class,
-                ['label'=> 'Le nom contient : ']
+                ['label'=> 'Le nom contient : ',
+                    'attr'=>['placeholder' => 'Entrez un mot...']]
             )
         ;
     }
