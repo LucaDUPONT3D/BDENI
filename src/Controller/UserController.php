@@ -156,7 +156,7 @@ class UserController extends AbstractController
         if($user){
             $user->setActif(false);
             $userRepository->save($user,true);
-            $this->addFlash('danger', 'Utilisateur banni');
+            $this->addFlash('primary', 'Utilisateur banni');
         }
 
 
@@ -169,7 +169,7 @@ class UserController extends AbstractController
         if($user){
             $user->setActif(true);
             $userRepository->save($user,true);
-            $this->addFlash('danger', 'Utilisateur débanni');
+            $this->addFlash('primary', 'Utilisateur débanni');
         }
 
 
