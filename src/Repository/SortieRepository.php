@@ -106,40 +106,11 @@ class SortieRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findAllToDisplayFilter(Model $model, $user, $page)
+    public function findAllToDisplayFilter(Model $model, $user)
     {
 
-        $offset = ($page - 1) * self::SORTIE_LIMIT;
-
-
-        $qb = $this->baseQuery()
-            ->setMaxResults(self::SORTIE_LIMIT)
-            ->setFirstResult($offset);
-
-        $qb = $this->filter($model, $user, $qb);
-
-        $query = $qb->getQuery();
-
-        return $query->getResult();
-
-    }
-
-    public function findAllToCheckFilter(Model $model, $user)
-    {
 
         $qb = $this->baseQuery();
-
-        $qb = $this->filter($model, $user, $qb);
-
-        $query = $qb->getQuery();
-
-        return $query->getResult();
-
-    }
-
-
-    public function filter(Model $model, $user, $qb)
-    {
 
         if ($model->getCampus() != null) {
             $qb->andWhere('c.nom = :campus')
@@ -189,6 +160,9 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('e.id != 6');
         }
 
-        return $qb;
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
     }
 }

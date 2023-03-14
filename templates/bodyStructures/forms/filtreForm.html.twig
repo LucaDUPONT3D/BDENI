@@ -6,51 +6,52 @@
     <div class="">
         <p><b>Date du jour : </b>{{ date('now')|date('d/m/y') }}</p>
         <p><b>Participant : </b>{{ app.user.pseudo }} </p>
-        <p><img src="{{ asset('assets/img/' ~ app.user.image ) }}" alt="{{ app.user.nom }}" class="img-thumbnail "
-                width="75" height="75"></p>
+        <p><img src="{{ asset('assets/img/' ~ app.user.image ) }}" alt="{{ app.user.nom }}" class="img-thumbnail " width="75" height="75"></p>
     </div>
 
 
-    {{ form_start(filtreForm) }}
+{{ form_start(filtreForm) }}
 
 
-    <div class="form-control">
-        <h5 class="text-center">Filtrer les sorties</h5>
+<div class="form-control">
+    <h5 class="text-center">Filtrer les sorties</h5>
+    <div class="form-group">
+        {{ form_row(filtreForm.campus, {'attr': {'class': 'form-control'}} ) }}
+
+        {{ form_row(filtreForm.recherche, {'attr': {'class': 'form-control'}}) }}
+
         <div class="form-group">
-            {{ form_row(filtreForm.campus, {'attr': {'class': 'form-control'}} ) }}
-
-            {{ form_row(filtreForm.recherche, {'attr': {'class': 'form-control'}}) }}
-
-            <div class="form-group">
-                <b>{{ form_label(filtreForm.entre) }}</b>
-                &ensp;
-                {{ form_widget(filtreForm.entre) }}
-            </div>
-            <div class="form-group"> &emsp;
-                <b>{{ form_label(filtreForm.et) }}</b>
-                &ensp;
-                {{ form_widget(filtreForm.et) }}
-            </div>
+            <b>{{ form_label(filtreForm.entre) }}</b>
+            &ensp;
+            {{ form_widget(filtreForm.entre) }}
         </div>
-        <div class="form-group">
-            {{ form_row(filtreForm.organisateur, {'attr': {'class': 'form-check'}}) }}
-
-            {{ form_row(filtreForm.inscrit, {'attr': {'class': 'form-check'}}) }}
-
-            {{ form_row(filtreForm.pasInscrit, {'attr': {'class': 'form-check'}}) }}
-
-            {{ form_row(filtreForm.passe, {'attr': {'class': 'form-check'}}) }}
-
-        </div>
-        <div class="flex_ligne">
-            <div class="form-group ">
-                <button type="submit" class="btn btn-secondary">Rechercher</button>
-            </div>
-            <div class="form-group">
-                <a href="{{ path('sortie_add') }}"><button type="button" class="btn btn-primary ">Créer une sortie</button></a>
-            </div>
+            <div class="form-group">  &emsp;
+            <b>{{ form_label(filtreForm.et) }}</b>
+            &ensp;
+            {{ form_widget(filtreForm.et) }}
         </div>
     </div>
+    <div class="form-group">
+        {{ form_row(filtreForm.organisateur, {'attr': {'class': 'form-check'}}) }}
+
+        {{ form_row(filtreForm.inscrit, {'attr': {'class': 'form-check'}}) }}
+
+        {{ form_row(filtreForm.pasInscrit, {'attr': {'class': 'form-check'}}) }}
+
+        {{ form_row(filtreForm.passe, {'attr': {'class': 'form-check'}}) }}
+
+    </div>
+<div class="flex_ligne">
+    <div class="form-group ">
+        <button type="submit" class="btn btn-secondary">Rechercher</button>
+    </div>
+    <div class="form-group">
+        <a href="{{ path('sortie_add') }}">
+            <button type="button" class="btn btn-primary ">Créer une sortie</button>
+        </a>
+    </div>
+</div>
+</div>
 </div>
 
 {{ form_end(filtreForm) }}

@@ -33,8 +33,6 @@
                 }
                 let select = document.getElementById(`appbundle_sortie_lieu`)
                 select.innerHTML = info
-
-                displayLieuInfos(data[0])
             })
         })
 
@@ -50,16 +48,12 @@
                 })
 
             data.then(function (data) {
-                displayLieuInfos(data)
+                document.getElementById('sortie_lieu_rue').innerHTML = '<b>Rue : </b>' + data.rue
+                document.getElementById('sortie_lieu_cp').innerHTML = '<b>Code Postal : </b>' + data.ville.codePostal
+                document.getElementById('sortie_lieu_latitude').innerHTML = '<b>Latitude : </b>' + data.latitude
+                document.getElementById('sortie_lieu_longitude').innerHTML = '<b>Longitude : </b>' + data.longitude
             })
         })
-
-        function displayLieuInfos(data){
-            document.getElementById('sortie_lieu_rue').innerHTML = '<b>Rue : </b>' + data.rue
-            document.getElementById('sortie_lieu_cp').innerHTML = '<b>Code Postal : </b>' + data.ville.codePostal
-            document.getElementById('sortie_lieu_latitude').innerHTML = '<b>Latitude : </b>' + data.latitude
-            document.getElementById('sortie_lieu_longitude').innerHTML = '<b>Longitude : </b>' + data.longitude
-        }
 
     </script>
 {% endblock %}

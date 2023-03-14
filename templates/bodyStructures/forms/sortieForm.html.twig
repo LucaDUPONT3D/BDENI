@@ -2,8 +2,9 @@
 {{ form_start(sortieForm) }}
     {{ form_widget(sortieForm) }}
 <br>
-<a href="{{ path("lieu_add") }}"><button class="btn btn-primary" type="button" id="addLieu">Créer un lieu</button></a>
-
+<a href="{{ path("lieu_add") }}">
+    <button class="btn btn-primary" type="button" id="addLieu">Créer un lieu</button>
+</a>
 <div id="infos_lieu">
     <br>
     <p id="sortie_lieu_rue"><b>Rue : </b></p>
@@ -34,6 +35,4 @@
                 window.location.href = url
             }
         })
-
-
 </script>

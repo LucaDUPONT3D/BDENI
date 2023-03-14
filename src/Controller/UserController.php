@@ -25,7 +25,11 @@ class UserController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils, UserRepository $userRepository): Response
     {
 
+
+
         if ($this->getUser()) {
+
+
 
             $this->addFlash("success", "Bienvenue !");
 
@@ -115,7 +119,7 @@ class UserController extends AbstractController
     }
 
     #[Route(path: '/admin/user', name: 'admin_user_show_all')]
-    public function showAll(UserRepository $userRepository, Request $request)
+    public function show_all(UserRepository $userRepository, Request $request)
     {
 
         $recherche = new ModelCampusVille();
@@ -129,7 +133,7 @@ class UserController extends AbstractController
             $listUser = $userRepository->findAll();
         }
 
-        return $this->render('admin/user/showAll.html.twig', [
+        return $this->render('admin/user.html.twig', [
             'listUser' => $listUser,
             'rechercheFormulaire' => $rechercheFormulaire->createView()
         ]);
@@ -152,6 +156,7 @@ class UserController extends AbstractController
     #[Route('/admin/user/ban/{id}', name: 'admin_user_ban',requirements:['id' => '\d+'])]
     public function ban(EntityManagerInterface $entityManager,UserRepository $userRepository, int $id): Response
     {
+        $user = new User();
         $user = $userRepository->find($id);
         if($user){
             $user->setActif(false);
@@ -165,6 +170,7 @@ class UserController extends AbstractController
     #[Route('/admin/user/unban/{id}', name: 'admin_user_unban',requirements:['id' => '\d+'])]
     public function unban(EntityManagerInterface $entityManager,UserRepository $userRepository, int $id): Response
     {
+        $user = new User();
         $user = $userRepository->find($id);
         if($user){
             $user->setActif(true);
