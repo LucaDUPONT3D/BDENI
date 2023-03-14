@@ -31,8 +31,11 @@
                     <td>
                         <button class="btn btn-danger supprimer " type="button" data-user="{{ user.id }}">Supprimer
                         </button>
+                        {% if (user.actif) %}
                         <a href="{{ path('admin_user_ban',{'id' : user.id}) }} "><button class="btn btn-primary">Bannir</button></a>
+                            {% else %}
                         <a href="{{ path('admin_user_unban',{'id' : user.id}) }} "><button class="btn btn-primary">Débannir</button></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
