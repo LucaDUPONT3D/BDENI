@@ -29,17 +29,7 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('fichier', FileType::class, [
-                'label' => 'Ajouter plusieur utilisateur',
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File ([
-                        'maxSize' => '5000k',
-                        'mimeTypesMessage' => 'Image non valide !',
-                    ])
-                ],
-            ])
+
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo',
                 'trim' => true,
