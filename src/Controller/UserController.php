@@ -2,14 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 
 use App\Form\FiltreCampusVille;
 use App\Form\model\ModelCampusVille;
 use App\Form\UserType;
 use App\Utils\Uploader;
 use App\Repository\UserRepository;
-use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,10 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+
 
 class UserController extends AbstractController
 {
@@ -57,7 +53,6 @@ class UserController extends AbstractController
             'user' => $user
         ]);
     }
-
     #[Route(path: '/user/update', name: 'user_update')]
     public function update(
         Request $request,
@@ -110,25 +105,51 @@ class UserController extends AbstractController
 
 
     #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(): void {}
+    public function logout(): void
+    {
+    }
 
     #[Route(path: '/admin/user', name: 'admin_user_show_all')]
-    public function showAll(UserRepository $userRepository, Request $request){
+    public function show_all(UserRepository $userRepository, Request $request)
+    {
 
         $recherche = new ModelCampusVille();
         $rechercheFormulaire = $this->createForm(FiltreCampusVille::class, $recherche);
         $rechercheFormulaire->handleRequest($request);
 
-        if($rechercheFormulaire->isSubmitted() && $rechercheFormulaire->isValid()){
+        if ($rechercheFormulaire->isSubmitted() && $rechercheFormulaire->isValid()) {
 
-            $listUser =  $userRepository->findAllSearch($recherche);
-        }else{
+            $listUser = $userRepository->findAllSearch($recherche);
+        } else {
             $listUser = $userRepository->findAll();
         }
 
-        return $this->render('admin/user.html.twig',[
-            'listUser'=>$listUser,
-            'rechercheFormulaire'=>$rechercheFormulaire->createView()
+        return $this->render('admin/user.html.twig', [
+            'listUser' => $listUser,
+            'rechercheFormulaire' => $rechercheFormulaire->createView()
         ]);
     }
+
+    #[Route(path: '/admin/user/delete/{id}', name: 'admin_user_delete', requirements: ["id" => "\d+"])]
+    public function delete(UserRepository $userRepository, Request $request, int $id,)
+    {
+
+        $utilisateurASuprimer = $userRepository->find($id);
+        if($utilisateurASuprimer){
+            $userRepository->remove($utilisateurASuprimer, true);
+            $this->addFlash('danger', 'Utilisateur supprimé');
+        }
+
+
+        return $this->redirectToRoute('admin_user_show_all');
+
+    }
+
+
+
+
+
+
+
+
 }

@@ -18,20 +18,30 @@
                     <td>{{ user.pseudo }}</td>
                     <td>{{ user.nom }}</td>
                     <td>{{ user.prenom }}</td>
-{#                    <td><a href="{{ path('admin_ville_delete',{'id' : ville.id})}} "><button class="btn btn-danger">Supprimer</button></a>#}
+                    <td><button class="btn btn-danger supprimer " type="button" data-user="{{ user.id }}">Supprimer</button></td>
 {#                        <a href="{{ path('admin_ville_update',{'id' : ville.id})}} "><button class="btn btn-primary">Modifier</button></a></td>#}
                 </tr>
             {% endfor %}
-{#            <tr>#}
-{#                {{ form_start(villeForm) }}#}
 
-{#                <td> {{ form_row(villeForm.nom) }}</td>#}
-{#                <td>{{ form_row(villeForm.codePostal) }}</td>#}
-{#                <td> <button type="submit" class="btn btn-primary" > Enregistrer</button></td>#}
-{#                {{ form_end(villeForm) }}#}
-{#            </tr>#}
 
         </table>
+        <script>
+            let elements = document.getElementsByClassName('supprimer')
+
+            for (let element of elements) {
+                element.addEventListener('click', function () {
+
+                    let result = window.confirm('Êtes-vous sur de vouloir supprimer cet utilisateur?')
+
+                    if (result) {
+                        let url = "{{ path("admin_user_delete", {"id" : 0}) }}";
+                        let id = element.dataset.user;
+                        url = url.replace('/0', '/' + id);
+                        window.location.href = url
+                    }
+                })
+            }
+        </script>
     </div>
 
 {% endblock %}
