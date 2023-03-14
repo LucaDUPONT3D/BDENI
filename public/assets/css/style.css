@@ -2,7 +2,25 @@
     margin: 0;
     padding: 0;
 }
+h1{
 
+    font-family: 'Sono', sans-serif;
+}
+ul{
+    font-family: 'Sono', sans-serif;
+}
+li{
+    font-family: 'Sono', sans-serif;
+}
+table{
+    font-family: 'Sono', sans-serif;
+}
+.form-control{
+    font-family: 'Sono', sans-serif;
+}
+.flex_ligne{
+    font-family: 'Sono', sans-serif;
+}
 .headerIcon{
     width: 100px;
 }
@@ -66,6 +84,7 @@ footer{
     display: flex;
     align-items: center;
     flex-direction: column;
+
 }
 
 .red{
