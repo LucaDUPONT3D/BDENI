@@ -34,23 +34,6 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //upload photo
-            /**
-             * @var UploadedFile $file
-             */
-            $file = $form->get('fichier')->getData();
-
-
-            //appel de l'uploader
-
-            if ($file) {
-                $newFileName = $uploader->upload(
-                    $file,
-                    $this->getParameter('ajout_user'),
-                    $user->getNom());
-                $user->setImage($newFileName);
-            }
-            $password = $form->get('plainPassword')->getData();
 
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
