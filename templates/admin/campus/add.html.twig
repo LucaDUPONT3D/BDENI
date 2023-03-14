@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="bg-light">
+
     <h1 class="text-center"> Gérer les Campus</h1>
 
     {% include('bodyStructures/forms/filtreCampusVille.html.twig') %}
@@ -46,7 +46,6 @@
             {% endfor %}
             </tbody>
         </table>
-    </div>
     </div>
     <script>
         let elements = document.getElementsByClassName('supprimer')

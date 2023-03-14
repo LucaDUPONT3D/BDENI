@@ -10,13 +10,13 @@
 
 {% block body %}
 
-    <div class="container bg-light">
+    <div class="container">
         <h1 class="text-center">Profil de {{ user.pseudo }}</h1>
         <div>
             <img src="{{ asset('assets/img/' ~ user.image ) }}" alt="{{ user.nom }}">
         </div>
 
-        <div class="user-info mx-auto text-center" style="width: 600px;">
+        <div class="user-info mx-auto text-center bg-light" style="width: 600px;">
             <div class="mt-3">
                 <label for="prenom"><b>Prénom : </b>{{ user.prenom }}</label>
             </div>
@@ -29,16 +29,16 @@
             <div class="mt-3">
                 <label for="email"><b>Email : </b>{{ user.email }}</label>
             </div>
-            <div class="mt-3">
+            <div class="mt-3 mb-3">
                 <label for="campus"><b>Campus : </b>{{ user.campus.nom }}</label>
-            </div>
-            <div class="mt-5">
-                <a  href="{{ path("main_home") }}">
-                    <button class="btn btn-secondary " type="button" name="Retour">Retour</button>
-                </a>
             </div>
         </div>
 
+    </div>
+    <div class="mt-5 text-center">
+        <a  href="{{ path("main_home") }}">
+            <button class="btn btn-secondary " type="button" name="Retour">Retour</button>
+        </a>
     </div>
 
 {% endblock %}

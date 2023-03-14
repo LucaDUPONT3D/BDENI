@@ -35,38 +35,38 @@ class SortieType extends AbstractType
                 'nom',
                 TextType::class,
                 ['label' => 'Nom de la sortie : ',
-                    'attr' => ['placeholder' => 'Entrez un nom ...']
+                    'attr' => ['placeholder' => 'Entrez un nom ...','class' => 'form-control']
                 ]
             )
             ->add(
                 'dateHeureDebut',
                 DateTimeType::class,
-                ['label' => 'Date et Heure de la Sortie : ', 'html5' => true, 'widget' => 'single_text']
+                ['label' => 'Date et Heure de la Sortie : ', 'html5' => true, 'widget' => 'single_text', 'attr' => ['class' => 'form-control']]
             )
             ->add(
                 'dateLimiteInscription',
                 DateType::class,
-                ['label' => 'Date limite d\'incription : ', 'html5' => true, 'widget' => 'single_text']
+                ['label' => 'Date limite d\'incription : ', 'html5' => true, 'widget' => 'single_text', 'attr' => ['class' => 'form-control']]
             )
             ->add(
                 'nbInsriptionsMax',
                 NumberType::class,
                 ['label' => 'Nombre de places : ',
-                    'attr' => ['placeholder' => 'Entrez un nombre de places ...']
+                    'attr' => ['placeholder' => 'Entrez un nombre de places ...','class' => 'form-control']
                 ]
             )
             ->add(
                 'duree',
                 NumberType::class,
                 ['label' => 'Durée (minutes) : ',
-                    'attr' => ['placeholder' => 'Entrez une durée ...']
+                    'attr' => ['placeholder' => 'Entrez une durée ...','class' => 'form-control']
                 ]
             )
             ->add(
                 'infosSortie',
                 TextareaType::class,
                 ['label' => 'Description et infos : ',
-                    'attr' => ['placeholder' => 'Entrez une description ...']
+                    'attr' => ['placeholder' => 'Entrez une description ...','class' => 'form-control']
                 ]
             )
             ->add(
@@ -78,7 +78,7 @@ class SortieType extends AbstractType
                     'query_builder' => function (CampusRepository $campusRepository) {
                         return $campusRepository->createQueryBuilder('c');
                     },
-                    'label' => 'Campus : ']
+                    'label' => 'Campus : ', 'attr' => ['class' => 'form-control']]
             )
             ->add(
                 'ville',
@@ -90,7 +90,7 @@ class SortieType extends AbstractType
                     'query_builder' => function (VilleRepository $villeRepository) {
                         return $villeRepository->createQueryBuilder('v');
                     },
-                    'label' => 'Ville : ']
+                    'label' => 'Ville : ', 'attr' => ['class' => 'form-control']]
             )
             ->add(
                 'lieu',
@@ -99,7 +99,7 @@ class SortieType extends AbstractType
                     'choice_label' => 'nom',
                     'label' => 'Lieu : ',
                     'placeholder' => 'Choisissez un lieu ...',
-                    'choices' => []]
+                    'choices' => [], 'attr' => ['class' => 'form-control']]
             );
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
@@ -119,7 +119,7 @@ class SortieType extends AbstractType
             'choice_label' => 'nom',
             'choices' => $lieux,
             'placeholder' => 'Choisissez un lieu ...',
-            'class' => Lieu::class
+            'class' => Lieu::class, 'attr' => ['class' => 'form-control']
         ));
     }
 
@@ -145,7 +145,7 @@ class SortieType extends AbstractType
                         'query_builder' => function (VilleRepository $villeRepository) {
                             return $villeRepository->createQueryBuilder('v');
                         },
-                        'label' => 'Ville : ']
+                        'label' => 'Ville : ', 'attr' => ['class' => 'form-control']]
                 );
 
                 $form->add('lieu', EntityType::class, array(
@@ -154,7 +154,7 @@ class SortieType extends AbstractType
                     'data' => $lieu,
                     'choices' => $lieux,
                     'placeholder' => 'Choisissez un lieu ...',
-                    'class' => Lieu::class
+                    'class' => Lieu::class, 'attr' => ['class' => 'form-control']
                 ));
             }
         }

@@ -1,4 +1,5 @@
 {% form_theme sortieForm 'view/formTheme/formTheme.html.twig' %}
+<div class="form-container">
 {{ form_start(sortieForm) }}
     {{ form_widget(sortieForm) }}
 <br>
@@ -19,7 +20,7 @@
 <a href="{{ path("main_home") }}"><button type="button" class="btn btn-secondary">Annuler</button></a>
 
 {{ form_end(sortieForm) }}
-
+</div>
 <script>
     let element = document.getElementById('supprimer')
 

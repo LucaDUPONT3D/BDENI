@@ -18,7 +18,7 @@ class FiltreCampusVille extends AbstractType
                 'recherche',
                 SearchType::class,
                 ['label'=> 'Le nom contient : ',
-                    'attr'=>['placeholder' => 'Entrez un mot...']]
+                    'attr'=>['placeholder' => 'Entrez un mot...', 'class'=> 'form-control']]
             )
         ;
     }
