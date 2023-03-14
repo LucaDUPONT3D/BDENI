@@ -21,6 +21,7 @@ security:
             logout:
                 path: app_logout    # where to redirect after logout
                 target: main_home
+            user_checker: App\Security\UserChecker
             remember_me:
                 secret: '%kernel.secret%' # required
                 lifetime: 604800 # 1 week in seconds
@@ -40,6 +41,7 @@ security:
         - { path: ^/login, roles: PUBLIC_ACCESS }
 
 when@test:
+
     security:
         password_hashers:
             # By default, password hashers are resource intensive and take time. This is

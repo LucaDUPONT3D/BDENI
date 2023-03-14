@@ -11,15 +11,23 @@
                 <th>Pseudo</th>
                 <th>Nom</th>
                 <th>Prénom</th>
-                <th>Action </th>
+                <th>Action</th>
             </tr>
-            {%for user in listUser %}
+            {% for user in listUser %}
                 <tr>
                     <td>{{ user.pseudo }}</td>
                     <td>{{ user.nom }}</td>
                     <td>{{ user.prenom }}</td>
-                    <td><button class="btn btn-danger supprimer " type="button" data-user="{{ user.id }}">Supprimer</button></td>
-{#                        <a href="{{ path('admin_ville_update',{'id' : ville.id})}} "><button class="btn btn-primary">Modifier</button></a></td>#}
+                    <td>
+                        <button class="btn btn-danger supprimer " type="button" data-user="{{ user.id }}">Supprimer
+                        </button>
+                        <a href="{{ path('admin_user_ban',{'id' : user.id}) }} ">
+                            <button class="btn btn-primary">Bannir</button>
+                        </a>
+                        <a href="{{ path('admin_user_unban',{'id' : user.id}) }} ">
+                            <button class="btn btn-primary">Débannir</button>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
 

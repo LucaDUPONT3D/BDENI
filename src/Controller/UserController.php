@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\User;
 use App\Form\FiltreCampusVille;
 use App\Form\model\ModelCampusVille;
 use App\Form\UserType;
@@ -21,19 +22,27 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class UserController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, UserRepository $userRepository): Response
     {
+
+
+
         if ($this->getUser()) {
+
+
 
             $this->addFlash("success", "Bienvenue !");
 
             return $this->redirectToRoute('main_home');
         }
 
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+        $user= $this->getUser();
+
 
 
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
@@ -143,6 +152,34 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('admin_user_show_all');
 
+    }
+    #[Route('/admin/user/ban/{id}', name: 'admin_user_ban',requirements:['id' => '\d+'])]
+    public function ban(EntityManagerInterface $entityManager,UserRepository $userRepository, int $id): Response
+    {
+        $user = new User();
+        $user = $userRepository->find($id);
+        if($user){
+            $user->setActif(false);
+            $userRepository->save($user,true);
+            $this->addFlash('danger', 'Utilisateur banni');
+        }
+
+
+        return $this->redirectToRoute('admin_user_show_all');
+    }
+    #[Route('/admin/user/unban/{id}', name: 'admin_user_unban',requirements:['id' => '\d+'])]
+    public function unban(EntityManagerInterface $entityManager,UserRepository $userRepository, int $id): Response
+    {
+        $user = new User();
+        $user = $userRepository->find($id);
+        if($user){
+            $user->setActif(true);
+            $userRepository->save($user,true);
+            $this->addFlash('danger', 'Utilisateur débanni');
+        }
+
+
+        return $this->redirectToRoute('admin_user_show_all');
     }
 
 
