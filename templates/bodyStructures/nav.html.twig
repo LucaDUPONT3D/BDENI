@@ -8,54 +8,48 @@
                 aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+        <div class="collapse navbar-collapse navbar-brand " id="navbarNavDarkDropdown">
             <ul class="navbar-nav">
 
                 <li class="nav-item dropdown">
                     {% if app.user %}
                     {% if is_granted("ROLE_ADMIN") %}
 
-                <li><a class="dropdown-item" href="{{ path('admin_register') }}">
+                <li><a class="dropdown-item margin_left animation" href="{{ path('admin_register') }}">
                         <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M4.5 8.555c0 1.995 1.505 3.5 3.5 3.5s3.5-1.505 3.5-3.5-1.505-3.5-3.5-3.5-3.5 1.505-3.5 3.5ZM19 8.003h-2v3h-3v2h3v3h2v-3h3v-2h-3v-3Zm-15 11h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2Z"></path>
-                        </svg>
-                        Inscription</a></li>
+                        </svg>Inscription</a></li>
 
-                <li><a class="dropdown-item" href="{{ path('admin_user_show_all') }}">
+                <li><a class="dropdown-item margin_left animation" href="{{ path('admin_user_show_all') }}">
                         <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M15 11h7v2h-7v-2Zm1 4h6v2h-6v-2Zm-2-8h8v2h-8V7ZM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2Zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5 4.5 6.505 4.5 8.5 6.005 12 8 12Z"></path>
-                        </svg>
-                        Utilisateurs </a></li>
+                        </svg>Utilisateurs </a></li>
 
-                <li><a class="dropdown-item" href="{{ path('admin_campus_add') }}">
+                <li><a class="dropdown-item margin_left" href="{{ path('admin_campus_add') }}">
                         <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 10h-2V4h1V2H4v2h1v6H3a1 1 0 0 0-1 1v9h20v-9a1 1 0 0 0-1-1Zm-7 8v-4h-4v4H7V4h10v14h-3Z"></path>
                             <path d="M9 6h2v2H9V6Zm4 0h2v2h-2V6Zm-4 4h2v2H9v-2Zm4 0h2v2h-2v-2Z"></path>
-                        </svg>
-                        Campus </a></li>
+                        </svg>Campus </a></li>
 
-                <li><a class="dropdown-item" href="{{ path('admin_ville_add') }}">
+                <li><a class="dropdown-item margin_left" href="{{ path('admin_ville_add') }}">
                         <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 6h-4V3a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7H3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1ZM6 18H4v-2h2v2Zm0-4H4v-2h2v2Zm5 4H9v-2h2v2Zm0-4H9v-2h2v2Zm0-4H9V8h2v2Zm0-4H9V4h2v2Zm4 12h-2v-2h2v2Zm0-4h-2v-2h2v2Zm0-4h-2V8h2v2Zm0-4h-2V4h2v2Zm5 12h-2v-2h2v2Zm0-4h-2v-2h2v2Zm0-4h-2V8h2v2Z"></path>
-                        </svg>
-                        Villes </a></li>
+                        </svg>Villes </a></li>
 
                 {% endif %}
 
-                <li><a class="dropdown-item" href="{{ path('user_update') }}">
+                <li><a class="dropdown-item margin_left" href="{{ path('user_update') }}">
                         <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2Zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3Zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2A6.969 6.969 0 0 1 12 19a6.969 6.969 0 0 1-5.106-2.228Z"></path>
-                        </svg>
-                        Mon Profil</a></li>
+                        </svg>Mon Profil</a></li>
 
-                <li><a class="dropdown-item" href="{{ path('app_logout') }}">
+                <li><a class="dropdown-item margin_left" href="{{ path('app_logout') }}">
                         <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"
                              xmlns="http://www.w3.org/2000/svg">
                             <path d="M18 2H6a1 1 0 0 0-1 1v9l5-4v3h6v2h-6v3l-5-4v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z"></path>
-                        </svg>
-                        Déconnexion - {{ app.user.pseudo }}</a></li>
+                        </svg>Déconnexion - {{ app.user.pseudo }}</a></li>
                 {% else %}
 
                     {#                    <li><a  class="dropdown-item" href="{{ path('app_login') }}"> <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> #}
@@ -63,7 +57,7 @@
                     {#                            </svg>Connexion</a></li> #}
 
                 {% endif %}
-
+                </li>
             </ul>
         </div>
     </div>
