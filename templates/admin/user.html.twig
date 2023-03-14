@@ -21,12 +21,8 @@
                     <td>
                         <button class="btn btn-danger supprimer " type="button" data-user="{{ user.id }}">Supprimer
                         </button>
-                        <a href="{{ path('admin_user_ban',{'id' : user.id}) }} ">
-                            <button class="btn btn-primary">Bannir</button>
-                        </a>
-                        <a href="{{ path('admin_user_unban',{'id' : user.id}) }} ">
-                            <button class="btn btn-primary">Débannir</button>
-                        </a>
+                        <a href="{{ path('admin_user_ban',{'id' : user.id}) }} "><button class="btn btn-primary">Bannir</button></a>
+                        <a href="{{ path('admin_user_unban',{'id' : user.id}) }} "><button class="btn btn-primary">Débannir</button></a>
                     </td>
                 </tr>
             {% endfor %}

@@ -182,11 +182,4 @@ class UserController extends AbstractController
         return $this->redirectToRoute('admin_user_show_all');
     }
 
-
-
-
-
-
-
-
 }
