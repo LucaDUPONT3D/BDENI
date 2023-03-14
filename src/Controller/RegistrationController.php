@@ -11,8 +11,10 @@ use App\Form\VilleType;
 use App\Repository\LieuRepository;
 use App\Repository\VilleRepository;
 use App\Security\UserAuthenticator;
+use App\Utils\Uploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -24,13 +26,31 @@ class RegistrationController extends AbstractController
 {
 
     #[Route('/register', name: 'register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register( Uploader $uploader,Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //upload photo
+            /**
+             * @var UploadedFile $file
+             */
+            $file = $form->get('fichier')->getData();
+
+
+            //appel de l'uploader
+
+            if ($file) {
+                $newFileName = $uploader->upload(
+                    $file,
+                    $this->getParameter('ajout_user'),
+                    $user->getNom());
+                $user->setImage($newFileName);
+            }
+            $password = $form->get('plainPassword')->getData();
 
             $user->setPassword(
                 $userPasswordHasher->hashPassword(

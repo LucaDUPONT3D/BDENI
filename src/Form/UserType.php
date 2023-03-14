@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
+use function Sodium\add;
 
 class UserType extends AbstractType
 {
@@ -105,6 +106,7 @@ class UserType extends AbstractType
                 'choice_label' => 'nom',
                 'trim' => true,
             ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
