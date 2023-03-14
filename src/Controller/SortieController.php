@@ -27,10 +27,6 @@ class SortieController extends AbstractController
         int               $page = 1
     ): Response
     {
-
-        $nbSortieMax = count($sortieRepository->findAllToCheck());
-        $maxPage = ceil($nbSortieMax / SortieRepository::SORTIE_LIMIT);
-
         //Checker les etats
         $sorties = $sortieRepository->findAllToCheck();
         $sorties = $etatSortieManager->checkEtatSorties($sorties);
@@ -44,24 +40,33 @@ class SortieController extends AbstractController
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
             $user = $this->getUser()->getId();
-            $sorties = $sortieRepository->findAllToDisplayFilter($model, $user);
+            $nbSortieMax = count($sortieRepository->findAllToCheckFilter($model, $user));
+            $maxPage = ceil($nbSortieMax / SortieRepository::SORTIE_LIMIT);
 
-            return $this->render('sortie/showAll.html.twig', [
-                'sorties' => $sorties,
-                'filtreForm' => $formFiltre->createView(),
-                "currentPage" => 1,
-                "maxPage" => 1
-            ]);
-        } else {
             if ($page >= 1 && $page <= $maxPage) {
+                $sorties = $sortieRepository->findAllToDisplayFilter($model, $user, $page);
 
+                return $this->render('sortie/showAll.html.twig', [
+                    'sorties' => $sorties,
+                    'filtreForm' => $formFiltre->createView(),
+                    "currentPage" => $page,
+                    "maxPage" => $maxPage
+                ]);
+            } else {
+                throw $this->createNotFoundException("Oops ! Page non trouvée !");
+            }
+        } else {
+
+            $nbSortieMax = count($sortieRepository->findAllToCheck());
+            $maxPage = ceil($nbSortieMax / SortieRepository::SORTIE_LIMIT);
+            if ($page >= 1 && $page <= $maxPage) {
                 $sorties = $sortieRepository->findAllToDisplay($page);
-
             } else {
                 throw $this->createNotFoundException("Oops ! Page non trouvée !");
             }
 
         }
+
 
         return $this->render('sortie/showAll.html.twig', [
             'sorties' => $sorties,
