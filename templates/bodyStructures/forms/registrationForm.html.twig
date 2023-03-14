@@ -5,36 +5,30 @@
     {{ form_start(registrationForm) }}
 
     <div class="form-group">
-        {{ form_label(registrationForm.email)}}
-        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Entrez un email'}}) }}
+        {{ form_row(registrationForm.email)}}
     </div>
     <div class="form-group">
-        {{ form_label(registrationForm.pseudo)}}
-        {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'form-control', 'placeholder': 'Entrez un pseudo'}}) }}
+        {{ form_row(registrationForm.pseudo)}}
     </div>
     <div class="form-group">
-        {{ form_label(registrationForm.prenom)}}
-        {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez un prénom'}}) }}
+        {{ form_row(registrationForm.prenom)}}
     </div>
     <div class="form-group">
-        {{ form_label(registrationForm.nom)}}
-        {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez un nom'}}) }}
+        {{ form_row(registrationForm.nom)}}
     </div>
     <div class="form-group">
-        {{ form_label(registrationForm.telephone)}}
-        {{ form_widget(registrationForm.telephone, {'attr': {'class': 'form-control', 'placeholder': 'Entrez un numéro de téléphone'}}) }}
+        {{ form_row(registrationForm.telephone)}}
     </div>
     <div class="form-group">
-        {{ form_label(registrationForm.plainPassword.first)}}
-        {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+        <b>{{ form_label(registrationForm.plainPassword.first)}}</b>
+        {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder' : 'Entrez un mot de passe...'}}) }}
     </div>
     <div class="form-group">
-        {{ form_label(registrationForm.plainPassword.second)}}
-        {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+        <b>{{ form_label(registrationForm.plainPassword.second)}}</b>
+        {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder' : 'Répétez le mot de passe...'}}) }}
     </div>
     <div class="form-group">
-        {{ form_label(registrationForm.campus)}}
-        {{ form_widget(registrationForm.campus, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(registrationForm.campus)}}
     </div>
     <div class="form-group text-center ">
         <div class="col-sm-offset-3">
