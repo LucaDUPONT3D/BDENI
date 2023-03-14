@@ -16,10 +16,10 @@ class LieuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class, ['label'=>'Nom : ','attr' => ['placeholder' => 'Entrez un nom ...']])
-            ->add('rue', TextType::class, ['label'=>'Adresse : ','attr' => ['placeholder' => 'Entrez une adresse ...']])
-            ->add('latitude', TextType::class, ['label'=>'Latitude : ','attr' => ['placeholder' => 'Entrez une latitude ...']])
-            ->add('longitude', TextType::class, ['label'=>'Longitude : ','attr' => ['placeholder' => 'Entrez une longitude ...']])
+            ->add('nom', TextType::class, ['label'=>'Nom : ','attr' => ['placeholder' => 'Entrez un nom ...','class'=> 'form-control']])
+            ->add('rue', TextType::class, ['label'=>'Adresse : ','attr' => ['placeholder' => 'Entrez une adresse ...','class'=> 'form-control']])
+            ->add('latitude', TextType::class, ['label'=>'Latitude : ','attr' => ['placeholder' => 'Entrez une latitude ...','class'=> 'form-control']])
+            ->add('longitude', TextType::class, ['label'=>'Longitude : ','attr' => ['placeholder' => 'Entrez une longitude ...','class'=> 'form-control']])
             ->add(
                 'ville',
                 EntityType::class,
@@ -29,7 +29,7 @@ class LieuType extends AbstractType
                     'query_builder' => function (VilleRepository $villeRepository) {
                         return $villeRepository->createQueryBuilder('v');
                     },
-                    'label' => 'Ville : ']
+                    'label' => 'Ville : ','attr' => ['class'=> 'form-control']]
             )
         ;
     }

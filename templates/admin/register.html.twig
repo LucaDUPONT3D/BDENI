@@ -10,8 +10,5 @@
 
 {% block body %}
     {% include('bodyStructures/forms/registrationForm.html.twig') %}
-    {{ form_start(formAjoutFile) }}
-    {{ form_row(formAjoutFile) }}
-    <button>valider</button>
-    {{ form_end(formAjoutFile) }}
+    {% include('bodyStructures/forms/csvForm.html.twig') %}
 {% endblock %}

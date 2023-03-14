@@ -91,18 +91,6 @@ class RegistrationFormType extends AbstractType
                 'placeholder' => 'Choisissez un campus...',
                 'trim' => true,
                 'attr' => ['class' => 'form-control']
-            ])
-            ->add('fichier', FileType::class, [
-                'label' => 'Ajouter plusieurs utilisateur',
-                'mapped' => false,
-                'required' => false,
-                'attr'=> ['class'=> 'form-control'],
-                'constraints' => [
-                    new File ([
-                        'maxSize' => '5000k',
-                        'mimeTypesMessage' => 'Image non valide !',
-                    ])
-                ],
             ]);
     }
 

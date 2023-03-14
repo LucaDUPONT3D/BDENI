@@ -16,9 +16,10 @@ class RegistationFormCSVType extends AbstractType
     {
         $builder
             ->add('fichier', FileType::class, [
-                'label' => false,
+                'label' => 'Enregistrer plusieurs utilisateurs (fichier csv)',
                 'mapped' => false,
                 'required' => false,
+                'attr' => ['class' => 'form-control'],
                 'constraints' => [
                     new File ([
                         'maxSize' => '5000k',

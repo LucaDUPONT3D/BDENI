@@ -60,14 +60,14 @@ class RegistrationController extends AbstractController
 
 
         $ajoutfileModel = new FileModel();
-        $formAjoutFile = $this->createForm(RegistationFormCSVType::class, $ajoutfileModel);
-        $formAjoutFile->handleRequest($request);
-        if ($formAjoutFile->isSubmitted() && $formAjoutFile->isValid()) {
+        $csvForm = $this->createForm(RegistationFormCSVType::class, $ajoutfileModel);
+        $csvForm->handleRequest($request);
+        if ($csvForm->isSubmitted() && $csvForm->isValid()) {
 
             /**
              * @var UploadedFile $file
              */
-            $file = $formAjoutFile->get('fichier')->getData();
+            $file = $csvForm->get('fichier')->getData();
 
             if ($file) {
                 $x = 0;
@@ -108,7 +108,7 @@ class RegistrationController extends AbstractController
 
             return $this->render('admin/register.html.twig', [
                 'registrationForm' => $form->createView(),
-                'formAjoutFile' =>$formAjoutFile->createView()
+                'csvForm' =>$csvForm->createView()
             ]);
         }
 
