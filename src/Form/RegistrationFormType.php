@@ -29,38 +29,40 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
+            ->add('email', EmailType::class, [
+                'label' => 'Email',
+                'trim' => true,
+                'required' => false,
+                'attr' => ['class' => 'form-control',
+                    'placeholder' => 'Entrez un email...']
+            ])
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo',
                 'trim' => true,
                 'required' => true,
-            ])
-            ->add('nom', TextType::class, [
-                'label' => 'Nom',
-                'trim' => true,
-                'required' => true,
+                'attr' => ['class' => 'form-control',
+                    'placeholder' => 'Entrez un pseudo...']
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prenom',
                 'trim' => true,
                 'required' => true,
+                'attr' => ['class' => 'form-control',
+                    'placeholder' => 'Entrez un prénom...']
+            ])
+            ->add('nom', TextType::class, [
+                'label' => 'Nom',
+                'trim' => true,
+                'required' => true,
+                'attr' => ['class' => 'form-control',
+                    'placeholder' => 'Entrez un nom...']
             ])
             ->add('telephone', TextType::class, [
                 "trim" => true,
                 "label" => "Téléphone",
                 "required" => false,
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'Email',
-                'trim' => true,
-                'required' => false
-            ])
-            ->add('campus', EntityType::class, [
-                'class' => Campus::class,
-                'choice_label' => 'nom',
-                'label' => 'Campus',
-                'trim' => true,
-                'attr' => array('class' => 'form-control')
+                'attr' => ['class' => 'form-control',
+                    'placeholder' => 'Entrez un numéro de téléphone...']
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'first_options' => ['label' => 'Mot de passe'],
@@ -81,8 +83,27 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+            ])
+            ->add('campus', EntityType::class, [
+                'class' => Campus::class,
+                'choice_label' => 'nom',
+                'label' => 'Campus',
+                'placeholder' => 'Choisissez un campus...',
+                'trim' => true,
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('fichier', FileType::class, [
+                'label' => 'Ajouter plusieurs utilisateur',
+                'mapped' => false,
+                'required' => false,
+                'attr'=> ['class'=> 'form-control'],
+                'constraints' => [
+                    new File ([
+                        'maxSize' => '5000k',
+                        'mimeTypesMessage' => 'Image non valide !',
+                    ])
+                ],
             ]);
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -13,13 +13,16 @@
     {{ include('/bodyStructures/forms/filtreUtilisateurRecherche.html.twig') }}
     <div class="d-flex justify-content-center">
 
-        <table>
+        <table id="tab-sorties" class="table table-striped" style="width:100%">
+            <thead>
             <tr>
                 <th>Pseudo</th>
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Action</th>
             </tr>
+            </thead>
+            <tbody>
             {% for user in listUser %}
                 <tr>
                     <td>{{ user.pseudo }}</td>
@@ -33,8 +36,7 @@
                     </td>
                 </tr>
             {% endfor %}
-
-
+            </tbody>
         </table>
         <script>
             let elements = document.getElementsByClassName('supprimer')

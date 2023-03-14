@@ -22,11 +22,46 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('pseudo', TextType::class, [
+                'label' => 'Pseudo',
+                'attr'=>[
+                    'placeholder' =>'Entrez votre pseudo',
+                    'class'=> 'form-control'
+                ],
+                'trim' => true,
+            ])
+            ->add('prenom', TextType::class, [
+                'label' => 'Prenom',
+                'attr'=>[
+                    'placeholder' =>'Entrez votre prenom',
+                    'class'=> 'form-control'
+                ],
+                'trim' => true,
+
+            ])
+            ->add('nom', TextType::class, [
+                'label' => 'Nom',
+                'attr'=>[
+                    'placeholder' =>'Entrez votre nom',
+                    'class'=> 'form-control'
+                ],
+                'trim' => true,
+
+            ])
+            ->add('telephone', TextType::class, [
+                'label' => 'Téléphone',
+                'attr'=>[
+                    'placeholder' =>'Entrez votre numéro de téléphone',
+                    'class'=> 'form-control'
+                ],
+                'trim' => true,
+
+            ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'attr'=>[
-                    'placeholder' =>'Entrez votre email'
-
+                    'placeholder' =>'Entrez votre email',
+                    'class'=> 'form-control'
                 ],
                 'trim' => true,
 
@@ -35,7 +70,8 @@ class UserType extends AbstractType
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'attr'=>[
-                    'placeholder' =>'Entrez votre nouveau mot de passe'
+                    'placeholder' =>'Entrez votre nouveau mot de passe',
+                    'class'=> 'form-control'
                 ],
                 'mapped' => false,
                 'trim'=>true,
@@ -52,34 +88,20 @@ class UserType extends AbstractType
                 ],
 
             ])
-            ->add('nom', TextType::class, [
-                'label' => 'Nom',
+            ->add('campus', EntityType::class, [
+                'class' => Campus::class,
+                'label' => 'Campus',
+                'choice_label' => 'nom',
                 'attr'=>[
-                    'placeholder' =>'Entrez votre nom'
+                    'class'=> 'form-control'
                 ],
                 'trim' => true,
-
-            ])
-            ->add('prenom', TextType::class, [
-                'label' => 'Prenom',
-                'attr'=>[
-                    'placeholder' =>'Entrez votre prenom'
-                ],
-                'trim' => true,
-
-            ])
-            ->add('telephone', TextType::class, [
-                'label' => 'Téléphone',
-                'attr'=>[
-                    'placeholder' =>'Entrez votre numéro de téléphone'
-                ],
-                'trim' => true,
-
             ])
             ->add('image', FileType::class, [
                 'label' => 'Photo',
                 'attr'=>[
-                    'placeholder' =>'Chargez votre photo de profil'
+                    'placeholder' =>'Chargez votre photo de profil',
+                    'class'=> 'form-control'
                 ],
                 'mapped' => false,
                 'required' => false,
@@ -89,22 +111,6 @@ class UserType extends AbstractType
                         'mimeTypesMessage' => 'Image non valide !',
                     ])
                 ],
-            ])
-            ->add('pseudo', TextType::class, [
-                'label' => 'Pseudo',
-                'attr'=>[
-                    'placeholder' =>'Entrez votre pseudo'
-                ],
-                'trim' => true,
-
-
-
-            ])
-            ->add('campus', EntityType::class, [
-                'class' => Campus::class,
-                'label' => 'Campus',
-                'choice_label' => 'nom',
-                'trim' => true,
             ]);
 
     }
