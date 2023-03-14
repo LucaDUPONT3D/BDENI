@@ -22,5 +22,17 @@
 {{ form_end(sortieForm) }}
 
 <script>
+    let element = document.getElementById('supprimer')
 
+        element.addEventListener('click', function () {
+
+            let result = window.confirm('Êtes-vous sur de vouloir supprimer cette sortie ?')
+
+            if (result) {
+                let url = "{{ path("sortie_delete", {"id" : 0}) }}";
+                let id = element.dataset.sortie;
+                url = url.replace('/0', '/' + id);
+                window.location.href = url
+            }
+        })
 </script>
