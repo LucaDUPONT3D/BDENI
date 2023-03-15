@@ -41,24 +41,38 @@
             {% endfor %}
             </tbody>
         </table>
-        <script>
-            let elements = document.getElementsByClassName('supprimer')
-
-            for (let element of elements) {
-                element.addEventListener('click', function () {
-
-                    let result = window.confirm('Êtes-vous sur de vouloir supprimer cet utilisateur?')
-
-                    if (result) {
-                        let url = "{{ path("admin_user_delete", {"id" : 0}) }}";
-                        let id = element.dataset.user;
-                        url = url.replace('/0', '/' + id);
-                        window.location.href = url
-                    }
-                })
-            }
-        </script>
     </div>
+    <div class="flex_ligne">
+
+        {% if currentPage == 1 %}
+            <button type="button" class="btn btn-secondary">Page Précédente</button>
+        {% elseif currentPage > 1 %}
+            <a href="{{ path('admin_user_show_all', {'page': currentPage-1}) }}"><button type="button" class="btn btn-secondary">Page Précédente</button></a>
+        {% endif %}
+        <div><b>{{ currentPage }}/{{ maxPage }}</b></div>
+        {% if currentPage == maxPage %}
+            <button type="button" class="btn btn-secondary">Page Suivante</button>
+        {% elseif currentPage < maxPage %}
+            <a href="{{ path('admin_user_show_all', {'page': currentPage+1}) }}"><button type="button" class="btn btn-secondary">Page Suivante</button></a>
+        {% endif %}
+    </div>
+    <script>
+        let elements = document.getElementsByClassName('supprimer')
+
+        for (let element of elements) {
+            element.addEventListener('click', function () {
+
+                let result = window.confirm('Êtes-vous sur de vouloir supprimer cet utilisateur?')
+
+                if (result) {
+                    let url = "{{ path("admin_user_delete", {"id" : 0}) }}";
+                    let id = element.dataset.user;
+                    url = url.replace('/0', '/' + id);
+                    window.location.href = url
+                }
+            })
+        }
+    </script>
 
 {% endblock %}
 

@@ -17,6 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CampusRepository extends ServiceEntityRepository
 {
+    const CAMPUS_LIMIT = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Campus::class);
@@ -51,15 +53,63 @@ class CampusRepository extends ServiceEntityRepository
 
         return new $query;
     }
-    public function findAllSearch(ModelCampusVille $recherche)
+
+    public function findAllToDisplay(int $page)
+    {
+
+        $offset = ($page - 1) * self::CAMPUS_LIMIT;
+
+        $qb = $this->createQueryBuilder('c')
+            ->setMaxResults(self::CAMPUS_LIMIT)
+            ->setFirstResult($offset);
+
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
+    }
+
+    public function findAllToCheck()
     {
 
         $qb = $this->createQueryBuilder('c');
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
+    }
+
+    public function findAllToDisplayFilter(ModelCampusVille $recherche, int $page)
+    {
+
+        $offset = ($page - 1) * self::CAMPUS_LIMIT;
+
+        $qb = $this->createQueryBuilder('c')
+            ->setMaxResults(self::CAMPUS_LIMIT)
+            ->setFirstResult($offset);
+
         if ($recherche->getRecherche()) {
             $qb->andWhere('c.nom LIKE :recherche')
                 ->setParameter('recherche', '%' . $recherche->getRecherche() . '%');
         }
 
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
+    }
+
+    public function findAllToCheckFilter(ModelCampusVille $recherche)
+    {
+
+        $qb = $this->createQueryBuilder('c');
+
+        if ($recherche->getRecherche()) {
+            $qb->andWhere('c.nom LIKE :recherche')
+                ->setParameter('recherche', '%' . $recherche->getRecherche() . '%');
+        }
 
         $query = $qb->getQuery();
 

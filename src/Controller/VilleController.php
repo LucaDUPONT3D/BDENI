@@ -16,8 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/ville', name: 'admin_ville_')]
 class VilleController extends AbstractController
 {
-    #[Route('/add', name: 'add')]
-    public function add(Request $request, VilleRepository $villeRepository): Response
+    #[Route('/add/{page}', name: 'add')]
+    public function add(Request $request, VilleRepository $villeRepository, int $page = 1): Response
     {
 
         $model = new ModelCampusVille();
@@ -29,10 +29,17 @@ class VilleController extends AbstractController
 
         if ($filtreVilleForm->isSubmitted() && $filtreVilleForm->isValid()) {
 
-            $listeVille = $villeRepository->findAllSearch($model);
+            $nbSortieMax = count($villeRepository->findAllToCheckFilter($model));
+            $maxPage = ceil($nbSortieMax / VilleRepository::VILLE_LIMIT);
+
+            $listeVille = $villeRepository->findAllToDisplayFilter($model, $page);
 
         }else {
-            $listeVille = $villeRepository->findAll();
+
+            $nbSortieMax = count($villeRepository->findAllToCheck());
+            $maxPage = ceil($nbSortieMax / VilleRepository::VILLE_LIMIT);
+
+            $listeVille = $villeRepository->findAllToDisplay($page);
         }
 
         $ville = new Ville();
@@ -54,7 +61,9 @@ class VilleController extends AbstractController
         return $this->render('admin/ville/add.html.twig', [
             'tableauVille' => $listeVille,
             'filtreCampusVilleForm' => $filtreVilleForm->createView(),
-            'villeForm' => $villeForm->createView()
+            'villeForm' => $villeForm->createView(),
+            "currentPage" => $page,
+            "maxPage" => $maxPage
 
         ]);
 

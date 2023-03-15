@@ -17,6 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class VilleRepository extends ServiceEntityRepository
 {
+    const VILLE_LIMIT = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Ville::class);
@@ -40,36 +42,56 @@ class VilleRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Ville[] Returns an array of Ville objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('v')
-//            ->andWhere('v.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('v.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findAllToDisplay(int $page)
+    {
+        $offset = ($page - 1) * self::VILLE_LIMIT;
 
-//    public function findOneBySomeField($value): ?Ville
-//    {
-//        return $this->createQueryBuilder('v')
-//            ->andWhere('v.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-//}
-    public function findAllSearch(ModelCampusVille $recherche)
+        $qb = $this->createQueryBuilder('v')
+            ->setMaxResults(self::VILLE_LIMIT)
+            ->setFirstResult($offset);
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
+    }
+
+    public function findAllToCheck()
     {
 
         $qb = $this->createQueryBuilder('v');
 
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
+    }
+
+
+    public function findAllToDisplayFilter(ModelCampusVille $recherche, int $page)
+    {
+        $offset = ($page - 1) * self::VILLE_LIMIT;
+
+        $qb = $this->createQueryBuilder('v')
+            ->setMaxResults(self::VILLE_LIMIT)
+            ->setFirstResult($offset);
+
+        if ($recherche->getRecherche()) {
+            $qb->andWhere('v.nom LIKE :recherche')
+                ->setParameter('recherche', '%' . $recherche->getRecherche() . '%');
+        }
+
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
+    }
+
+    public function findAllToCheckFilter(ModelCampusVille $recherche)
+    {
+
+        $qb = $this->createQueryBuilder('v');
 
         if ($recherche->getRecherche()) {
             $qb->andWhere('v.nom LIKE :recherche')

@@ -114,8 +114,8 @@ class UserController extends AbstractController
     {
     }
 
-    #[Route(path: '/admin/user', name: 'admin_user_show_all')]
-    public function showAll(UserRepository $userRepository, Request $request)
+    #[Route(path: '/admin/user/{page}', name: 'admin_user_show_all')]
+    public function showAll(UserRepository $userRepository, Request $request, int $page = 1)
     {
 
         $recherche = new ModelCampusVille();
@@ -124,14 +124,22 @@ class UserController extends AbstractController
 
         if ($rechercheFormulaire->isSubmitted() && $rechercheFormulaire->isValid()) {
 
-            $listUser = $userRepository->findAllSearch($recherche);
+            $nbSortieMax = count($userRepository->findAllToCheckFilter($recherche));
+            $maxPage = ceil($nbSortieMax / UserRepository::USER_LIMIT);
+
+            $listUser = $userRepository->findAllToDisplayFilter($recherche, $page);
         } else {
-            $listUser = $userRepository->findAll();
+            $nbSortieMax = count($userRepository->findAllToCheck());
+            $maxPage = ceil($nbSortieMax / UserRepository::USER_LIMIT);
+
+            $listUser = $userRepository->findAllToDisplay($page);
         }
 
         return $this->render('admin/user/showAll.html.twig', [
             'listUser' => $listUser,
-            'rechercheFormulaire' => $rechercheFormulaire->createView()
+            'rechercheFormulaire' => $rechercheFormulaire->createView(),
+            "currentPage" => $page,
+            "maxPage" => $maxPage
         ]);
     }
 

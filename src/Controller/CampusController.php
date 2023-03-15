@@ -19,8 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/campus', name: 'admin_campus_')]
 class CampusController extends AbstractController
 {
-    #[Route('/add', name: 'add')]
-    public function add(CampusRepository $campusRepository, Request $request): Response
+    #[Route('/add/{page}', name: 'add')]
+    public function add(CampusRepository $campusRepository, Request $request, int $page = 1): Response
     {
         //Créer un formulaire de filtre
         $model = new ModelCampusVille();
@@ -30,10 +30,16 @@ class CampusController extends AbstractController
 
         if ($filtreCampusForm->isSubmitted() && $filtreCampusForm->isValid()) {
 
-            $listeCampus = $campusRepository->findAllSearch($model);
+            $nbSortieMax = count($campusRepository->findAllToCheckFilter($model));
+            $maxPage = ceil($nbSortieMax / CampusRepository::CAMPUS_LIMIT);
+
+            $listeCampus = $campusRepository->findAllToDisplayFilter($model, $page);
 
         } else {
-            $listeCampus = $campusRepository->findAll();
+            $nbSortieMax = count($campusRepository->findAllToCheck());
+            $maxPage = ceil($nbSortieMax / CampusRepository::CAMPUS_LIMIT);
+
+            $listeCampus = $campusRepository->findAllToDisplay($page);
         }
 
         //Créer un formulaire de création de campus
@@ -52,7 +58,9 @@ class CampusController extends AbstractController
         return $this->render('/admin/campus/add.html.twig', [
             'listeCampus' => $listeCampus,
             'filtreCampusVilleForm' => $filtreCampusForm->createView(),
-            'campusForm' => $campusForm->createView()
+            'campusForm' => $campusForm->createView(),
+            "currentPage" => $page,
+            "maxPage" => $maxPage
 
         ]);
     }

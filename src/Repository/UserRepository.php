@@ -21,6 +21,8 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface,UserLoaderInterface
 {
+    const USER_LIMIT = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
@@ -88,10 +90,36 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery()
             ->getOneOrNullResult();
     }
-    public function findAllSearch(ModelCampusVille $recherche)
+    public function findAllToDisplay(int $page)
+    {
+        $offset = ($page - 1) * self::USER_LIMIT;
+
+        $qb = $this->createQueryBuilder('u')
+            ->setMaxResults(self::USER_LIMIT)
+            ->setFirstResult($offset);
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+
+    }
+
+    public function findAllToCheck()
     {
 
         $qb = $this->createQueryBuilder('u');
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+
+    }
+
+    public function findAllToDisplayFilter(ModelCampusVille $recherche, int $page)
+    {
+        $offset = ($page - 1) * self::USER_LIMIT;
+
+        $qb = $this->createQueryBuilder('u')
+            ->setMaxResults(self::USER_LIMIT)
+            ->setFirstResult($offset);
 
 
         if ($recherche->getRecherche()) {
@@ -99,9 +127,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 ->setParameter('recherche', '%' . $recherche->getRecherche() . '%');
         }
 
+        $query = $qb->getQuery();
+        return $query->getResult();
+
+    }
+
+    public function findAllToCheckFilter(ModelCampusVille $recherche)
+    {
+
+        $qb = $this->createQueryBuilder('u');
+
+        if ($recherche->getRecherche()) {
+            $qb->andWhere('u.pseudo LIKE :recherche')
+                ->setParameter('recherche', '%' . $recherche->getRecherche() . '%');
+        }
 
         $query = $qb->getQuery();
-
         return $query->getResult();
 
     }

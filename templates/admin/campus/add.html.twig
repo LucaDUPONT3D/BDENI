@@ -47,6 +47,20 @@
             </tbody>
         </table>
     </div>
+    <div class="flex_ligne">
+
+        {% if currentPage == 1 %}
+            <button type="button" class="btn btn-secondary">Page Précédente</button>
+        {% elseif currentPage > 1 %}
+            <a href="{{ path('admin_user_show_all', {'page': currentPage-1}) }}"><button type="button" class="btn btn-secondary">Page Précédente</button></a>
+        {% endif %}
+        <div><b>{{ currentPage }}/{{ maxPage }}</b></div>
+        {% if currentPage == maxPage %}
+            <button type="button" class="btn btn-secondary">Page Suivante</button>
+        {% elseif currentPage < maxPage %}
+            <a href="{{ path('admin_user_show_all', {'page': currentPage+1}) }}"><button type="button" class="btn btn-secondary">Page Suivante</button></a>
+        {% endif %}
+    </div>
     <script>
         let elements = document.getElementsByClassName('supprimer')
 
