@@ -96,3 +96,9 @@ footer{
 .margin_left{
     margin-left: 2rem;
 }
+.dropdown-item:hover{
+    color:navy;
+}
+.zoom:hover {
+    transform: scale(1.5);
+}
