@@ -6,8 +6,8 @@
     <div class="">
         <p><b>Date du jour : </b>{{ date('now')|date('d/m/y') }}</p>
         <p><b>Participant : </b>{{ app.user.pseudo }} </p>
-        <p><img src="{{ asset('assets/img/' ~ app.user.image ) }}" alt="{{ app.user.nom }}" class="img-thumbnail "
-                width="75" height="75"></p>
+        <p><img src="{{ asset('assets/img/' ~ app.user.image ) }}" alt="{{ app.user.nom }}" class="img-thumbnail zoom1"
+                width="300" height="300"></p>
     </div>
 
 

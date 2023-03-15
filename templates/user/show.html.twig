@@ -12,8 +12,8 @@
 
     <div class="container">
         <h1 class="text-center">Profil de {{ user.pseudo }}</h1>
-        <div>
-            <img src="{{ asset('assets/img/' ~ user.image ) }}" alt="{{ user.nom }}">
+        <div class="text-center">
+            <img src="{{ asset('assets/img/' ~ user.image ) }}" alt="{{ user.nom }}" class="img-responsive img-thumbnail" width="200" height="200">
         </div>
 
         <div class="user-info mx-auto text-center bg-light" style="width: 600px;">

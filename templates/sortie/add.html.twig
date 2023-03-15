@@ -31,8 +31,11 @@
                     let option = `<option value="${d.id}">${d.nom}</option>`
                     info += option
                 }
+
+                lieuInfo(data[0])
                 let select = document.getElementById(`appbundle_sortie_lieu`)
                 select.innerHTML = info
+
             })
         })
 
@@ -48,12 +51,16 @@
                 })
 
             data.then(function (data) {
-                document.getElementById('sortie_lieu_rue').innerHTML = '<b>Rue : </b>' + data.rue
-                document.getElementById('sortie_lieu_cp').innerHTML = '<b>Code Postal : </b>' + data.ville.codePostal
-                document.getElementById('sortie_lieu_latitude').innerHTML = '<b>Latitude : </b>' + data.latitude
-                document.getElementById('sortie_lieu_longitude').innerHTML = '<b>Longitude : </b>' + data.longitude
+                lieuInfo(data)
             })
         })
+
+        function lieuInfo(data){
+            document.getElementById('sortie_lieu_rue').innerHTML = '<b>Rue : </b>' + data.rue
+            document.getElementById('sortie_lieu_cp').innerHTML = '<b>Code Postal : </b>' + data.ville.codePostal
+            document.getElementById('sortie_lieu_latitude').innerHTML = '<b>Latitude : </b>' + data.latitude
+            document.getElementById('sortie_lieu_longitude').innerHTML = '<b>Longitude : </b>' + data.longitude
+        }
 
     </script>
 {% endblock %}
