@@ -39,12 +39,12 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $this->addVilles(20);
-        $this->addLieux(50);
-        $this->addEtat();
-        $this->addCampus();
-        $this->addUsers(20);
-        $this->addSortie(60);
+        //$this->addVilles(20);
+        //$this->addLieux(50);
+        //$this->addEtat();
+        //$this->addCampus();
+        $this->addUsers(3);
+        //$this->addSortie(60);
     }
 
     private function addVilles(int $number = 10)
@@ -102,35 +102,35 @@ class AppFixtures extends Fixture
     private function addUsers(int $number = 10)
     {
 
-        $adminTest = new User();
-        $adminTest->setNom('Admin')
-            ->setPrenom('Admin')
-            ->setPseudo('Admin')
-            ->setRoles(['ROLE_ADMIN'])
-            ->setTelephone('0203040506')
-            ->setEmail('admin@admin.fr')
-            ->setActif(true)
-            ->setImage('image.png')
-            ->setCampus($this->campusRepository->find(rand(1, 5)));
-
-        $password = $this->passwordHasher->hashPassword($adminTest, 'admin');
-        $adminTest->setPassword($password);
-        $this->entityManager->persist($adminTest);
-
-        $userTest = new User();
-        $userTest->setNom('User')
-            ->setPrenom('User')
-            ->setPseudo('User')
-            ->setRoles(['ROLE_USER'])
-            ->setTelephone('0102030405')
-            ->setEmail('user@user.fr')
-            ->setActif(true)
-            ->setImage('image.png')
-            ->setCampus($this->campusRepository->find(rand(1, 5)));
-
-        $password = $this->passwordHasher->hashPassword($userTest, 'user');
-        $userTest->setPassword($password);
-        $this->entityManager->persist($userTest);
+//        $adminTest = new User();
+//        $adminTest->setNom('Admin')
+//            ->setPrenom('Admin')
+//            ->setPseudo('Admin')
+//            ->setRoles(['ROLE_ADMIN'])
+//            ->setTelephone('0203040506')
+//            ->setEmail('admin@admin.fr')
+//            ->setActif(true)
+//            ->setImage('image.png')
+//            ->setCampus($this->campusRepository->find(rand(1, 5)));
+//
+//        $password = $this->passwordHasher->hashPassword($adminTest, 'admin');
+//        $adminTest->setPassword($password);
+//        $this->entityManager->persist($adminTest);
+//
+//        $userTest = new User();
+//        $userTest->setNom('User')
+//            ->setPrenom('User')
+//            ->setPseudo('User')
+//            ->setRoles(['ROLE_USER'])
+//            ->setTelephone('0102030405')
+//            ->setEmail('user@user.fr')
+//            ->setActif(true)
+//            ->setImage('image.png')
+//            ->setCampus($this->campusRepository->find(rand(1, 5)));
+//
+//        $password = $this->passwordHasher->hashPassword($userTest, 'user');
+//        $userTest->setPassword($password);
+//        $this->entityManager->persist($userTest);
 
         for ($i = 0; $i < $number; $i++) {
             $user = new User();

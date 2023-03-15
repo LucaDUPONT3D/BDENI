@@ -62,7 +62,7 @@
                 {% endif %}
 
                 {% if(is_granted('sortie_unsubscribe',sortie)) %}
-                    <a href="{{ path('sortie_unsubscride', {'id': sortie.id}) }}"><button type="button" class="btn btn-danger">Se désister</button></a>
+                    <a href="{{ path('sortie_unsubscride', {'id': sortie.id}) }}"><button type="button" class="btn btn-danger">Désistement</button></a>
                 {% endif %}
                 <a href="{{ path("main_home") }}"><button type="button" class="btn btn-secondary">Retour</button></a>
             </div>

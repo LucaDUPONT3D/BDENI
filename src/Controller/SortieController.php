@@ -38,8 +38,8 @@ class SortieController extends AbstractController
         //Création du formulaire de filtre
         $model = new Model();
         $formFiltre = $this->createForm(FiltreType::class, $model);
-        $formFiltre->handleRequest($request);
 
+        $formFiltre->handleRequest($request);
 
         if ($formFiltre->isSubmitted() && $formFiltre->isValid()) {
 
