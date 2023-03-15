@@ -51,7 +51,7 @@ class SortieVoter extends Voter
                 return $this->canUpdateDeletePublish($subject, $user);
                 break;
             case self::SORTIE_DISPLAY:
-                return $this->canDisplay($subject, $user);
+                return $this->canDisplay();
             case self::SORTIE_CANCEL:
                 return $this->canCancel($subject, $user);
             case self::SORTIE_SUBSCRIBE:

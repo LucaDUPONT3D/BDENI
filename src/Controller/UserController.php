@@ -66,7 +66,11 @@ class UserController extends AbstractController
         Uploader $uploader
     ) : Response
     {
+
         $user = $this->getUser();
+
+        $this->denyAccessUnlessGranted('user_update', $user);
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
