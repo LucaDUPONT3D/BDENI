@@ -45,7 +45,7 @@ class SortieRepository extends ServiceEntityRepository
     private function baseQuery(): \Doctrine\ORM\QueryBuilder
     {
 
-        return  $this->createQueryBuilder('s')
+        return $this->createQueryBuilder('s')
             ->leftJoin('s.etat', 'e')
             ->addSelect('e')
             ->leftJoin('s.organisateur', 'o')
@@ -87,7 +87,7 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findOneToDisplay(int $id)
     {
-        return  $this->createQueryBuilder('s')
+        return $this->createQueryBuilder('s')
             ->leftJoin('s.etat', 'e')
             ->addSelect('e')
             ->leftJoin('s.organisateur', 'o')
@@ -106,12 +106,35 @@ class SortieRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findAllToDisplayFilter(Model $model, $user)
+    public function findAllToDisplayFilter(Model $model, $user, $page)
     {
+        $offset = ($page - 1) * self::SORTIE_LIMIT;
 
+        $qb = $this->baseQuery()
+            ->setMaxResults(self::SORTIE_LIMIT)
+            ->setFirstResult($offset);
 
+        $qb = $this->filter($model, $user,$qb);
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
+    }
+
+    public function findAllToCheckFilter(Model $model, $user)
+    {
         $qb = $this->baseQuery();
 
+        $qb = $this->filter($model, $user,$qb);
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function filter(Model $model, $user, $qb)
+    {
         if ($model->getCampus() != null) {
             $qb->andWhere('c.nom = :campus')
                 ->setParameter('campus', $model->getCampus());
@@ -160,9 +183,6 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('e.id != 6');
         }
 
-        $query = $qb->getQuery();
-
-        return $query->getResult();
-
+        return $qb;
     }
 }
