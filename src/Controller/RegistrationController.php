@@ -77,7 +77,6 @@ class RegistrationController extends AbstractController
                         if ($x > 1)             // pour sauter la 1 lignes d'entête
                         {
                             $user = new User();
-                            $campus = new Campus();
                             $campus = $campusRepository->find($data[6]);
 
                             $user->setEmail($data[0]);
