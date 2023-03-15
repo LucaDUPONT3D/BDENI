@@ -1,8 +1,8 @@
 {% form_theme csvForm 'view/formTheme/formTheme.html.twig' %}
-<div class="form-container">
+<div class="form-container mt-5">
     {{ form_start(csvForm) }}
     {{ form_widget(csvForm) }}
-    <div class="text-center">
+    <div class="text-center mt-2">
         <button type="submit" class="btn btn-primary mr-15">Enregistrer</button>
         <a href="{{ path("main_home") }}">
             <button type="button" class="btn btn-secondary">Annuler</button>

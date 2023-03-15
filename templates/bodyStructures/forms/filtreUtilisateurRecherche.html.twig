@@ -1,10 +1,10 @@
 {% form_theme rechercheFormulaire 'view/formTheme/formTheme.html.twig' %}
 
     {{ form_start(rechercheFormulaire) }}
-<div class="d-flex flex-row justify-content-center align-items-center ">
+<div class="d-flex flex-row justify-content-center align-items-center mb-4 ">
     {{ form_errors(rechercheFormulaire) }}
     {{ form_widget(rechercheFormulaire) }}
 
-    <button type="submit" class="btn btn-secondary margin_left"> Rechercher</button>
+    <button type="submit" class="btn btn-secondary margin_left mt-4">Rechercher</button>
 </div>
 {{ form_end(rechercheFormulaire) }}
