@@ -116,3 +116,4 @@ footer{
     0% { opacity: 1; } /* commencer avec une opacité complète */
     100% { opacity: 0; } /* finir avec une opacité nulle */
 }
+
