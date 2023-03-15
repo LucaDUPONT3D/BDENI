@@ -9,6 +9,7 @@
         <table id="tab-sorties" class="table table-striped" style="width:100%">
             <thead>
             <tr>
+                <th>Photo</th>
                 <th>Pseudo</th>
                 <th>Nom</th>
                 <th>Prénom</th>
@@ -18,6 +19,7 @@
             <tbody>
             {% for user in listUser %}
                 <tr>
+                    <td> <img src="{{ asset('assets/img/' ~ user.image ) }}" alt="{{ user.nom }}" class="img-responsive img-thumbnail zoom2" width="75" height="75"></td>
                     <td>{{ user.pseudo }}</td>
                     <td>{{ user.nom }}</td>
                     <td>{{ user.prenom }}</td>

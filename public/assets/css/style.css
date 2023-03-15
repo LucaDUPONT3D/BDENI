@@ -99,6 +99,9 @@ footer{
 .dropdown-item:hover{
     color:navy;
 }
-.zoom:hover {
+.zoom1:hover {
     transform: scale(1.5);
+}
+.zoom2:hover {
+    transform: scale(5);
 }
