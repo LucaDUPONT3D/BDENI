@@ -6,13 +6,16 @@
     {{ include('/bodyStructures/forms/filtreUtilisateurRecherche.html.twig') }}
     <div class="d-flex justify-content-center">
 
-        <table>
+        <table id="tab-sorties" class="table table-striped" style="width:100%">
+            <thead>
             <tr>
                 <th>Pseudo</th>
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Action</th>
             </tr>
+            </thead>
+            <tbody>
             {% for user in listUser %}
                 <tr>
                     <td>{{ user.pseudo }}</td>
@@ -21,13 +24,15 @@
                     <td>
                         <button class="btn btn-danger supprimer " type="button" data-user="{{ user.id }}">Supprimer
                         </button>
+                        {% if (user.actif) %}
                         <a href="{{ path('admin_user_ban',{'id' : user.id}) }} "><button class="btn btn-primary">Bannir</button></a>
+                            {% else %}
                         <a href="{{ path('admin_user_unban',{'id' : user.id}) }} "><button class="btn btn-primary">Débannir</button></a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
-
-
+            </tbody>
         </table>
         <script>
             let elements = document.getElementsByClassName('supprimer')

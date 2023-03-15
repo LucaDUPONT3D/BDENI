@@ -26,23 +26,26 @@ class FiltreType extends AbstractType
                 'label' => 'Campus',
                 'multiple' => false,
                 'placeholder' => 'Choisissez un campus ...',
-                'expanded' => false
+                'expanded' => false,
+                'attr'=>  ['class' => 'form-control']
             ])
             ->add('recherche', SearchType::class, [
                 'required' => false,
-                'attr' => ['placeholder'=>'Entrez un mot...'],
+                'attr' => ['placeholder'=>'Entrez un mot...', 'class' => 'form-control'],
                 'label' => 'Le nom de la sortie contient : '])
             ->add('entre', DateType::class, [
                 'required' => false,
                 'label' => 'Entre : ',
                 'html5' => true,
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'attr'=>  ['class' => 'form-control']
             ])
             ->add('et', DateType::class, [
                 'required' => false,
                 'label' => 'et : ',
                 'html5' => true,
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'attr'=>  ['class' => 'form-control']
             ])
             ->add('organisateur', ChoiceType::class, [
                 'attr' => ['class'=>'checkBoxSpace'],

@@ -220,7 +220,7 @@ class SortieController extends AbstractController
     {
         $id = $sortieRepository->findOneToDisplay($id);
 
-        $this->denyAccessUnlessGranted('sortie_subscribe', $id);
+        $this->denyAccessUnlessGranted('sortie_unsubscribe', $id);
 
         $id->removeParticipant($this->getUser());
 

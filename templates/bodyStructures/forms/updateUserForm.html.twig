@@ -12,40 +12,33 @@
 
 
         <div class="form-group ">
-            {{ form_label(userForm.pseudo) }}
-            {{ form_widget(userForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(userForm.pseudo) }}
         </div>
         <div class="form-group">
-            {{ form_label(userForm.prenom) }}
-            {{ form_widget(userForm.prenom, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(userForm.prenom) }}
         </div>
         <div class="form-group">
-            {{ form_label(userForm.nom) }}
-            {{ form_widget(userForm.nom, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(userForm.nom) }}
         </div>
         <div class="form-group">
-            {{ form_label(userForm.telephone) }}
-            {{ form_widget(userForm.telephone, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(userForm.telephone) }}
         </div>
         <div class="form-group">
-            {{ form_label(userForm.email) }}
-            {{ form_widget(userForm.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(userForm.email) }}
         </div>
         <div class="form-group">
-            {{ form_label(userForm.plainPassword.first, 'Nouveau mot de passe') }}
+            <b>{{ form_label(userForm.plainPassword.first, 'Nouveau mot de passe') }}</b>
             {{ form_widget(userForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">
-            {{ form_label(userForm.plainPassword.second, 'Confirmation de mot de passe') }}
+            <b>{{ form_label(userForm.plainPassword.second, 'Confirmation de mot de passe') }}</b>
             {{ form_widget(userForm.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">
-            {{ form_label(userForm.campus) }}
-            {{ form_widget(userForm.campus, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(userForm.campus) }}
         </div>
         <div class="form-group">
-            {{ form_label(userForm.image) }}
-            {{ form_widget(userForm.image, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(userForm.image) }}
         </div>
         <div class="form-group text-center">
             <div class="col-sm-offset-3">
