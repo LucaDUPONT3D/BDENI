@@ -2,25 +2,25 @@
     margin: 0;
     padding: 0;
 }
-h1, ul, li, table, .form-control, .flex_ligne{
+h1{
 
     font-family: 'Sono', sans-serif;
 }
-/*ul{*/
-/*    font-family: 'Sono', sans-serif;*/
-/*}*/
-/*li{*/
-/*    font-family: 'Sono', sans-serif;*/
-/*}*/
-/*table{*/
-/*    font-family: 'Sono', sans-serif;*/
-/*}*/
-/*.form-control{*/
-/*    font-family: 'Sono', sans-serif;*/
-/*}*/
-/*.flex_ligne{*/
-/*    font-family: 'Sono', sans-serif;*/
-/*}*/
+ul{
+    font-family: 'Sono', sans-serif;
+}
+li{
+    font-family: 'Sono', sans-serif;
+}
+table{
+    font-family: 'Sono', sans-serif;
+}
+.form-control{
+    font-family: 'Sono', sans-serif;
+}
+.flex_ligne{
+    font-family: 'Sono', sans-serif;
+}
 .headerIcon{
     width: 100px;
 }
@@ -96,13 +96,12 @@ footer{
 .margin_left{
     margin-left: 2rem;
 }
-.alert-danger, .alert-success, .alert-secondary, .alert-primary, .alert-warning {
-    opacity: 1; /* commencer avec une opacité complète */
-    animation: disparaitre 5s linear forwards; /* lancer l'animation "disparaitre" pendant 5 secondes */
+.dropdown-item:hover{
+    color:navy;
 }
-
-/* définir l'animation "disparaitre" avec @keyframes */
-@keyframes disparaitre {
-    0% { opacity: 1; } /* commencer avec une opacité complète */
-    100% { opacity: 0; } /* finir avec une opacité nulle */
+.zoom1:hover {
+    transform: scale(1.5);
+}
+.zoom2:hover {
+    transform: scale(5);
 }

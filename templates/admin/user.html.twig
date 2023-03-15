@@ -1,21 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block css %}
-    {{ parent() }}
-{% endblock %}
-
-{% block title %}
-{{ parent() }} Utilisateurs
-{% endblock %}
 
 {% block body %}
-
+    <h1 class="text-center">Gerer les utilisateurs </h1>
     {{ include('/bodyStructures/forms/filtreUtilisateurRecherche.html.twig') }}
     <div class="d-flex justify-content-center">
 
         <table id="tab-sorties" class="table table-striped" style="width:100%">
             <thead>
             <tr>
+                <th>Photo</th>
                 <th>Pseudo</th>
                 <th>Nom</th>
                 <th>Prénom</th>
@@ -25,6 +19,7 @@
             <tbody>
             {% for user in listUser %}
                 <tr>
+                    <td> <img src="{{ asset('assets/img/' ~ user.image ) }}" alt="{{ user.nom }}" class="img-responsive img-thumbnail zoom2" width="75" height="75"></td>
                     <td>{{ user.pseudo }}</td>
                     <td>{{ user.nom }}</td>
                     <td>{{ user.prenom }}</td>
@@ -76,4 +71,7 @@
 
 {% endblock %}
 
+{% block title %}
+
+{% endblock %}
 

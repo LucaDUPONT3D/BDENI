@@ -79,7 +79,7 @@ class FiltreType extends AbstractType
                 'attr' => ['class'=>'checkBoxSpace'],
                 'label' => false,
                 'choices' => [
-                    'Sorties passées' => 'passe',
+                    'Sortie Passées' => 'passe',
                 ],
                 'multiple' => true,
                 'expanded' => true

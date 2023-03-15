@@ -8,19 +8,19 @@
                 aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse navbar-brand " id="navbarNavDarkDropdown">
+        <div class="collapse navbar-collapse navbar-brand" id="navbarNavDarkDropdown">
             <ul class="navbar-nav">
 
                 <li class="nav-item dropdown">
                     {% if app.user %}
                     {% if is_granted("ROLE_ADMIN") %}
 
-                <li><a class="dropdown-item margin_left animation" href="{{ path('admin_register') }}">
+                <li><a class="dropdown-item margin_left  " href="{{ path('admin_register') }}">
                         <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M4.5 8.555c0 1.995 1.505 3.5 3.5 3.5s3.5-1.505 3.5-3.5-1.505-3.5-3.5-3.5-3.5 1.505-3.5 3.5ZM19 8.003h-2v3h-3v2h3v3h2v-3h3v-2h-3v-3Zm-15 11h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2Z"></path>
                         </svg>Inscription</a></li>
 
-                <li><a class="dropdown-item margin_left animation" href="{{ path('admin_user_show_all') }}">
+                <li><a class="dropdown-item margin_left " href="{{ path('admin_user_show_all') }}">
                         <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M15 11h7v2h-7v-2Zm1 4h6v2h-6v-2Zm-2-8h8v2h-8V7ZM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1h2Zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5 4.5 6.505 4.5 8.5 6.005 12 8 12Z"></path>
                         </svg>Utilisateurs </a></li>

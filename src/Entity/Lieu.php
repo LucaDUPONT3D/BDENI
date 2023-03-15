@@ -27,24 +27,24 @@ class Lieu
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'La rue est obligatoire')]
     #[Assert\Length(max: 255, maxMessage: 'La rue ne doit pas faire plus de {{ limit }} caractères')]
-    #[Groups(['api_lieu_show_one', 'api_lieu_show_ville'])]
+    #[Groups("api_lieu_show_one")]
     private ?string $rue = null;
 
     #[ORM\Column]
-    #[Groups(['api_lieu_show_one', 'api_lieu_show_ville'])]
+    #[Groups("api_lieu_show_one")]
     #[Assert\NotBlank(message: 'La lattitude est obligatoire')]
     #[Assert\Type(type: 'numeric')]
     private ?float $latitude = null;
 
     #[ORM\Column]
-    #[Groups(['api_lieu_show_one', 'api_lieu_show_ville'])]
+    #[Groups("api_lieu_show_one")]
     #[Assert\NotBlank(message: 'La longitude est obligatoire')]
     #[Assert\Type(type: 'numeric')]
     private ?float $longitude = null;
 
     #[ORM\ManyToOne(inversedBy: 'lieu')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['api_lieu_show_one', 'api_lieu_show_ville'])]
+    #[Groups("api_lieu_show_one")]
     private ?Ville $ville = null;
 
     #[ORM\OneToMany(mappedBy: 'lieu', targetEntity: Sortie::class, cascade: ["remove"])]
