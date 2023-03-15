@@ -78,7 +78,7 @@ class RegistrationController extends AbstractController
                         {
                             $user = new User();
                             $campus = new Campus();
-                            $campus =$campusRepository->find($data[6]);
+                            $campus = $campusRepository->find($data[6]);
 
                             $user->setEmail($data[0]);
                             $user->setPseudo($data[1]);
@@ -86,7 +86,7 @@ class RegistrationController extends AbstractController
                             $user->setPrenom($data[3]);
                             $user->setTelephone($data[4]);
                             $user->setPassword($data[5]);
-                            $user->setCampus($campus) ;
+                            $user->setCampus($campus);
                             $user->setRoles(['ROLE_USER']);
                             $user->setPassword(
                                 $userPasswordHasher->hashPassword(
@@ -99,17 +99,20 @@ class RegistrationController extends AbstractController
                         }
 
                     }
-                $entityManager->flush();
+                    $entityManager->flush();
+                    $this->addFlash('primary', 'Ajout des utilisateurs reussi');
 
                 }
+
             }
+            return $this->redirectToRoute('main_home');
         }
 
 
-            return $this->render('admin/register.html.twig', [
-                'registrationForm' => $form->createView(),
-                'csvForm' =>$csvForm->createView()
-            ]);
-        }
 
-    }
+
+return $this->render('admin/register.html.twig', ['registrationForm' => $form->createView(),
+'csvForm' => $csvForm->createView()]);
+}
+
+}
