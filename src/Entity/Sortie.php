@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
@@ -17,56 +18,67 @@ class Sortie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le nom est obligatoire")]
     #[Assert\Length(max: 255 , maxMessage: "Le nom ne doit pas faire plus de {{ limit }} caractères")]
     #[Assert\Regex('/\w+/', message: 'Le nom ne doit contenir que des lettres, chiffres ou underscore')]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\NotBlank(message: 'La date d\'entrée est obligatoire')]
     #[Assert\GreaterThan('today UTC', message: "La date d'entrée doit être supérieur à la date d'aujourd'hui")]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "La durée est obligatoire")]
     #[Assert\Regex('/\d+/', message: 'La durée doit être un nombre')]
     #[Assert\Positive(message: 'La durée doit être positive')]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?int $duree = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\NotBlank(message: 'La date d\'inscription est obligatoire')]
     #[Assert\LessThan(propertyPath: 'dateHeureDebut',
         message: 'La date d\'inscription doit être inférieur à la date de sortie')]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\NotBlank(message: "Le nombre d'inscription est obligatoire")]
     #[Assert\Regex('/\d+/', message: 'Le nombre d\'inscription doit être un nombre')]
     #[Assert\Positive(message: 'Le nombre d\'inscription doit être positif')]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?int $nbInsriptionsMax = null;
 
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank(message: "La déscription est obligatoire")]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?string $infosSortie = null;
 
     #[ORM\ManyToOne(inversedBy: 'sortie')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?Etat $etat = null;
 
     #[ORM\ManyToOne(inversedBy: 'sortie')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?Lieu $lieu = null;
 
     #[ORM\ManyToOne(inversedBy: 'sortie')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?Campus $campus = null;
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?User $organisateur = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'inscriptions')]

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -20,16 +21,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(message: "L'email est obligatoire")]
     #[Assert\Email(message: 'Le champ attend un email')]
     #[Assert\Length(max: 180 , maxMessage: "Le mail ne doit pas faire plus de {{ limit }} caractères")]
-
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private array $roles = [];
 
     /**
@@ -44,16 +47,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le nom est obligatoire")]
     #[Assert\Length( max: 255 , maxMessage: "Le nom ne doit pas faire plus de {{ limit }} caractères")]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le prénom est obligatoire")]
     #[Assert\Length( max: 255 , maxMessage: "Le prénom ne doit pas faire plus de {{ limit }} caractères")]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le téléphone est obligatoire")]
     #[Assert\Regex('/0[1-79]([-. \/]?\d{2}){4}/', message: 'Merci d\'indiquer un numéro de téléphone valide')]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?string $telephone = null;
 
     #[ORM\Column]
@@ -69,6 +75,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le pseudo est obligatoire")]
     #[Assert\Length( max: 255 , maxMessage: "Le pseudo ne doit pas faire plus de {{ limit }} caractères")]
+    #[Groups(['api_sortie_show_all', 'api_sortie_show_one'])]
     private ?string $pseudo = null;
 
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Sortie::class, cascade: ["remove"])]

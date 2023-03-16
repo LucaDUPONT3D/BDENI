@@ -39,6 +39,7 @@ security:
         - { path: ^/sortie, roles: ROLE_USER }
         - { path: ^/lieu, roles: ROLE_USER }
         - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: PUBLIC_ACCESS }
 
 when@test:
 

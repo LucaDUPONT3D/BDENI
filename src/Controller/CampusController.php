@@ -68,7 +68,6 @@ class CampusController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', requirements: ["id" => "\d+"])]
     public function delete(
         CampusRepository $campusRepository,
-        Request $request,
         int $id,
         SortieRepository $sortieRepository
     ): Response

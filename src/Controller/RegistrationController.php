@@ -2,21 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Campus;
 use App\Entity\User;
-use App\Entity\Ville;
 use App\Form\model\FileModel;
-use App\Form\model\ModelCampusVille;
-use App\Form\FiltreCampusVille;
 use App\Form\RegistationFormCSVType;
 use App\Form\RegistrationFormType;
-use App\Form\VilleType;
 use App\Repository\CampusRepository;
-use App\Repository\LieuRepository;
-use App\Repository\UserRepository;
-use App\Repository\VilleRepository;
-use App\Security\UserAuthenticator;
-use App\Utils\Uploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -24,14 +14,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 #[Route('/admin', name: 'admin_')]
 class RegistrationController extends AbstractController
 {
 
     #[Route('/register', name: 'register')]
-    public function register(UserRepository $userRepository, CampusRepository $campusRepository, Uploader $uploader, Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(CampusRepository $campusRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -77,7 +66,6 @@ class RegistrationController extends AbstractController
                         if ($x > 1)             // pour sauter la 1 lignes d'entête
                         {
                             $user = new User();
-                            $campus = new Campus();
                             $campus = $campusRepository->find($data[6]);
 
                             $user->setEmail($data[0]);
@@ -108,11 +96,8 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('main_home');
         }
 
-
-
-
-return $this->render('admin/register.html.twig', ['registrationForm' => $form->createView(),
-'csvForm' => $csvForm->createView()]);
-}
+        return $this->render('admin/register.html.twig', ['registrationForm' => $form->createView(),
+            'csvForm' => $csvForm->createView()]);
+    }
 
 }
