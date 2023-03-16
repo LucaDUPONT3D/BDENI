@@ -117,3 +117,7 @@ footer{
     100% { opacity: 0; } /* finir avec une opacité nulle */
 }
 
+#map {
+    height: 400px;
+}
+
